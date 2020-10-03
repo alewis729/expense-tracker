@@ -1,0 +1,45 @@
+{
+  "name": "@expense-tracker/api",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "module": "src/main.js",
+  "license": "MIT",
+  "scripts": {
+    "precommit": "lint-staged",
+    "dev": "nodemon -r esm ./src/main.js",
+    "start": "node -r esm ./src/main.js",
+    "format": "prettier \"**/*.{js,jsx,ts,tsx,json}\" --write",
+    "lint": "eslint . \"**/*.{js,jsx,ts,tsx}\""
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "*.{js,jsx,ts,tsx,json}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@expense-tracker/eslint-config-node": "1.0.0",
+    "@expense-tracker/graphql": "1.0.0",
+    "apollo-server": "2.16.1",
+    "bcryptjs": "2.4.3",
+    "dataloader": "2.0.0",
+    "dotenv": "8.2.0",
+    "esm": "3.2.25",
+    "faker": "4.1.0",
+    "graphql": "15.3.0",
+    "graphql-scalars": "1.2.6",
+    "jsonwebtoken": "8.5.1",
+    "mongoose": "5.10.0",
+    "mongoose-unique-validator": "2.0.3"
+  },
+  "devDependencies": {
+    "eslint": "7.6.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "lint-staged": "10.2.11",
+    "nodemon": "2.0.4",
+    "prettier": "2.0.5"
+  }
+}

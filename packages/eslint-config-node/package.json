@@ -1,0 +1,14 @@
+{
+  "name": "@expense-tracker/eslint-config-node",
+  "version": "1.0.0",
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "peerDependencies": {
+    "eslint": "7.6.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "prettier": "2.0.5"
+  }
+}

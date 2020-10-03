@@ -1,0 +1,32 @@
+{
+  "name": "@expense-tracker/graphql",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "module": "src/main.js",
+  "license": "MIT",
+  "scripts": {
+    "precommit": "lint-staged",
+    "format": "prettier \"**/*.{js,jsx,ts,tsx,json}\" --write",
+    "lint": "eslint . \"**/*.{js,jsx,ts,tsx}\""
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "*.{js,jsx,ts,tsx,json}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@expense-tracker/eslint-config-node": "1.0.0",
+    "esm": "3.2.25",
+    "graphql-tag": "2.11.0"
+  },
+  "devDependencies": {
+    "eslint": "7.6.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "lint-staged": "10.2.11",
+    "prettier": "2.0.5"
+  }
+}

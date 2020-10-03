@@ -1,0 +1,27 @@
+{
+  "name": "expense-tracker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/alewis729/expense-tracker.git",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev:api": "yarn workspace @expense-tracker/api dev",
+    "dev:www": "yarn workspace @expense-tracker/www dev",
+    "lint": "lerna run lint",
+    "format": "lerna run format"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run --concurrency 1 --stream precommit"
+    }
+  },
+  "devDependencies": {
+    "husky": "4.2.5",
+    "lerna": "3.22.1"
+  }
+}
