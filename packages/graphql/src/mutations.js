@@ -13,3 +13,15 @@ export const REGISTER = gql`
   }
   ${userFields}
 `;
+
+export const LOGIN = gql`
+  mutation LOGIN($loginUserInput: LoginUserInput!) {
+    login(input: $loginUserInput) {
+      token
+      me {
+        ...userFields
+      }
+    }
+  }
+  ${userFields}
+`;

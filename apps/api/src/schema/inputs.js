@@ -6,4 +6,9 @@ export default gql`
     email: EmailAddress!
     password: String!
   }
+
+  input LoginUserInput {
+    email: EmailAddress!
+    password: String!
+  }
 `;
