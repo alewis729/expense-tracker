@@ -9,10 +9,10 @@ import { schema, fields } from "./formData";
 import { Button, PasswordField } from "@/components";
 
 interface Props {
-  onSubmit: (data: { name: string; email: string; password: string }) => void;
+  onSubmit: (data: { email: string; password: string }) => void;
 }
 
-const SignupForm: React.FC<Props> = ({ onSubmit }) => {
+const SigninForm: React.FC<Props> = ({ onSubmit }) => {
   const classes = useStyles();
   const { control, handleSubmit, errors, formState } = useForm({
     resolver: yupResolver(schema),
@@ -22,8 +22,8 @@ const SignupForm: React.FC<Props> = ({ onSubmit }) => {
   return (
     <form
       className={classes.root}
-      onSubmit={handleSubmit(({ name, email, password }) =>
-        onSubmit({ name, email, password })
+      onSubmit={handleSubmit(({ email, password }) =>
+        onSubmit({ email, password })
       )}
     >
       {map(fields, ({ type, name, label, placeholder, autocomplete }) => (
@@ -50,10 +50,10 @@ const SignupForm: React.FC<Props> = ({ onSubmit }) => {
         type="submit"
         fullWidth
       >
-        Sign up
+        Sign in
       </Button>
     </form>
   );
 };
 
-export default SignupForm;
+export default SigninForm;
