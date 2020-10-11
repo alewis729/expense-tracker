@@ -23,4 +23,24 @@ export default {
 
     return { token, me: user };
   },
+  login: async (_, args, ctx) => {
+    const user = await ctx.models.User.findOne({ email: args.input.email });
+
+    if (!user) {
+      throw new Error("The user with the provided email is not registered.");
+    }
+
+    const passwordMatch = await bcrypt.compare(
+      args.input.password,
+      user.password
+    );
+
+    if (!passwordMatch) {
+      throw new Error("The password entered is incorrect.");
+    }
+
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+
+    return { token, me: user };
+  },
 };
