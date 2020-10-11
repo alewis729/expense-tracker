@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import PropTypes from "prop-types";
 import Head from "next/head";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -7,7 +6,12 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { theme } from "@/lib/theme";
 import { withApollo } from "@/hocs";
 
-const App = ({ Component, pageProps }) => {
+interface Props {
+  Component: any;
+  pageProps: any;
+}
+
+const App: React.FC<Props> = ({ Component, pageProps }) => {
   useEffect(() => {
     const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles) {
@@ -32,9 +36,5 @@ const App = ({ Component, pageProps }) => {
   );
 };
 
-App.propTypes = {
-  Component: PropTypes.elementType.isRequired,
-  pageProps: PropTypes.object.isRequired,
-};
 
 export default withApollo(App);
