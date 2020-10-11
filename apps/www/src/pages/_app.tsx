@@ -36,5 +36,4 @@ const App: React.FC<Props> = ({ Component, pageProps }) => {
   );
 };
 
-
 export default withApollo(App);

@@ -1,5 +1,5 @@
-import tabs from './tabs';
+import tabs from "./tabs";
 
 export default {
-  tabs
+  tabs,
 };

@@ -6,7 +6,7 @@ const themeOptions = {
       dark: "#2196f3",
       main: "#03a9f4",
       light: "#26BCFF",
-      contrastText: "#fff"
+      contrastText: "#fff",
     },
     secondary: {
       main: "#673ab7",
@@ -17,19 +17,19 @@ const themeOptions = {
   },
   typography: {
     button: {
-      textTransform: 'none'
-    }
+      textTransform: "none",
+    },
   },
   props: {
     MuiButton: {
-      color: 'primary',
-      variant: 'contained',
+      color: "primary",
+      variant: "contained",
       disableElevation: true,
-      size: "large"
+      size: "large",
     },
     MuiTextField: {
-      variant: 'outlined'
-    }
+      variant: "outlined",
+    },
   },
 };
 
