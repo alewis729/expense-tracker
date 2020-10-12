@@ -6,7 +6,6 @@ import { useStyles } from "./style";
 
 interface Props extends MuiButtonProps {
   pending?: boolean;
-  children: React.ReactNode;
 }
 
 const Button: React.FC<Props> = ({ pending, children, ...props }) => {
