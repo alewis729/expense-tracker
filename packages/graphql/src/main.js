@@ -1,5 +1,5 @@
 export { userFields } from "./fragments";
 
-export { IS_LOGGED_IN, GET_ME, GET_USER, GET_USERS } from "./queries";
+export { IS_LOGGED_IN, GET_ME } from "./queries";
 
-export { REGISTER } from "./mutations";
+export { REGISTER, LOGIN } from "./mutations";

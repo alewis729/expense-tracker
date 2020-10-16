@@ -16,11 +16,10 @@ export default gql`
 
   type Query {
     me: User!
-    user(id: ID!): User!
-    users: [User!]!
   }
 
   type Mutation {
     register(input: AddUserInput!): AuthPayload!
+    login(input: LoginUserInput!): AuthPayload!
   }
 `;
