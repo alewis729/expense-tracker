@@ -1,5 +1,7 @@
 import React from "react";
 
-const Home = () => <div>Expense tracker</div>;
+import { withAuth } from "@/hocs";
 
-export default Home;
+const Home: React.FC = () => <div>Expenses</div>;
+
+export default withAuth(Home);
