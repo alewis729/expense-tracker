@@ -24,6 +24,7 @@ module.exports = {
       files: ["**/*.tsx"],
       rules: {
         "react/prop-types": "off",
+        "react/no-unescaped-entities": "off",
       },
     },
   ],

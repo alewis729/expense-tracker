@@ -9,10 +9,11 @@ import { schema, fields } from "./formData";
 import { Button, PasswordField } from "@/components";
 
 interface Props {
+  pending?: boolean;
   onSubmit: (data: { name: string; email: string; password: string }) => void;
 }
 
-const SignupForm: React.FC<Props> = ({ onSubmit }) => {
+const SignupForm: React.FC<Props> = ({ pending, onSubmit }) => {
   const classes = useStyles();
   const { control, handleSubmit, errors, formState } = useForm({
     resolver: yupResolver(schema),
@@ -47,6 +48,7 @@ const SignupForm: React.FC<Props> = ({ onSubmit }) => {
       <Button
         className={classes.submit}
         disabled={isSubmitting}
+        pending={pending}
         type="submit"
         fullWidth
       >

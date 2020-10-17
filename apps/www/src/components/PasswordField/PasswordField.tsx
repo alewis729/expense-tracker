@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { TextField, InputAdornment, IconButton } from "@material-ui/core";
-import { TextFieldProps as MuiTextFieldProps } from "@material-ui/core/TextField";
 import {
   Visibility as IconVisibility,
   VisibilityOff as IconVisibilityOff,
@@ -11,6 +10,7 @@ interface Props {
   buttonDisabled?: boolean;
 }
 
+// eslint-disable-next-line react/display-name
 const PasswordField = React.forwardRef<HTMLInputElement, Props>(
   (props, ref) => {
     const { visible = false, buttonDisabled = false, ...other } = props;
