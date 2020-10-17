@@ -1,17 +1,18 @@
-import { ApolloClient } from "@apollo/client";
+import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { createUploadLink } from "apollo-upload-client";
 
 import { cache } from "./cache";
-// import typeDefs from "./typeDefs";
+import typeDefs from "./typeDefs";
 
-const client = ({ initialState }) => {
+const client: ApolloClient<NormalizedCacheObject> = ({ initialState }) => {
   const httpLink = createUploadLink({
     uri: process.env.API_URL,
   });
 
   const authLink = setContext((_, { headers }) => {
     const token = localStorage.getItem("token");
+
     return {
       headers: {
         ...headers,
@@ -23,7 +24,7 @@ const client = ({ initialState }) => {
   return new ApolloClient({
     link: authLink.concat(httpLink),
     cache: cache.restore(initialState || {}),
-    // typeDefs,
+    typeDefs,
     resolvers: {},
   });
 };

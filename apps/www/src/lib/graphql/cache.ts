@@ -14,6 +14,6 @@ export const cache: InMemoryCache = new InMemoryCache({
   },
 });
 
-export const isLoggedInVar = cache.makeVar(
-  isClient ? localStorage.getItem("token") : null
-);
+export const isLoggedInVar: ReactiveVar<
+  string | boolean | null
+> = cache.makeVar(isClient ? localStorage.getItem("token") : null);
