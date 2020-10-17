@@ -6,4 +6,6 @@ export default {
 
     return ctx.user;
   },
+  user: (_, { id }, ctx) => ctx.models.User.findOne({ _id: id }),
+  users: (_, __, ctx) => ctx.models.User.find({}),
 };

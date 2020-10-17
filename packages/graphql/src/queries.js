@@ -16,3 +16,21 @@ export const GET_ME = gql`
   }
   ${userFields}
 `;
+
+export const GET_USER = gql`
+  query GET_USER($id: ID!) {
+    user(id: $id) {
+      ...userFields
+    }
+  }
+  ${userFields}
+`;
+
+export const GET_USERS = gql`
+  query GET_USERS {
+    users {
+      ...userFields
+    }
+  }
+  ${userFields}
+`;

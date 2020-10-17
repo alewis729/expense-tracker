@@ -1,10 +1,12 @@
 import { print } from "graphql";
 import { gql } from "apollo-server";
-import { LOGIN, REGISTER } from "@expense-tracker/graphql";
+import { LOGIN, REGISTER, GET_USER, GET_USERS } from "@expense-tracker/graphql";
 
 const query = gql`
   ${LOGIN}
   ${REGISTER}
+  ${GET_USER}
+  ${GET_USERS}
 `;
 
 const variables = {
