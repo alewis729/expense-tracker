@@ -7,7 +7,7 @@ import resolvers from "./resolvers";
 import mocks from "./mocks";
 import playground from "./playground";
 import connect from "./lib/mongoose";
-import { User, userLoader } from "./models";
+import { User, Category, userLoader, categoryLoader } from "./models";
 
 (async () => {
   await connect();
@@ -37,8 +37,8 @@ const server = new ApolloServer({
 
     return {
       user,
-      models: { User },
-      loaders: { userLoader },
+      models: { User, Category },
+      loaders: { userLoader, categoryLoader },
     };
   },
   mocks: process.env.MOCKS === "true" ? mocks : false,

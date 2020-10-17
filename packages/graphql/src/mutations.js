@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-import { userFields } from "./fragments";
+import { userFields, categoryFields } from "./fragments";
 
 export const REGISTER = gql`
   mutation REGISTER($addUserInput: AddUserInput!) {
@@ -24,4 +24,13 @@ export const LOGIN = gql`
     }
   }
   ${userFields}
+`;
+
+export const ADD_CATEGORY = gql`
+  mutation ADD_CATEGORY($addCategoryInput: AddCategoryInput!) {
+    addCategory(input: $addCategoryInput) {
+      ...categoryFields
+    }
+  }
+  ${categoryFields}
 `;
