@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { isEmpty } from "lodash";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, NoSsr } from "@material-ui/core";
 
 import { Center } from "@/components";
 import { useIsLoggedIn } from "@/hooks";
@@ -22,9 +22,11 @@ const withoutAuth = Component => props => {
   if (!isLoggedIn) return <Component {...props} />;
 
   return (
-    <Center position="absolute" width="100%" height="100%">
-      <CircularProgress />
-    </Center>
+    <NoSsr>
+      <Center position="absolute" width="100%" height="100%">
+        <CircularProgress />
+      </Center>
+    </NoSsr>
   );
 };
 

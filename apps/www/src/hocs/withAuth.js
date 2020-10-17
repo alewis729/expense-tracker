@@ -2,7 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useApolloClient, useQuery } from "@apollo/client";
 import { GET_ME } from "@expense-tracker/graphql";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, NoSsr } from "@material-ui/core";
 
 import { Center } from "@/components";
 import { isLoggedInVar } from "@/lib/graphql/cache";
@@ -26,9 +26,11 @@ const withAuth = Component => props => {
   if (!loading && !error && data) return <Component {...props} />;
 
   return (
-    <Center position="absolute" width="100%" height="100%">
-      <CircularProgress />
-    </Center>
+    <NoSsr>
+      <Center position="absolute" width="100%" height="100%">
+        <CircularProgress />
+      </Center>
+    </NoSsr>
   );
 };
 
