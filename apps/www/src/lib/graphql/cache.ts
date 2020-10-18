@@ -1,4 +1,4 @@
-import { InMemoryCache } from "@apollo/client";
+import { InMemoryCache, ReactiveVar } from "@apollo/client";
 
 const isClient = typeof window !== "undefined";
 

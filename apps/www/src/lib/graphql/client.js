@@ -1,11 +1,12 @@
-import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
+import { ApolloClient } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { createUploadLink } from "apollo-upload-client";
 
 import { cache } from "./cache";
 import typeDefs from "./typeDefs";
 
-const client: ApolloClient<NormalizedCacheObject> = ({ initialState }) => {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+const client = ({ initialState }) => {
   const httpLink = createUploadLink({
     uri: process.env.API_URL,
   });

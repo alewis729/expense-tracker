@@ -12,7 +12,7 @@ export const schema = yup.object().shape({
     .string()
     .trim()
     .required("This field is required.")
-    .oneOf([yup.ref("password"), null], "Passwords need to match."),
+    .oneOf([yup.ref("password"), ""], "Passwords need to match."),
 });
 
 export const fields = [
