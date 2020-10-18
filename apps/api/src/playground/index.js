@@ -1,5 +1,3 @@
 import tabs from "./tabs";
 
-export default {
-  tabs,
-};
+export default { tabs };

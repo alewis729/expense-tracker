@@ -11,4 +11,9 @@ export default gql`
     email: EmailAddress!
     password: String!
   }
+
+  input AddCategoryInput {
+    name: String!
+    color: String!
+  }
 `;

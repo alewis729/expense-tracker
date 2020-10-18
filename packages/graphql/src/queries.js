@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-import { userFields } from "./fragments";
+import { userFields, categoryFields } from "./fragments";
 
 export const IS_LOGGED_IN = gql`
   query IsUserLoggedIn {
@@ -32,5 +32,31 @@ export const GET_USERS = gql`
       ...userFields
     }
   }
+  ${userFields}
+`;
+
+export const GET_CATEGORY = gql`
+  query GET_CATEGORY($id: ID!, $withUser: Boolean = false) {
+    category(id: $id) {
+      ...categoryFields
+      user @include(if: $withUser) {
+        ...userFields
+      }
+    }
+  }
+  ${categoryFields}
+  ${userFields}
+`;
+
+export const GET_CATEGORIES = gql`
+  query GET_CATEGORIES($withUser: Boolean = false) {
+    categories {
+      ...categoryFields
+      user @include(if: $withUser) {
+        ...userFields
+      }
+    }
+  }
+  ${categoryFields}
   ${userFields}
 `;

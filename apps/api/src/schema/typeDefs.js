@@ -14,14 +14,26 @@ export default gql`
     me: User!
   }
 
+  type Category implements Node {
+    id: ID!
+    name: String!
+    color: String!
+    user: User!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+  }
+
   type Query {
     me: User!
     user(id: ID!): User!
     users: [User!]!
+    category(id: ID!): Category!
+    categories: [Category!]!
   }
 
   type Mutation {
     register(input: AddUserInput!): AuthPayload!
     login(input: LoginUserInput!): AuthPayload!
+    addCategory(input: AddCategoryInput!): Category!
   }
 `;
