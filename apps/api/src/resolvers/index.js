@@ -1,5 +1,6 @@
 import { resolvers as resolversScalars } from "graphql-scalars";
 
+import User from "./user";
 import Category from "./category";
 import Expense from "./expense";
 import Mutation from "./mutation";
@@ -12,6 +13,7 @@ export default {
       return null;
     },
   },
+  User,
   Category,
   Expense,
   Mutation,

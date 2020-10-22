@@ -1,10 +1,17 @@
 import { print } from "graphql";
 import { gql } from "apollo-server";
-import { LOGIN, REGISTER, GET_USER, GET_USERS } from "@expense-tracker/graphql";
+import {
+  LOGIN,
+  REGISTER,
+  GET_ME,
+  GET_USER,
+  GET_USERS,
+} from "@expense-tracker/graphql";
 
 const query = gql`
   ${LOGIN}
   ${REGISTER}
+  ${GET_ME}
   ${GET_USER}
   ${GET_USERS}
 `;
@@ -12,6 +19,8 @@ const query = gql`
 const variables = {
   id: "1",
   email: "alfred@google.com",
+  withCategories: false,
+  withExpenses: false,
   addUserInput: {
     name: "Bill",
     email: "bill@google.com",

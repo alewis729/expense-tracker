@@ -5,6 +5,8 @@ export default gql`
     id: ID!
     name: String!
     email: EmailAddress!
+    categories: [Category!]!
+    expenses: [Expense!]!
     createdAt: DateTime!
     updatedAt: DateTime!
   }
