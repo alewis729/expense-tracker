@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-import { userFields, categoryFields } from "./fragments";
+import { userFields, categoryFields, expenseFields } from "./fragments";
 
 export const REGISTER = gql`
   mutation REGISTER($addUserInput: AddUserInput!) {
@@ -33,4 +33,25 @@ export const ADD_CATEGORY = gql`
     }
   }
   ${categoryFields}
+`;
+
+export const ADD_EXPENSE = gql`
+  mutation ADD_EXPENSE(
+    $addExpenseInput: AddExpenseInput!
+    $withUser: Boolean = false
+    $withCategory: Boolean = false
+  ) {
+    addExpense(input: $addExpenseInput) {
+      ...expenseFields
+      user @include(if: $withUser) {
+        ...userFields
+      }
+      category @include(if: $withCategory) {
+        ...categoryFields
+      }
+    }
+  }
+  ${expenseFields}
+  ${categoryFields}
+  ${userFields}
 `;

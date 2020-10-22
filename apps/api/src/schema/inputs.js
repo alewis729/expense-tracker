@@ -16,4 +16,11 @@ export default gql`
     name: String!
     color: String!
   }
+
+  input AddExpenseInput {
+    name: String!
+    description: String
+    categoryId: ID!
+    amount: NonNegativeFloat!
+  }
 `;

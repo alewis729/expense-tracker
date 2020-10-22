@@ -23,17 +23,32 @@ export default gql`
     updatedAt: DateTime!
   }
 
+  type Expense implements Node {
+    id: ID!
+    name: String!
+    description: String
+    category: Category!
+    amount: NonNegativeFloat!
+    date: DateTime!
+    user: User!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+  }
+
   type Query {
     me: User!
     user(id: ID!): User!
     users: [User!]!
     category(id: ID!): Category!
     categories: [Category!]!
+    expense(id: ID!): Expense!
+    expenses: [Expense!]!
   }
 
   type Mutation {
     register(input: AddUserInput!): AuthPayload!
     login(input: LoginUserInput!): AuthPayload!
     addCategory(input: AddCategoryInput!): Category!
+    addExpense(input: AddExpenseInput!): Expense!
   }
 `;

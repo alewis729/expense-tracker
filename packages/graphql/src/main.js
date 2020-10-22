@@ -7,6 +7,8 @@ export {
   GET_USERS,
   GET_CATEGORY,
   GET_CATEGORIES,
+  GET_EXPENSE,
+  GET_EXPENSES,
 } from "./queries";
 
-export { REGISTER, LOGIN, ADD_CATEGORY } from "./mutations";
+export { REGISTER, LOGIN, ADD_CATEGORY, ADD_EXPENSE } from "./mutations";

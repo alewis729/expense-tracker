@@ -15,3 +15,13 @@ export const categoryFields = gql`
     color
   }
 `;
+
+export const expenseFields = gql`
+  fragment expenseFields on Expense {
+    id
+    name
+    description
+    amount
+    date
+  }
+`;
