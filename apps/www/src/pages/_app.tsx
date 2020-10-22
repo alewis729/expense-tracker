@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import Head from "next/head";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 import { SnackbarProvider } from "notistack";
+import { ModalProvider } from "react-modal-hook";
+import { TransitionGroup } from "react-transition-group";
 
 import type { AppProps } from "next/app";
 
@@ -18,7 +22,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   }, []);
 
   return (
-    <React.Fragment>
+    <>
       <Head>
         <title>Expense tracker</title>
         <meta
@@ -28,16 +32,20 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <SnackbarProvider
-          maxSnack={3}
-          preventDuplicate
-          autoHideDuration={3000}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        >
-          <Component {...pageProps} />
-        </SnackbarProvider>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <SnackbarProvider
+            maxSnack={3}
+            preventDuplicate
+            autoHideDuration={3000}
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          >
+            <ModalProvider rootComponent={TransitionGroup}>
+              <Component {...pageProps} />
+            </ModalProvider>
+          </SnackbarProvider>
+        </MuiPickersUtilsProvider>
       </ThemeProvider>
-    </React.Fragment>
+    </>
   );
 };
 

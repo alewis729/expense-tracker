@@ -25,6 +25,7 @@ module.exports = {
       rules: {
         "react/prop-types": "off",
         "react/no-unescaped-entities": "off",
+        "@typescript-eslint/no-empty-function": "off",
       },
     },
   ],
