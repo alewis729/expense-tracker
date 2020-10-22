@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { GET_ME, REMOVE_EXPENSE } from "@expense-tracker/graphql";
 import { isEmpty } from "lodash";
 import { useSnackbar } from "notistack";
-import { Button, IconButton } from "@material-ui/core";
+import { Button, IconButton, Typography } from "@material-ui/core";
 import { DeleteForeverRounded as IconDelete } from "@material-ui/icons";
 import { useModal } from "react-modal-hook";
 
@@ -17,7 +17,7 @@ const currencySymbol = "$";
 const Home: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { data, loading, error, refetch } = useQuery(GET_ME, {
-    variables: { withExpenses: true },
+    variables: { withExpenses: true, withCategories: true },
     onError: error => enqueueSnackbar(error.message, { variant: "error" }),
   });
   const [removeExpense, { loading: removeLoading }] = useMutation(
@@ -31,7 +31,11 @@ const Home: React.FC = () => {
     }
   );
   const [showCategoryDialog, hideCategoryDialog] = useModal(({ in: open }) => (
-    <AddCategory open={open} onClose={hideCategoryDialog} />
+    <AddCategory
+      open={open}
+      onClose={hideCategoryDialog}
+      refetchCategories={refetch}
+    />
   ));
   const [showExpenseDialog, hideExpenseDialog] = useModal(({ in: open }) => (
     <AddExpense
@@ -53,14 +57,22 @@ const Home: React.FC = () => {
         title="Expenses"
         actionButtons={
           <>
-            <Button onClick={showExpenseDialog}>Add Expense</Button>
+            <Button
+              disabled={isEmpty(data?.me?.categories)}
+              onClick={showExpenseDialog}
+            >
+              Add Expense
+            </Button>
             <Button onClick={showCategoryDialog} color="default">
               Add Category
             </Button>
           </>
         }
       />
-      {!loading && !isEmpty(data) && (
+      {!loading && isEmpty(data?.me?.expenses) && (
+        <Typography>No expenses registered.</Typography>
+      )}
+      {!loading && !isEmpty(data?.me?.expenses) && (
         <DataTable
           data={data?.me?.expenses}
           renderActions={id => (
