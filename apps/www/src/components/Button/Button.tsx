@@ -8,7 +8,7 @@ interface Props extends MuiButtonProps {
   pending?: boolean;
 }
 
-const Button: React.FC<Props> = ({ pending, children, ...props }) => {
+const Button: React.FC<Props> = ({ pending = false, children, ...props }) => {
   const progressWidth = 20;
   const classes = useStyles({ progressWidth, pending });
 
