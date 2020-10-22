@@ -35,6 +35,19 @@ export const ADD_CATEGORY = gql`
   ${categoryFields}
 `;
 
+export const REMOVE_CATEGORY = gql`
+  mutation REMOVE_CATEGORY($id: ID!, $withUser: Boolean = false) {
+    removeCategory(id: $id) {
+      ...categoryFields
+      user @include(if: $withUser) {
+        ...userFields
+      }
+    }
+  }
+  ${categoryFields}
+  ${userFields}
+`;
+
 export const ADD_EXPENSE = gql`
   mutation ADD_EXPENSE(
     $addExpenseInput: AddExpenseInput!

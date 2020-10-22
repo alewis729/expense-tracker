@@ -4,12 +4,14 @@ import {
   GET_CATEGORY,
   GET_CATEGORIES,
   ADD_CATEGORY,
+  REMOVE_CATEGORY,
 } from "@expense-tracker/graphql";
 
 const query = gql`
   ${GET_CATEGORY}
   ${GET_CATEGORIES}
   ${ADD_CATEGORY}
+  ${REMOVE_CATEGORY}
 `;
 
 const variables = {

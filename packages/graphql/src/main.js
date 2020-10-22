@@ -15,6 +15,7 @@ export {
   REGISTER,
   LOGIN,
   ADD_CATEGORY,
+  REMOVE_CATEGORY,
   ADD_EXPENSE,
   REMOVE_EXPENSE,
 } from "./mutations";

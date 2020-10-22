@@ -10,6 +10,8 @@ declare module '@expense-tracker/graphql' {
 
   export const LOGIN: DocumentNode;
   export const REGISTER: DocumentNode;
+  export const ADD_CATEGORY: DocumentNode;
+  export const REMOVE_CATEGORY: DocumentNode;
   export const ADD_EXPENSE: DocumentNode;
   export const REMOVE_EXPENSE: DocumentNode;
 }
