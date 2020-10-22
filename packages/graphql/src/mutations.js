@@ -55,3 +55,24 @@ export const ADD_EXPENSE = gql`
   ${categoryFields}
   ${userFields}
 `;
+
+export const REMOVE_EXPENSE = gql`
+  mutation REMOVE_EXPENSE(
+    $id: ID!
+    $withUser: Boolean = false
+    $withCategory: Boolean = false
+  ) {
+    removeExpense(id: $id) {
+      ...expenseFields
+      user @include(if: $withUser) {
+        ...userFields
+      }
+      category @include(if: $withCategory) {
+        ...categoryFields
+      }
+    }
+  }
+  ${expenseFields}
+  ${categoryFields}
+  ${userFields}
+`;

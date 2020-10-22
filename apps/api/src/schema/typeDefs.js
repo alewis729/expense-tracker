@@ -50,5 +50,6 @@ export default gql`
     login(input: LoginUserInput!): AuthPayload!
     addCategory(input: AddCategoryInput!): Category!
     addExpense(input: AddExpenseInput!): Expense!
+    removeExpense(id: ID!): Expense!
   }
 `;

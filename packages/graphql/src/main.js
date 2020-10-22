@@ -11,4 +11,10 @@ export {
   GET_EXPENSES,
 } from "./queries";
 
-export { REGISTER, LOGIN, ADD_CATEGORY, ADD_EXPENSE } from "./mutations";
+export {
+  REGISTER,
+  LOGIN,
+  ADD_CATEGORY,
+  ADD_EXPENSE,
+  REMOVE_EXPENSE,
+} from "./mutations";

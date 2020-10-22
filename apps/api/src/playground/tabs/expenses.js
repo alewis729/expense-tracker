@@ -4,12 +4,14 @@ import {
   GET_EXPENSE,
   GET_EXPENSES,
   ADD_EXPENSE,
+  REMOVE_EXPENSE,
 } from "@expense-tracker/graphql";
 
 const query = gql`
   ${GET_EXPENSE}
   ${GET_EXPENSES}
   ${ADD_EXPENSE}
+  ${REMOVE_EXPENSE}
 `;
 
 const variables = {

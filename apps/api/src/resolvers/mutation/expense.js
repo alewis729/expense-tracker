@@ -25,4 +25,23 @@ export default {
       user: ctx.user.id,
     });
   },
+  removeExpense: async (_, args, ctx) => {
+    if (!ctx.user) {
+      throw new Error("User not found.");
+    }
+
+    const expense = await ctx.models.Expense.findOne({ _id: args.id });
+
+    if (!expense) {
+      throw new Error("Expense object not found.");
+    }
+
+    if (!expense.user.equals(ctx.user.id)) {
+      throw new Error("Invalid user.");
+    }
+
+    await ctx.models.Expense.deleteOne({ _id: args.id });
+
+    return expense;
+  },
 };
