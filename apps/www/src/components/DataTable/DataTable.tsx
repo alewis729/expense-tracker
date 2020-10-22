@@ -25,10 +25,15 @@ interface Props {
     date: string;
     amount: number;
   }[];
+  renderActions?: null | ((id: string) => React.ReactNode);
   currencySymbol: string;
 }
 
-const DataTable: React.FC<Props> = ({ data, currencySymbol }) => {
+const DataTable: React.FC<Props> = ({
+  data,
+  renderActions = null,
+  currencySymbol,
+}) => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -47,7 +52,8 @@ const DataTable: React.FC<Props> = ({ data, currencySymbol }) => {
               <TableCell>Name</TableCell>
               <TableCell>Category</TableCell>
               <TableCell>Date</TableCell>
-              <TableCell>Amount</TableCell>
+              <TableCell align="center">Amount</TableCell>
+              {renderActions && <TableCell align="center">Actions</TableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -65,7 +71,10 @@ const DataTable: React.FC<Props> = ({ data, currencySymbol }) => {
                     />
                   </TableCell>
                   <TableCell>{date}</TableCell>
-                  <TableCell>{`${currencySymbol} ${amount}`}</TableCell>
+                  <TableCell align="center">{`${currencySymbol} ${amount}`}</TableCell>
+                  {renderActions && (
+                    <TableCell align="center">{renderActions(id)}</TableCell>
+                  )}
                 </TableRow>
               )
             )}

@@ -1,9 +1,10 @@
 import React from "react";
-import { useQuery } from "@apollo/client";
-import { GET_ME } from "@expense-tracker/graphql";
+import { useQuery, useMutation } from "@apollo/client";
+import { GET_ME, REMOVE_EXPENSE } from "@expense-tracker/graphql";
 import { isEmpty } from "lodash";
 import { useSnackbar } from "notistack";
-import { Button } from "@material-ui/core";
+import { Button, IconButton } from "@material-ui/core";
+import { DeleteForeverRounded as IconDelete } from "@material-ui/icons";
 import { useModal } from "react-modal-hook";
 
 import { withAuth } from "@/hocs";
@@ -19,6 +20,16 @@ const Home: React.FC = () => {
     variables: { withExpenses: true },
     onError: error => enqueueSnackbar(error.message, { variant: "error" }),
   });
+  const [removeExpense, { loading: removeLoading }] = useMutation(
+    REMOVE_EXPENSE,
+    {
+      onCompleted: () => {
+        refetch();
+        enqueueSnackbar("Expense removed successfuly.", { variant: "success" });
+      },
+      onError: error => enqueueSnackbar(error.message, { variant: "error" }),
+    }
+  );
   const [showCategoryDialog, hideCategoryDialog] = useModal(({ in: open }) => (
     <AddCategory open={open} onClose={hideCategoryDialog} />
   ));
@@ -30,10 +41,14 @@ const Home: React.FC = () => {
     />
   ));
 
+  const handleRemoveExpense = (id: string) => {
+    removeExpense({ variables: { id } });
+  };
+
   if (error) return <p>Error</p>;
 
   return (
-    <DefaultLayout header={<Header />} loading={loading}>
+    <DefaultLayout header={<Header />} loading={loading || removeLoading}>
       <PaperHeader
         title="Expenses"
         actionButtons={
@@ -46,7 +61,19 @@ const Home: React.FC = () => {
         }
       />
       {!loading && !isEmpty(data) && (
-        <DataTable data={data?.me?.expenses} currencySymbol={currencySymbol} />
+        <DataTable
+          data={data?.me?.expenses}
+          renderActions={id => (
+            <IconButton
+              disabled={loading || removeLoading}
+              size="small"
+              onClick={() => handleRemoveExpense(id)}
+            >
+              <IconDelete fontSize="small" />
+            </IconButton>
+          )}
+          currencySymbol={currencySymbol}
+        />
       )}
     </DefaultLayout>
   );
