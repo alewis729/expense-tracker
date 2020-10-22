@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect } from "react";
-import { colors } from "@expense-tracker/data";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { isEmpty, map } from "lodash";
@@ -14,26 +13,29 @@ import {
 import { useStyles } from "./style";
 import { schema, fields, initialValues } from "./formData";
 
-type FormFields = {
+interface AddExpenseFields {
   name: string;
-  description: string;
-  category: string;
-};
+  description: string | null;
+  categoryId: string;
+  amount: number;
+}
 
 interface Props {
-  defaultValues?: FormFields;
-  onSubmit: (data: FormFields) => void;
+  defaultValues?: AddExpenseFields;
+  categories: { id: string; name: string }[];
+  onSubmit: (data: AddExpenseFields) => void;
 }
 
 type Field = {
   type: string;
-  name: "name" | "description" | "category";
+  name: "name" | "description" | "amount" | "categoryId";
   label: string;
   placeholder: string;
 };
 
 const AddExpenseForm: React.FC<Props> = ({
   defaultValues = initialValues,
+  categories = [],
   onSubmit,
 }) => {
   const {
@@ -52,14 +54,14 @@ const AddExpenseForm: React.FC<Props> = ({
   const classes = useStyles();
 
   useEffect(() => {
-    register({ name: "category" });
+    register({ name: "categoryId" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderField = ({ type, name, label, placeholder }: Field) => {
     const error = !isEmpty(errors[name]);
     const helperText = error ? errors?.[name]?.message : null;
-    const options = colors;
+    const options = categories;
 
     if (type === "select") {
       return (

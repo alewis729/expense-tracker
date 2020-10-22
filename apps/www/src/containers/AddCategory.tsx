@@ -7,6 +7,7 @@ import { Dialog, AddCategoryForm } from "@/components";
 
 interface Props {
   open: boolean;
+  onClose: () => void;
 }
 
 interface categoryInput {
@@ -14,11 +15,13 @@ interface categoryInput {
   color: string;
 }
 
-const AddCategory: React.FC<Props> = ({ open, ...props }) => {
+const AddCategory: React.FC<Props> = ({ open, onClose, ...props }) => {
   const { enqueueSnackbar } = useSnackbar();
   const [addCategory, { loading }] = useMutation(ADD_CATEGORY, {
-    onCompleted: () =>
-      enqueueSnackbar("Category added successfully.", { variant: "success" }),
+    onCompleted: () => {
+      onClose();
+      enqueueSnackbar("Category added successfully.", { variant: "success" });
+    },
     onError: error => enqueueSnackbar(error.message, { variant: "error" }),
   });
 
@@ -35,8 +38,9 @@ const AddCategory: React.FC<Props> = ({ open, ...props }) => {
   return (
     <Dialog
       open={open}
-      title="Register Category"
-      buttonText="Register Category"
+      onClose={onClose}
+      title="Register category"
+      buttonText="Register category"
       ButtonProps={{
         type: "submit",
         form: "add_category_form",

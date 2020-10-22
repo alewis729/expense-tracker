@@ -25,7 +25,7 @@ const SignupPage: React.FC = () => {
         variant: "success",
         autoHideDuration: 1500,
       });
-      setTimeout(() => isLoggedInVar(true), 1500);
+      setTimeout(() => isLoggedInVar(true), 750);
     },
     onError: error => enqueueSnackbar(error.message, { variant: "error" }),
   });

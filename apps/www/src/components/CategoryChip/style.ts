@@ -1,8 +1,9 @@
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import { isNil } from "lodash";
+import { makeStyles } from "@material-ui/core/styles";
+import { getColor } from "@/lib/utils";
 
-export const useStyles = makeStyles((theme: Theme) => ({
-  root: ({ color }: { color: string | null }) => ({
-    backgroundColor: !isNil(color) ? color : theme.palette.secondary.light,
-  }),
-}));
+export const useStyles = makeStyles({
+  root: {
+    backgroundColor: ({ color }: { color: string | null }) =>
+      getColor(color).hex,
+  },
+});

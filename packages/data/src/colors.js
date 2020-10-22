@@ -1,4 +1,5 @@
 export default [
+  { id: "lightGrey", name: "Light grey", hex: "#e0e0e0" },
   { id: "blue", name: "Blue", hex: "#2196f3" },
   { id: "lightBlue", name: "Light blue", hex: "#03a9f4" },
   { id: "green", name: "Green", hex: "#4caf50" },
