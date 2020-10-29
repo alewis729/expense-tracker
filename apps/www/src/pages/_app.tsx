@@ -1,17 +1,19 @@
 import React, { useEffect } from "react";
-import PropTypes from "prop-types";
 import Head from "next/head";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { SnackbarProvider } from "notistack";
+
+import type { AppProps } from "next/app";
 
 import { theme } from "@/lib/theme";
 import { withApollo } from "@/hocs";
 
-const App = ({ Component, pageProps }) => {
+const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {
     const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles);
+      jssStyles?.parentElement?.removeChild(jssStyles);
     }
   }, []);
 
@@ -26,15 +28,17 @@ const App = ({ Component, pageProps }) => {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Component {...pageProps} />
+        <SnackbarProvider
+          maxSnack={3}
+          preventDuplicate
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        >
+          <Component {...pageProps} />
+        </SnackbarProvider>
       </ThemeProvider>
     </React.Fragment>
   );
-};
-
-App.propTypes = {
-  Component: PropTypes.elementType.isRequired,
-  pageProps: PropTypes.object.isRequired,
 };
 
 export default withApollo(App);

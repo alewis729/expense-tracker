@@ -3,7 +3,7 @@
   "plugins": [
     "optimize-clsx",
     [
-      "transform-imports",
+      "babel-plugin-transform-imports",
       {
         "@material-ui/core": {
           "transform": "@material-ui/core/${member}",

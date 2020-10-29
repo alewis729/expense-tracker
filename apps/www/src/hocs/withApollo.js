@@ -5,7 +5,7 @@ import { ApolloProvider } from "@apollo/client";
 import client from "@/lib/graphql/client";
 
 export default withApollo(client, {
-  // eslint-disable-next-line react/prop-types,react/display-name
+  // eslint-disable-next-line react/prop-types, react/display-name
   render: ({ Page, props }) => {
     return (
       // eslint-disable-next-line react/prop-types

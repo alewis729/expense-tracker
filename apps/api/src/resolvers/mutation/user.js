@@ -9,7 +9,9 @@ export default {
     });
 
     if (userExists) {
-      throw new Error("This user is already registered.");
+      throw new Error(
+        "There is already a registered user with the given email."
+      );
     }
 
     const user = await ctx.models.User.create({

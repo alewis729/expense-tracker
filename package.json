@@ -8,6 +8,7 @@
   "scripts": {
     "dev:api": "yarn workspace @expense-tracker/api dev",
     "dev:www": "yarn workspace @expense-tracker/www dev",
+    "build": "lerna run build",
     "lint": "lerna run lint",
     "format": "lerna run format"
   },
