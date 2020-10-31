@@ -36,6 +36,18 @@ export default {
       throw new Error("User not found.");
     }
 
-    return ctx.models.Category.findOneAndDelete({ _id: id });
+    const category = await ctx.models.Category.findOne({ _id: id });
+
+    if (!category) {
+      throw new Error("Category not found.");
+    }
+
+    if (!category.user.equals(ctx.user.id)) {
+      throw new Error("Invalid User.");
+    }
+
+    await ctx.models.Category.deleteOne({ _id: id });
+
+    return category;
   },
 };
