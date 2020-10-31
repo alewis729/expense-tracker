@@ -29,4 +29,12 @@ export default gql`
     categoryId: ID!
     date: DateTime!
   }
+
+  input UpdateExpenseInput {
+    name: String
+    description: String
+    amount: Int
+    categoryId: ID
+    date: DateTime
+  }
 `;

@@ -52,5 +52,7 @@ export default gql`
     updateCategory(id: ID!, input: UpdateCategoryInput!): Category!
     removeCategory(id: ID!): Category!
     addExpense(input: AddExpenseInput!): Expense!
+    updateExpense(id: ID!, input: UpdateExpenseInput!): Expense!
+    removeExpense(id: ID!): Expense!
   }
 `;

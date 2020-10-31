@@ -18,4 +18,6 @@ export {
   UPDATE_CATEGORY,
   REMOVE_CATEGORY,
   ADD_EXPENSE,
+  UPDATE_EXPENSE,
+  REMOVE_EXPENSE,
 } from "./mutations";

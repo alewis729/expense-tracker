@@ -71,3 +71,29 @@ export const ADD_EXPENSE = gql`
   ${expenseFields}
   ${categoryFields}
 `;
+
+export const UPDATE_EXPENSE = gql`
+  mutation UPDATE_EXPENSE(
+    $id: ID!
+    $updateExpenseInput: UpdateExpenseInput!
+    $withCategory: Boolean = false
+  ) {
+    updateExpense(id: $id, input: $updateExpenseInput) {
+      ...expenseFields
+      category @include(if: $withCategory) {
+        ...categoryFields
+      }
+    }
+  }
+  ${expenseFields}
+  ${categoryFields}
+`;
+
+export const REMOVE_EXPENSE = gql`
+  mutation REMOVE_EXPENSE($id: ID!) {
+    removeExpense(id: $id) {
+      ...expenseFields
+    }
+  }
+  ${expenseFields}
+`;
