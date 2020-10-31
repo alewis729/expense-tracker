@@ -16,4 +16,9 @@ export default gql`
     name: String!
     color: String!
   }
+
+  input UpdateCategoryInput {
+    name: String
+    color: String
+  }
 `;

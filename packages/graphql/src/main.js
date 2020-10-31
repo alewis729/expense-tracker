@@ -9,4 +9,10 @@ export {
   GET_CATEGORIES,
 } from "./queries";
 
-export { REGISTER, LOGIN, ADD_CATEGORY } from "./mutations";
+export {
+  REGISTER,
+  LOGIN,
+  ADD_CATEGORY,
+  UPDATE_CATEGORY,
+  REMOVE_CATEGORY,
+} from "./mutations";
