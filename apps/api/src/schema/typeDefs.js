@@ -30,6 +30,7 @@ export default gql`
     amount: Int!
     date: DateTime!
     user: User!
+    category: Category!
     createdAt: DateTime!
     updatedAt: DateTime!
   }

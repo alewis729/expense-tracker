@@ -15,10 +15,12 @@ const query = gql`
 const variables = {
   id: "1",
   withUser: false,
+  withCategory: true,
   addExpenseInput: {
     name: "Beers",
     description: "Test",
     amount: 10,
+    categoryId: "1",
     date: "1992-10-09T00:00:00Z",
   },
 };

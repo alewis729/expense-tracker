@@ -26,6 +26,7 @@ export default gql`
     name: String!
     description: String!
     amount: Int!
+    categoryId: ID!
     date: DateTime!
   }
 `;
