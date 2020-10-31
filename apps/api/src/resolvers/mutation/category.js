@@ -16,30 +16,19 @@ export default {
       throw new Error("User not found.");
     }
 
-    // There is an issue. Error is not thrown when Category is not found.
-    return ctx.models.Category.findOneAndUpdate(
-      { _id: args.id },
-      args.input,
-      { new: true, useFindAndModify: false },
-      (err, doc) => {
-        if (err) {
-          throw new Error("Category not found.");
-        }
+    const category = await ctx.models.Category.findOne({ _id: args.id });
 
-        return doc;
-      }
-    );
-    // let categoryexists = ctx.models.Category.findOne({ _id: args.id });
+    if (!category) {
+      throw new Error("Category not found.");
+    }
 
-    // if (!categoryexists) {
-    //   throw new error("category not found.");
-    // }
+    if (!category.user.equals(ctx.user.id)) {
+      throw new Error("Invalid User.");
+    }
 
-    // categoryexists = {
-    //   ...args.input
-    // }
+    await ctx.models.Category.updateOne({ _id: category.id }, args.input);
 
-    // categoryexists.save();
+    return ctx.models.Category.findOne({ _id: category.id });
   },
 
   removeCategory: async (_, { id }, ctx) => {

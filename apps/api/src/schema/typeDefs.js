@@ -48,8 +48,8 @@ export default gql`
     register(input: AddUserInput!): AuthPayload!
     login(input: LoginUserInput!): AuthPayload!
     addCategory(input: AddCategoryInput!): Category!
-    updateCategory(id: ID!, input: UpdateCategoryInput!): Category
-    removeCategory(id: ID!): Category
+    updateCategory(id: ID!, input: UpdateCategoryInput!): Category!
+    removeCategory(id: ID!): Category!
     addExpense(input: AddExpenseInput!): Expense!
   }
 `;
