@@ -21,4 +21,11 @@ export default gql`
     name: String
     color: String
   }
+
+  input AddExpenseInput {
+    name: String!
+    description: String!
+    amount: Int!
+    date: DateTime!
+  }
 `;

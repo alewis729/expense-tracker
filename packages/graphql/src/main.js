@@ -7,6 +7,8 @@ export {
   GET_USERS,
   GET_CATEGORY,
   GET_CATEGORIES,
+  GET_EXPENSE,
+  GET_EXPENSES,
 } from "./queries";
 
 export {
@@ -15,4 +17,5 @@ export {
   ADD_CATEGORY,
   UPDATE_CATEGORY,
   REMOVE_CATEGORY,
+  ADD_EXPENSE,
 } from "./mutations";
