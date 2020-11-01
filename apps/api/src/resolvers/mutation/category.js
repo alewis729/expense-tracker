@@ -10,7 +10,6 @@ export default {
       user: ctx.user.id,
     });
   },
-
   updateCategory: async (_, args, ctx) => {
     if (!ctx.user) {
       throw new Error("User not found.");
@@ -30,7 +29,6 @@ export default {
 
     return ctx.models.Category.findOne({ _id: category.id });
   },
-
   removeCategory: async (_, { id }, ctx) => {
     if (!ctx.user) {
       throw new Error("User not found.");

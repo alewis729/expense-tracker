@@ -24,10 +24,10 @@ export default gql`
 
   input AddExpenseInput {
     name: String!
-    description: String!
+    description: String
     amount: Int!
     categoryId: ID!
-    date: DateTime!
+    date: DateTime
   }
 
   input UpdateExpenseInput {

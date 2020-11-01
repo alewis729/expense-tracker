@@ -27,7 +27,7 @@ export default gql`
     id: ID!
     name: String!
     description: String!
-    amount: Int!
+    amount: NonNegativeFloat!
     date: DateTime!
     user: User!
     category: Category!

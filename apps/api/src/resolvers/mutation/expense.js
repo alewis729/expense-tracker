@@ -20,9 +20,11 @@ export default {
 
     return ctx.models.Expense.create({
       name: args.input.name,
-      description: args.input.description,
+      description: !isEmpty(args.input.description)
+        ? args.input.description
+        : null,
       amount: args.input.amount,
-      date: args.input.date,
+      date: !isEmpty(args.input.date) ? args.input.date : new Date(),
       category: args.input.categoryId,
       user: ctx.user.id,
     });
@@ -44,6 +46,8 @@ export default {
       throw new Error("Invalid User.");
     }
 
+    let updatedExpenseFields = omit(args.input, "categoryId");
+
     if (!isEmpty(args.input.categoryId)) {
       const category = await ctx.models.Category.findOne({
         _id: args.input.categoryId,
@@ -52,16 +56,13 @@ export default {
       if (!category) {
         throw new Error("Category not found");
       }
+
+      updatedExpenseFields.category = args.input.categoryId;
     }
 
     await ctx.models.Expense.updateOne(
       { _id: expense.id },
-      {
-        ...omit(args.input, "categoryId"),
-        category: args.input.categoryId
-          ? args.input.categoryId
-          : expense.category,
-      }
+      updatedExpenseFields
     );
 
     return ctx.models.Expense.findOne({ _id: expense.id });
