@@ -25,7 +25,7 @@ export default gql`
   input AddExpenseInput {
     name: String!
     description: String
-    amount: Int!
+    amount: NonNegativeFloat!
     categoryId: ID!
     date: DateTime
   }
@@ -33,7 +33,7 @@ export default gql`
   input UpdateExpenseInput {
     name: String
     description: String
-    amount: Int
+    amount: NonNegativeFloat
     categoryId: ID
     date: DateTime
   }
