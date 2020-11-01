@@ -4,12 +4,16 @@ import {
   GET_CATEGORY,
   GET_CATEGORIES,
   ADD_CATEGORY,
+  UPDATE_CATEGORY,
+  REMOVE_CATEGORY,
 } from "@expense-tracker/graphql";
 
 const query = gql`
   ${GET_CATEGORY}
   ${GET_CATEGORIES}
   ${ADD_CATEGORY}
+  ${UPDATE_CATEGORY}
+  ${REMOVE_CATEGORY}
 `;
 
 const variables = {
@@ -17,7 +21,11 @@ const variables = {
   withUser: false,
   addCategoryInput: {
     name: "Groceries",
-    color: "tomato",
+    color: "red",
+  },
+  updateCategoryInput: {
+    name: "Groceries 2",
+    color: "green",
   },
 };
 
