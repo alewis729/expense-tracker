@@ -1,4 +1,5 @@
 import { isEmpty, omit } from "lodash";
+import { checkSameUser } from "../../middleware";
 
 export default {
   addExpense: async (_, args, ctx) => {
@@ -14,9 +15,7 @@ export default {
       throw new Error("Category not found.");
     }
 
-    if (!category.user.equals(ctx.user.id)) {
-      throw new Error("Invalid User.");
-    }
+    checkSameUser(category, ctx);
 
     return ctx.models.Expense.create({
       name: args.input.name,
@@ -42,9 +41,7 @@ export default {
       throw new Error("Expense not found.");
     }
 
-    if (!expense.user.equals(ctx.user.id)) {
-      throw new Error("Invalid User.");
-    }
+    checkSameUser(expense, ctx);
 
     let updatedExpenseFields = omit(args.input, "categoryId");
 
@@ -56,6 +53,8 @@ export default {
       if (!category) {
         throw new Error("Category not found");
       }
+
+      checkSameUser(category, ctx);
 
       updatedExpenseFields.category = args.input.categoryId;
     }
@@ -78,9 +77,7 @@ export default {
       throw new Error("Expense not found.");
     }
 
-    if (!expense.user.equals(ctx.user.id)) {
-      throw new Error("Invalid User.");
-    }
+    checkSameUser(expense, ctx);
 
     await ctx.models.Expense.deleteOne({ _id: id });
 
