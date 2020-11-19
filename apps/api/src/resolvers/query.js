@@ -1,4 +1,4 @@
-import { checkSameUser } from "../middleware";
+import { compareUserIds } from "../utils";
 
 export default {
   me: (_, __, ctx) => {
@@ -13,7 +13,7 @@ export default {
   category: async (_, { id }, ctx) => {
     const category = await ctx.models.Category.findOne({ _id: id });
 
-    checkSameUser(category, ctx);
+    compareUserIds(category.user, ctx.user.id);
 
     return category;
   },
@@ -21,7 +21,7 @@ export default {
   expense: async (_, { id }, ctx) => {
     const expense = await ctx.models.Expense.findOne({ _id: id });
 
-    checkSameUser(expense, ctx);
+    compareUserIds(expense.user, ctx.user.id);
 
     return expense;
   },
