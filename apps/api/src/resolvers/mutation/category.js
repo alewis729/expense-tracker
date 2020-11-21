@@ -1,3 +1,5 @@
+import { compareUserIds } from "../../utils";
+
 export default {
   addCategory: async (_, args, ctx) => {
     if (!ctx.user) {
@@ -21,9 +23,7 @@ export default {
       throw new Error("Category not found.");
     }
 
-    if (!category.user.equals(ctx.user.id)) {
-      throw new Error("Invalid User.");
-    }
+    compareUserIds(category.user, ctx.user.id);
 
     await ctx.models.Category.updateOne({ _id: category.id }, args.input);
 
@@ -40,9 +40,7 @@ export default {
       throw new Error("Category not found.");
     }
 
-    if (!category.user.equals(ctx.user.id)) {
-      throw new Error("Invalid User.");
-    }
+    compareUserIds(category.user, ctx.user.id);
 
     await ctx.models.Category.deleteOne({ _id: id });
 
