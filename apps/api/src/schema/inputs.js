@@ -37,4 +37,8 @@ export default gql`
     categoryId: ID
     date: DateTime
   }
+
+  input AuthInput {
+    accessToken: String!
+  }
 `;

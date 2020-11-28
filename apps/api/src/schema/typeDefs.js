@@ -54,5 +54,6 @@ export default gql`
     addExpense(input: AddExpenseInput!): Expense!
     updateExpense(id: ID!, input: UpdateExpenseInput!): Expense!
     removeExpense(id: ID!): Expense!
+    authGoogle(input: AuthInput!): AuthPayload!
   }
 `;

@@ -24,8 +24,13 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: true,
       trim: true,
+    },
+    social: {
+      googleProvider: {
+        id: String,
+        token: String,
+      },
     },
   },
   { timestamps: true }

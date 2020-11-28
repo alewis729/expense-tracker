@@ -10,6 +10,7 @@ declare module '@expense-tracker/graphql' {
 
   export const LOGIN: DocumentNode;
   export const REGISTER: DocumentNode;
+  export const AUTH_GOOGLE: DocumentNode;
   export const ADD_CATEGORY: DocumentNode;
   export const UPDATE_CATEGORY: DocumentNode;
   export const REMOVE_CATEGORY: DocumentNode;

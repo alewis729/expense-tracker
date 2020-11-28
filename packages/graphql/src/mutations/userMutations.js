@@ -25,3 +25,15 @@ export const LOGIN = gql`
   }
   ${userFields}
 `;
+
+export const AUTH_GOOGLE = gql`
+  mutation AUTH_GOOGLE($googleAuthInput: AuthInput!) {
+    authGoogle(input: $googleAuthInput) {
+      token
+      me {
+        ...userFields
+      }
+    }
+  }
+  ${userFields}
+`;
