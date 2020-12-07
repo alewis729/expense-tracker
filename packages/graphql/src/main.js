@@ -19,4 +19,4 @@ export {
   UPDATE_EXPENSE,
   REMOVE_EXPENSE,
 } from "./mutations/expenseMutations";
-export { REGISTER, LOGIN } from "./mutations/userMutations";
+export { REGISTER, LOGIN, AUTH_GOOGLE } from "./mutations/userMutations";
