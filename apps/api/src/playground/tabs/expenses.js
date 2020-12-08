@@ -4,6 +4,7 @@ import {
   GET_EXPENSE,
   GET_EXPENSES,
   ADD_EXPENSE,
+  UPDATE_EXPENSE,
   REMOVE_EXPENSE,
 } from "@expense-tracker/graphql";
 
@@ -11,17 +12,23 @@ const query = gql`
   ${GET_EXPENSE}
   ${GET_EXPENSES}
   ${ADD_EXPENSE}
+  ${UPDATE_EXPENSE}
   ${REMOVE_EXPENSE}
 `;
 
 const variables = {
   id: "1",
   withUser: false,
-  withCategory: false,
+  withCategory: true,
   addExpenseInput: {
-    name: "Internet connection bill",
+    name: "Beers",
+    description: "Test",
+    amount: 10,
     categoryId: "1",
-    amount: 125.75,
+    date: "1992-10-09T00:00:00Z",
+  },
+  updateExpenseInput: {
+    name: "Beers 2",
   },
 };
 

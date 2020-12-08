@@ -12,6 +12,10 @@ const expenseSchema = new Schema(
       type: String,
       trim: true,
     },
+    amount: {
+      type: Number,
+      required: true,
+    },
     category: {
       type: Schema.Types.ObjectId,
       ref: "Category",
@@ -19,10 +23,6 @@ const expenseSchema = new Schema(
     },
     date: {
       type: Date,
-      required: true,
-    },
-    amount: {
-      type: Number,
       required: true,
     },
     user: {

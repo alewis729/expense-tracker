@@ -29,10 +29,10 @@ export default gql`
     id: ID!
     name: String!
     description: String
-    category: Category!
     amount: NonNegativeFloat!
     date: DateTime!
     user: User!
+    category: Category!
     createdAt: DateTime!
     updatedAt: DateTime!
   }
@@ -51,8 +51,11 @@ export default gql`
     register(input: AddUserInput!): AuthPayload!
     login(input: LoginUserInput!): AuthPayload!
     addCategory(input: AddCategoryInput!): Category!
+    updateCategory(id: ID!, input: UpdateCategoryInput!): Category!
     removeCategory(id: ID!): Category!
     addExpense(input: AddExpenseInput!): Expense!
+    updateExpense(id: ID!, input: UpdateExpenseInput!): Expense!
     removeExpense(id: ID!): Expense!
+    authGoogle(input: AuthInput!): AuthPayload!
   }
 `;

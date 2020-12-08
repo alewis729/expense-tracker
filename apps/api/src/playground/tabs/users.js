@@ -4,6 +4,7 @@ import {
   LOGIN,
   REGISTER,
   GET_ME,
+  AUTH_GOOGLE,
   GET_USER,
   GET_USERS,
 } from "@expense-tracker/graphql";
@@ -12,6 +13,7 @@ const query = gql`
   ${LOGIN}
   ${REGISTER}
   ${GET_ME}
+  ${AUTH_GOOGLE}
   ${GET_USER}
   ${GET_USERS}
 `;
@@ -21,6 +23,9 @@ const variables = {
   email: "alfred@google.com",
   withCategories: false,
   withExpenses: false,
+  googleAuthInput: {
+    accessToken: "1",
+  },
   addUserInput: {
     name: "Bill",
     email: "bill@google.com",

@@ -1,21 +1,22 @@
-export { userFields } from "./fragments";
+export { userFields, categoryFields, expenseFields } from "./fragments";
 
+export { GET_CATEGORY, GET_CATEGORIES } from "./queries/categoryQueries";
+export { GET_EXPENSE, GET_EXPENSES } from "./queries/expenseQueries";
 export {
   IS_LOGGED_IN,
   GET_ME,
   GET_USER,
   GET_USERS,
-  GET_CATEGORY,
-  GET_CATEGORIES,
-  GET_EXPENSE,
-  GET_EXPENSES,
-} from "./queries";
+} from "./queries/userQueries";
 
 export {
-  REGISTER,
-  LOGIN,
   ADD_CATEGORY,
+  UPDATE_CATEGORY,
   REMOVE_CATEGORY,
+} from "./mutations/categoryMutations";
+export {
   ADD_EXPENSE,
+  UPDATE_EXPENSE,
   REMOVE_EXPENSE,
-} from "./mutations";
+} from "./mutations/expenseMutations";
+export { REGISTER, LOGIN, AUTH_GOOGLE } from "./mutations/userMutations";
