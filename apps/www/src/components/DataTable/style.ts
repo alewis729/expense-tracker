@@ -1,7 +1,10 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 
-export const useStyles = makeStyles({
+export const useStyles = makeStyles((theme: Theme) => ({
   table: {
     width: "100%",
   },
-});
+  grey: {
+    color: theme.palette.grey[500],
+  },
+}));

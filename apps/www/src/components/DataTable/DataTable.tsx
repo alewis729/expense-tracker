@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 
 import { useStyles } from "./style";
+import { formatDate } from "@/lib/utils";
 import { CategoryChip } from "@/components";
 
 interface Props {
@@ -70,7 +71,9 @@ const DataTable: React.FC<Props> = ({
                       color={category.color}
                     />
                   </TableCell>
-                  <TableCell>{date}</TableCell>
+                  <TableCell className={classes.grey}>
+                    {formatDate(date)}
+                  </TableCell>
                   <TableCell align="center">{`${currencySymbol} ${amount}`}</TableCell>
                   {renderActions && (
                     <TableCell align="center">{renderActions(id)}</TableCell>
