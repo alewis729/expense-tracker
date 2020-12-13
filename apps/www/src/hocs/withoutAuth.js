@@ -13,7 +13,7 @@ const withoutAuth = Component => props => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      const url = !isEmpty(redirect) ? redirect : "/";
+      const url = !isEmpty(redirect) ? redirect : "/expenses";
       router.push(url);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
