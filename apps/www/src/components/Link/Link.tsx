@@ -22,13 +22,12 @@ interface Props {
   href?: NextLinkProps["href"];
 }
 
-const Link: React.FC<Props> = props => {
-  const {
-    href,
-    activeClassName = "active",
-    className: classNameFromProps,
-    ...other
-  } = props;
+const Link: React.FC<Props> = ({
+  href,
+  activeClassName = "active",
+  className: classNameFromProps,
+  ...props
+}) => {
   const router = useRouter();
   const pathname = typeof href === "string" ? href : href?.pathname;
   const className = clsx(classNameFromProps, {
@@ -40,7 +39,7 @@ const Link: React.FC<Props> = props => {
       component={NextComposed}
       className={className}
       href={href as string}
-      {...other}
+      {...props}
     />
   );
 };

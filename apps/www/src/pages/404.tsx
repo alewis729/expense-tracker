@@ -8,7 +8,8 @@ import { Link } from "@/components";
 const ErrorPage: React.FC = () => {
   return (
     <DefaultLayout header={<Header />}>
-      Oops Nothing to see here, go <Link href="/expenses">back to safety.</Link>
+      Oops, nothing to see here, go{" "}
+      <Link href="/expenses">back to safety.</Link>
     </DefaultLayout>
   );
 };

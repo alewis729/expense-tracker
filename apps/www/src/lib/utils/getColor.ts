@@ -14,10 +14,12 @@ const getColor = (identifier: Identifier): Color => {
 
   if (isNil(identifier)) find(colors, ({ id }) => id === defaultId);
 
-  return find(
-    colors,
-    ({ id, name, hex }) =>
-      id === identifier || name === identifier || hex === identifier
+  return (
+    find(
+      colors,
+      ({ id, name, hex }) =>
+        id === identifier || name === identifier || hex === identifier
+    ) ?? colors[0]
   );
 };
 

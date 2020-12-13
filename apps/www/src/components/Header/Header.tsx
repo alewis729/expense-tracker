@@ -1,8 +1,7 @@
 import React from "react";
-import { Toolbar, Typography } from "@material-ui/core";
+import { Toolbar, Typography, Link } from "@material-ui/core";
 
 import { useStyles } from "./style";
-import { Link } from "@/components";
 
 interface Props {
   onSignout: () => void;
@@ -18,9 +17,7 @@ const Header: React.FC<Props> = ({ onSignout }) => {
           Expense Tracker
         </Typography>
       </div>
-      <Link component="button" onClick={onSignout}>
-        Sign out
-      </Link>
+      <Link onClick={onSignout}>Sign out</Link>
     </Toolbar>
   );
 };
