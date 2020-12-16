@@ -1,23 +1,23 @@
 # Expense tracker
 
-This is an expense tracker app. It allows to log expenses & income and filter them.
+This is an expense tracker app. It allows to log expenses and filter them.
 
-### To install dependencies
+### To execute a dev environment locally
+
+1. Install dependencies
 
 ```bash
 yarn install
 ```
 
-### To execute a dev environment
-
-1. Copy & update the environment variables:
+2. Copy & update the environment variables:
 
 ```bash
 cp ./apps/api/.env.example ./apps/api/.env
 cp ./apps/www/.env.example ./apps/www/.env
 ```
 
-2. Run a dev environment
+3. Run a dev environment
 
 - For the api:
 
