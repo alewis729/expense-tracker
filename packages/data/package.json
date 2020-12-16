@@ -1,0 +1,32 @@
+{
+  "name": "@expense-tracker/data",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "typings": "src/index.d.ts",
+  "module": "src/main.js",
+  "license": "MIT",
+  "scripts": {
+    "precommit": "lint-staged",
+    "format": "prettier \"**/*.{js,jsx,ts,tsx,json}\" --write",
+    "lint": "eslint . \"**/*.{js,jsx,ts,tsx}\""
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "*.{js,jsx,ts,tsx,json}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@expense-tracker/eslint-config-node": "1.0.0",
+    "esm": "3.2.25"
+  },
+  "devDependencies": {
+    "eslint": "7.6.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "lint-staged": "10.2.11",
+    "prettier": "2.0.5"
+  }
+}

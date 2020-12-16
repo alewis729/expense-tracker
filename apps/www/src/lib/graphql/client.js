@@ -25,6 +25,7 @@ const client = ({ initialState }) => {
   return new ApolloClient({
     link: authLink.concat(httpLink),
     cache: cache.restore(initialState || {}),
+    connectToDevTools: process.env.NODE_ENV !== "production",
     typeDefs,
     resolvers: {},
   });

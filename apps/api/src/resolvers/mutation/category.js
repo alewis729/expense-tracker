@@ -6,6 +6,15 @@ export default {
       throw new Error("User not found.");
     }
 
+    const categoryExists = await ctx.models.Category.exists({
+      name: args.input.name,
+      user: ctx.user.id,
+    });
+
+    if (categoryExists) {
+      throw new Error("There is already a category with the given name.");
+    }
+
     return ctx.models.Category.create({
       name: args.input.name,
       color: args.input.color,

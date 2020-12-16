@@ -3,6 +3,7 @@ import { gql } from "apollo-server";
 import {
   LOGIN,
   REGISTER,
+  GET_ME,
   AUTH_GOOGLE,
   GET_USER,
   GET_USERS,
@@ -11,6 +12,7 @@ import {
 const query = gql`
   ${LOGIN}
   ${REGISTER}
+  ${GET_ME}
   ${AUTH_GOOGLE}
   ${GET_USER}
   ${GET_USERS}
@@ -19,6 +21,8 @@ const query = gql`
 const variables = {
   id: "1",
   email: "alfred@google.com",
+  withCategories: false,
+  withExpenses: false,
   googleAuthInput: {
     accessToken: "1",
   },
