@@ -7,3 +7,21 @@ export const userFields = gql`
     email
   }
 `;
+
+export const categoryFields = gql`
+  fragment categoryFields on Category {
+    id
+    name
+    color
+  }
+`;
+
+export const expenseFields = gql`
+  fragment expenseFields on Expense {
+    id
+    name
+    description
+    amount
+    date
+  }
+`;

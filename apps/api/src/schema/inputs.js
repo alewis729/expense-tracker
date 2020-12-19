@@ -6,4 +6,39 @@ export default gql`
     email: EmailAddress!
     password: String!
   }
+
+  input LoginUserInput {
+    email: EmailAddress!
+    password: String!
+  }
+
+  input AddCategoryInput {
+    name: String!
+    color: String!
+  }
+
+  input UpdateCategoryInput {
+    name: String
+    color: String
+  }
+
+  input AddExpenseInput {
+    name: String!
+    description: String
+    amount: NonNegativeFloat!
+    categoryId: ID!
+    date: DateTime
+  }
+
+  input UpdateExpenseInput {
+    name: String
+    description: String
+    amount: NonNegativeFloat
+    categoryId: ID
+    date: DateTime
+  }
+
+  input AuthInput {
+    accessToken: String!
+  }
 `;

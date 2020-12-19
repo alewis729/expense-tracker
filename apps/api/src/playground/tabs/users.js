@@ -1,24 +1,37 @@
 import { print } from "graphql";
 import { gql } from "apollo-server";
 import {
+  LOGIN,
+  REGISTER,
   GET_ME,
+  AUTH_GOOGLE,
   GET_USER,
   GET_USERS,
-  REGISTER,
 } from "@expense-tracker/graphql";
 
 const query = gql`
+  ${LOGIN}
+  ${REGISTER}
   ${GET_ME}
+  ${AUTH_GOOGLE}
   ${GET_USER}
   ${GET_USERS}
-  ${REGISTER}
 `;
 
 const variables = {
   id: "1",
   email: "alfred@google.com",
+  withCategories: false,
+  withExpenses: false,
+  googleAuthInput: {
+    accessToken: "1",
+  },
   addUserInput: {
     name: "Bill",
+    email: "bill@google.com",
+    password: "123456",
+  },
+  loginUserInput: {
     email: "bill@google.com",
     password: "123456",
   },

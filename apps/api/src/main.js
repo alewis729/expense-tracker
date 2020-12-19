@@ -7,7 +7,14 @@ import resolvers from "./resolvers";
 import mocks from "./mocks";
 import playground from "./playground";
 import connect from "./lib/mongoose";
-import { User, userLoader } from "./models";
+import {
+  User,
+  Category,
+  Expense,
+  userLoader,
+  categoryLoader,
+  expenseLoader,
+} from "./models";
 
 (async () => {
   await connect();
@@ -27,17 +34,20 @@ const getUser = async tokenWithBearer => {
 };
 
 const isProduction = process.env.NODE_ENV === "production";
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({ req }) => {
+  context: async ({ req, res }) => {
     const tokenWithBearer = req ? req.headers.authorization : "";
     const user = await getUser(tokenWithBearer);
 
     return {
       user,
-      models: { User },
-      loaders: { userLoader },
+      models: { User, Category, Expense },
+      loaders: { userLoader, categoryLoader, expenseLoader },
+      req,
+      res,
     };
   },
   mocks: process.env.MOCKS === "true" ? mocks : false,

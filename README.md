@@ -33,7 +33,7 @@ yarn run dev:www
 
 ### To install a new library
 
-Use `yarn workspace <app> add <library@version>`. The following example shows how to install react v16.13.1 for apps/www
+Use `yarn workspace <app> add <library@version>`. The following example shows how to install react v16.13.1 for apps/www:
 
 ```bash
 yarn workspace @expense-tracker/www add react@16.13.1
