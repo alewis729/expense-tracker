@@ -35,6 +35,13 @@ const options: ThemeOptions = {
       variant: "outlined",
     },
   },
+  overrides: {
+    MuiLink: {
+      root: {
+        cursor: "pointer",
+      },
+    },
+  },
 };
 
 export const theme = responsiveFontSizes(createMuiTheme(options));
