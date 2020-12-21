@@ -5,6 +5,7 @@ export { default as CategoryChip } from "./CategoryChip";
 export { default as Center } from "./Center";
 export { default as DataTable } from "./DataTable";
 export { default as Dialog } from "./Dialog";
+export { default as GoogleAuthButton } from "./GoogleAuthButton";
 export { default as Header } from "./Header";
 export { default as Link } from "./Link";
 export { default as PaperHeader } from "./PaperHeader";
