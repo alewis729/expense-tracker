@@ -26,7 +26,7 @@ const GoogleAuthButton: React.FC<Props> = ({
     <MuiButton
       {...props}
       variant="outlined"
-      disabled={pending}
+      disabled={pending || props?.disabled}
       className={classes.button}
     >
       <div className={classes.content}>
