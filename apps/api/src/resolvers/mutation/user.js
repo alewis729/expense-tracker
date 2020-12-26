@@ -85,13 +85,11 @@ export default {
           });
         }
 
-        if (user) {
-          const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
-          return {
-            token: token,
-            me: user,
-          };
-        }
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+        return {
+          token: token,
+          me: user,
+        };
       }
 
       if (info) {
@@ -104,7 +102,7 @@ export default {
       }
       throw new Error("Server error.");
     } catch (error) {
-      return error;
+      return new Error(error);
     }
   },
 };
