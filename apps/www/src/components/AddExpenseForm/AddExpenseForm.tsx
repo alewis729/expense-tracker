@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { isEmpty, map } from "lodash";
 import {
   Select,
+  MenuItem,
   TextField,
   FormHelperText,
   InputLabel,
@@ -74,7 +75,6 @@ const AddExpenseForm: React.FC<Props> = ({
         >
           <InputLabel htmlFor={name}>{label}</InputLabel>
           <Select
-            native
             label={label}
             name={name}
             defaultValue={defaultValues[name]}
@@ -85,11 +85,10 @@ const AddExpenseForm: React.FC<Props> = ({
             }}
             inputProps={{ name, id: name }}
           >
-            <option aria-label="None" value="" />
             {map(options, option => (
-              <option key={option.id} value={option.id}>
+              <MenuItem key={option.id} value={option.id}>
                 {option.name}
-              </option>
+              </MenuItem>
             ))}
           </Select>
           {error && <FormHelperText>{helperText}</FormHelperText>}

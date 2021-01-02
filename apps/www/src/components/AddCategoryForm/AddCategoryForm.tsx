@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { isEmpty, find, map } from "lodash";
 import {
   Select,
+  MenuItem,
   TextField,
   FormHelperText,
   InputLabel,
@@ -76,7 +77,6 @@ const AddCategoryForm: React.FC<Props> = props => {
           >
             <InputLabel htmlFor={name}>{label}</InputLabel>
             <Select
-              native
               label={label}
               name={name}
               defaultValue={defaultValues[name]}
@@ -87,11 +87,10 @@ const AddCategoryForm: React.FC<Props> = props => {
               }}
               inputProps={{ name, id: name }}
             >
-              <option aria-label="None" value="" />
               {map(options, option => (
-                <option key={option.id} value={option.id}>
+                <MenuItem key={option.id} value={option.id}>
                   {option.name}
-                </option>
+                </MenuItem>
               ))}
             </Select>
             {error && <FormHelperText>{helperText}</FormHelperText>}
