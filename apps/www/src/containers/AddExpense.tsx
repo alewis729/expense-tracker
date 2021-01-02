@@ -1,32 +1,35 @@
 import React, { useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { ADD_EXPENSE, GET_CATEGORIES } from "@expense-tracker/graphql";
+import {
+  ADD_EXPENSE,
+  UPDATE_EXPENSE,
+  GET_CATEGORIES,
+} from "@expense-tracker/graphql";
 import { useSnackbar } from "notistack";
 import { isNil } from "lodash";
 
 import { Dialog, AddExpenseForm } from "@/components";
+import { AddExpenseFields } from "@/components/AddExpenseForm/AddExpenseForm";
 
+interface CurrentExpense extends AddExpenseFields {
+  id: string;
+}
 interface Props {
   open: boolean;
   onClose: () => void;
-  updateExpenses?: () => void;
-}
-
-interface AddExpenseFields {
-  name: string;
-  description: string | null;
-  date: Date | null;
-  categoryId: string;
-  amount: number;
+  refetchExpenses?: () => void;
+  currentExpense?: CurrentExpense | null;
 }
 
 const AddExpense: React.FC<Props> = ({
   open,
   onClose,
-  updateExpenses = () => {},
+  refetchExpenses = () => {},
+  currentExpense = null,
   ...props
 }) => {
   const { enqueueSnackbar } = useSnackbar();
+  const isAddForm = isNil(currentExpense);
   const {
     data,
     loading: categoriesLoading,
@@ -35,14 +38,31 @@ const AddExpense: React.FC<Props> = ({
   } = useQuery(GET_CATEGORIES, {
     onError: error => enqueueSnackbar(error.message, { variant: "error" }),
   });
-  const [addExpense, { loading }] = useMutation(ADD_EXPENSE, {
-    onCompleted: () => {
-      enqueueSnackbar("Expense added successfully.", { variant: "success" });
-      updateExpenses();
-      onClose();
-    },
-    onError: error => enqueueSnackbar(error.message, { variant: "error" }),
-  });
+  const [addExpense, { loading: addExpenseLoading }] = useMutation(
+    ADD_EXPENSE,
+    {
+      onCompleted: () => {
+        enqueueSnackbar("Expense added successfully.", { variant: "success" });
+        refetchExpenses();
+        onClose();
+      },
+      onError: error => enqueueSnackbar(error.message, { variant: "error" }),
+    }
+  );
+  const [updateExpense, { loading: updateExpenseLoading }] = useMutation(
+    UPDATE_EXPENSE,
+    {
+      onCompleted: () => {
+        enqueueSnackbar("Expense updated successfully.", {
+          variant: "success",
+        });
+        refetchExpenses();
+        onClose();
+      },
+      onError: error => enqueueSnackbar(error.message, { variant: "error" }),
+    }
+  );
+  const loading = addExpenseLoading || updateExpenseLoading;
 
   useEffect(() => {
     if (open && !isNil(data)) {
@@ -52,7 +72,18 @@ const AddExpense: React.FC<Props> = ({
   }, [open]);
 
   const handleSubmit = (expenseFields: AddExpenseFields) => {
-    addExpense({ variables: { addExpenseInput: { ...expenseFields } } });
+    if (isAddForm) {
+      addExpense({
+        variables: { addExpenseInput: { ...expenseFields } },
+      });
+    } else {
+      updateExpense({
+        variables: {
+          id: currentExpense?.id,
+          updateExpenseInput: { ...expenseFields },
+        },
+      });
+    }
   };
 
   if (categoriesLoading || categoriesError) return null;
@@ -61,8 +92,8 @@ const AddExpense: React.FC<Props> = ({
     <Dialog
       open={open}
       onClose={onClose}
-      title="Register expense"
-      buttonText="Register expense"
+      title={isAddForm ? "Register expense" : "Update expense"}
+      buttonText={isAddForm ? "Register expense" : "Update expense"}
       ButtonProps={{
         type: "submit",
         form: "add_expense_form",
@@ -70,7 +101,11 @@ const AddExpense: React.FC<Props> = ({
       }}
       {...props}
     >
-      <AddExpenseForm categories={data.categories} onSubmit={handleSubmit} />
+      <AddExpenseForm
+        categories={data.categories}
+        onSubmit={handleSubmit}
+        defaultValues={currentExpense}
+      />
     </Dialog>
   );
 };

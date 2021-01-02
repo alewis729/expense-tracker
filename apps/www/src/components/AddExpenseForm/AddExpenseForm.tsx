@@ -15,7 +15,7 @@ import { DateTimePicker } from "@material-ui/pickers";
 import { useStyles } from "./style";
 import { schema, fields, initialValues } from "./formData";
 
-interface AddExpenseFields {
+export interface AddExpenseFields {
   name: string;
   description: string | null;
   date: Date | null;
@@ -24,7 +24,7 @@ interface AddExpenseFields {
 }
 
 interface Props {
-  defaultValues?: AddExpenseFields;
+  defaultValues?: AddExpenseFields | null;
   categories: { id: string; name: string }[];
   onSubmit: (data: AddExpenseFields) => void;
 }
@@ -37,7 +37,7 @@ type Field = {
 };
 
 const AddExpenseForm: React.FC<Props> = ({
-  defaultValues = initialValues,
+  defaultValues = null,
   categories = [],
   onSubmit,
 }) => {
@@ -50,12 +50,12 @@ const AddExpenseForm: React.FC<Props> = ({
     formState,
     register,
   } = useForm({
-    defaultValues,
+    defaultValues: defaultValues ?? initialValues,
     resolver: yupResolver(schema),
   });
   const { isSubmitting } = formState;
   const classes = useStyles();
-  const [date, setDate] = useState<Date | null>(defaultValues.date);
+  const [date, setDate] = useState<Date | null>(defaultValues?.date ?? null);
 
   useEffect(() => {
     register({ name: "categoryId" });
@@ -80,7 +80,7 @@ const AddExpenseForm: React.FC<Props> = ({
           <Select
             label={label}
             name={name}
-            defaultValue={defaultValues[name]}
+            defaultValue={defaultValues?.[name]}
             placeholder={placeholder}
             onChange={e => {
               setValue(name, e.target?.value as string);
