@@ -15,6 +15,7 @@ interface Props {
 interface AddExpenseFields {
   name: string;
   description: string | null;
+  date: Date | null;
   categoryId: string;
   amount: number;
 }
@@ -50,8 +51,9 @@ const AddExpense: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
-  const handleSubmit = (data: AddExpenseFields) =>
-    addExpense({ variables: { addExpenseInput: { ...data } } });
+  const handleSubmit = (expenseFields: AddExpenseFields) => {
+    addExpense({ variables: { addExpenseInput: { ...expenseFields } } });
+  };
 
   if (categoriesLoading || categoriesError) return null;
 

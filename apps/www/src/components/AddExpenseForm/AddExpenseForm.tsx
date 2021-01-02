@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { isEmpty, map } from "lodash";
@@ -10,6 +10,7 @@ import {
   InputLabel,
   FormControl,
 } from "@material-ui/core";
+import { DateTimePicker } from "@material-ui/pickers";
 
 import { useStyles } from "./style";
 import { schema, fields, initialValues } from "./formData";
@@ -17,6 +18,7 @@ import { schema, fields, initialValues } from "./formData";
 interface AddExpenseFields {
   name: string;
   description: string | null;
+  date: Date | null;
   categoryId: string;
   amount: number;
 }
@@ -53,6 +55,7 @@ const AddExpenseForm: React.FC<Props> = ({
   });
   const { isSubmitting } = formState;
   const classes = useStyles();
+  const [date, setDate] = useState<Date | null>(defaultValues.date);
 
   useEffect(() => {
     register({ name: "categoryId" });
@@ -94,6 +97,26 @@ const AddExpenseForm: React.FC<Props> = ({
           {error && <FormHelperText>{helperText}</FormHelperText>}
         </FormControl>
       );
+    } else if (type === "date") {
+      return (
+        <FormControl
+          fullWidth
+          error={error}
+          disabled={isSubmitting}
+          margin="normal"
+        >
+          <DateTimePicker
+            name={name}
+            variant="inline"
+            ampm={false}
+            format="MMM dd yyyy, @HH:mm"
+            inputVariant="outlined"
+            label={label}
+            value={date}
+            onChange={setDate}
+          />
+        </FormControl>
+      );
     }
 
     return (
@@ -117,7 +140,7 @@ const AddExpenseForm: React.FC<Props> = ({
     <form
       id="add_expense_form"
       className={classes.root}
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(data => onSubmit({ ...data, date }))}
     >
       {map(fields, (field, id) => (
         <Fragment key={id}>{renderField(field as Field)}</Fragment>
