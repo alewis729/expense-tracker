@@ -36,7 +36,7 @@ type Field = {
   placeholder: string;
 };
 
-const AddExpenseForm: React.FC<Props> = ({
+const ExpenseForm: React.FC<Props> = ({
   defaultValues = null,
   categories = [],
   onSubmit,
@@ -149,4 +149,4 @@ const AddExpenseForm: React.FC<Props> = ({
   );
 };
 
-export default AddExpenseForm;
+export default ExpenseForm;

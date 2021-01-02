@@ -8,8 +8,8 @@ import {
 import { useSnackbar } from "notistack";
 import { isNil } from "lodash";
 
-import { Dialog, AddExpenseForm } from "@/components";
-import { AddExpenseFields } from "@/components/AddExpenseForm/AddExpenseForm";
+import { Dialog, ExpenseForm } from "@/components";
+import { AddExpenseFields } from "@/components/ExpenseForm/ExpenseForm";
 
 interface CurrentExpense extends AddExpenseFields {
   id: string;
@@ -21,7 +21,7 @@ interface Props {
   currentExpense?: CurrentExpense | null;
 }
 
-const AddExpense: React.FC<Props> = ({
+const ExpenseFormDialog: React.FC<Props> = ({
   open,
   onClose,
   refetchExpenses = () => {},
@@ -101,7 +101,7 @@ const AddExpense: React.FC<Props> = ({
       }}
       {...props}
     >
-      <AddExpenseForm
+      <ExpenseForm
         categories={data.categories}
         onSubmit={handleSubmit}
         defaultValues={currentExpense}
@@ -110,4 +110,4 @@ const AddExpense: React.FC<Props> = ({
   );
 };
 
-export default AddExpense;
+export default ExpenseFormDialog;

@@ -12,10 +12,10 @@ import { useModal } from "react-modal-hook";
 
 import { withAuth } from "@/hocs";
 import { DefaultLayout } from "@/layouts";
-import { Header, AddCategory, AddExpense } from "@/containers";
+import { Header, AddCategory, ExpenseFormDialog } from "@/containers";
 import { PaperHeader, DataTable } from "@/components";
 
-import { AddExpenseFields } from "@/components/AddExpenseForm/AddExpenseForm";
+import { AddExpenseFields } from "@/components/ExpenseForm/ExpenseForm";
 
 interface CurrentExpense extends AddExpenseFields {
   id: string;
@@ -52,7 +52,7 @@ const Home: React.FC = () => {
   ));
   const [showExpenseDialog, hideExpenseDialog] = useModal(
     ({ in: open }) => (
-      <AddExpense
+      <ExpenseFormDialog
         open={open}
         onClose={() => {
           hideExpenseDialog();
