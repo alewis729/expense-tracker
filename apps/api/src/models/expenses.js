@@ -1,5 +1,6 @@
 import DataLoader from "dataloader";
 import { models, model, Schema } from "mongoose";
+import encrypt from "mongoose-encryption";
 
 const expenseSchema = new Schema(
   {
@@ -33,6 +34,13 @@ const expenseSchema = new Schema(
   },
   { timestamps: true }
 );
+
+let secret = process.env.ENC_SECRET;
+
+expenseSchema.plugin(encrypt, {
+  secret: secret,
+  encryptedFields: ["name", "description", "amount"],
+});
 
 const Expense = models.Expense || model("Expense", expenseSchema);
 export const expenseLoader = new DataLoader(expenseIds =>
