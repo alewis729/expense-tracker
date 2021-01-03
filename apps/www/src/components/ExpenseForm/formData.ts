@@ -10,6 +10,7 @@ function emptyStringToNull(value: unknown, originalValue: string) {
 export const schema = yup.object().shape({
   name: yup.string().trim().required("This field is required."),
   description: yup.string().trim(),
+  date: yup.date(),
   categoryId: yup.string().trim().required("This field is required."),
   amount: yup
     .number()
@@ -22,6 +23,7 @@ export const schema = yup.object().shape({
 export const initialValues = {
   name: "",
   description: "",
+  date: new Date(),
   categoryId: "",
   amount: 0,
 };
@@ -38,6 +40,11 @@ export const fields = [
     name: "description",
     label: "Description",
     placeholder: "Description",
+  },
+  {
+    type: "date",
+    name: "date",
+    label: "Date & time",
   },
   {
     type: "number",

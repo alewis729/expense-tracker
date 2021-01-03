@@ -2,7 +2,7 @@ import * as yup from "yup";
 
 export const schema = yup.object().shape({
   name: yup.string().trim().required("This field is required."),
-  color: yup.string().trim(),
+  color: yup.string().trim().required("This field is required."),
 });
 
 export const initialValues = {

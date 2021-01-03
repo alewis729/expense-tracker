@@ -25,7 +25,7 @@ const variables = {
     description: "Test",
     amount: 10,
     categoryId: "1",
-    date: "1992-10-09T00:00:00Z",
+    date: new Date(),
   },
   updateExpenseInput: {
     name: "Beers 2",

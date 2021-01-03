@@ -1,21 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_ME, REMOVE_EXPENSE } from "@expense-tracker/graphql";
-import { isEmpty } from "lodash";
+import { find, isEmpty } from "lodash";
 import { useSnackbar } from "notistack";
 import { Button, IconButton, Typography } from "@material-ui/core";
-import { DeleteForeverRounded as IconDelete } from "@material-ui/icons";
+import {
+  DeleteForeverRounded as IconDelete,
+  EditRounded as IconEdit,
+} from "@material-ui/icons";
 import { useModal } from "react-modal-hook";
 
 import { withAuth } from "@/hocs";
 import { DefaultLayout } from "@/layouts";
-import { Header, AddCategory, AddExpense } from "@/containers";
+import { Header, AddCategory, ExpenseFormDialog } from "@/containers";
 import { PaperHeader, DataTable } from "@/components";
+
+import { AddExpenseFields } from "@/components/ExpenseForm/ExpenseForm";
+
+interface CurrentExpense extends AddExpenseFields {
+  id: string;
+}
 
 const currencySymbol = "$";
 
 const Home: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
+  const [currentExpense, setCurrentExpense] = useState<CurrentExpense | null>(
+    null
+  );
   const { data, loading, error, refetch } = useQuery(GET_ME, {
     variables: { withExpenses: true, withCategories: true },
     onError: error => enqueueSnackbar(error.message, { variant: "error" }),
@@ -30,6 +42,7 @@ const Home: React.FC = () => {
       onError: error => enqueueSnackbar(error.message, { variant: "error" }),
     }
   );
+  const pending = loading || removeLoading;
   const [showCategoryDialog, hideCategoryDialog] = useModal(({ in: open }) => (
     <AddCategory
       open={open}
@@ -37,13 +50,35 @@ const Home: React.FC = () => {
       refetchCategories={refetch}
     />
   ));
-  const [showExpenseDialog, hideExpenseDialog] = useModal(({ in: open }) => (
-    <AddExpense
-      open={open}
-      onClose={hideExpenseDialog}
-      updateExpenses={refetch}
-    />
-  ));
+  const [showExpenseDialog, hideExpenseDialog] = useModal(
+    ({ in: open }) => (
+      <ExpenseFormDialog
+        open={open}
+        onClose={() => {
+          hideExpenseDialog();
+          setCurrentExpense(null);
+        }}
+        refetchExpenses={refetch}
+        currentExpense={currentExpense}
+      />
+    ),
+    [currentExpense]
+  );
+
+  const handleEditExpense = (id: string) => {
+    const expense = find(data?.me?.expenses, obj => obj.id === id);
+    const expenseFields = {
+      id: expense.id,
+      name: expense.name,
+      description: expense.description,
+      date: expense.date,
+      categoryId: expense.category.id,
+      amount: expense.amount,
+    };
+
+    setCurrentExpense(expenseFields);
+    showExpenseDialog();
+  };
 
   const handleRemoveExpense = (id: string) => {
     removeExpense({ variables: { id } });
@@ -52,7 +87,7 @@ const Home: React.FC = () => {
   if (error) return <p>Error</p>;
 
   return (
-    <DefaultLayout header={<Header />} loading={loading || removeLoading}>
+    <DefaultLayout header={<Header />} loading={pending}>
       <PaperHeader
         title="Expenses"
         actionButtons={
@@ -76,13 +111,22 @@ const Home: React.FC = () => {
         <DataTable
           data={data?.me?.expenses}
           renderActions={id => (
-            <IconButton
-              disabled={loading || removeLoading}
-              size="small"
-              onClick={() => handleRemoveExpense(id)}
-            >
-              <IconDelete fontSize="small" />
-            </IconButton>
+            <>
+              <IconButton
+                disabled={pending}
+                size="small"
+                onClick={() => handleEditExpense(id)}
+              >
+                <IconEdit fontSize="small" />
+              </IconButton>
+              <IconButton
+                disabled={pending}
+                size="small"
+                onClick={() => handleRemoveExpense(id)}
+              >
+                <IconDelete fontSize="small" />
+              </IconButton>
+            </>
           )}
           currencySymbol={currencySymbol}
         />

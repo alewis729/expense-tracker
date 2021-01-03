@@ -1,4 +1,4 @@
-import { isEmpty, omit } from "lodash";
+import { isDate, isEmpty, omit } from "lodash";
 import { compareUserIds } from "../../utils";
 
 export default {
@@ -23,7 +23,7 @@ export default {
         ? args.input.description
         : null,
       amount: args.input.amount,
-      date: !isEmpty(args.input.date) ? args.input.date : new Date(),
+      date: isDate(args.input.date) ? args.input.date : new Date(),
       category: args.input.categoryId,
       user: ctx.user.id,
     });
