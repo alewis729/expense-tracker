@@ -76,7 +76,9 @@ const DataTable: React.FC<Props> = ({
                   </TableCell>
                   <TableCell align="center">{`${currencySymbol} ${amount}`}</TableCell>
                   {renderActions && (
-                    <TableCell align="center">{renderActions(id)}</TableCell>
+                    <TableCell align="center" className={classes.actions}>
+                      {renderActions(id)}
+                    </TableCell>
                   )}
                 </TableRow>
               )
