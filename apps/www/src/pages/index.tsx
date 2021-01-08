@@ -105,7 +105,12 @@ const Home: React.FC = () => {
         }
       />
       {!loading && isEmpty(data?.me?.expenses) && (
-        <Typography>No expenses registered.</Typography>
+        <Typography>
+          {`Hey ${
+            data?.me?.name ?? "friend"
+          }, you haven't registered any expenses yet.
+          `}
+        </Typography>
       )}
       {!loading && !isEmpty(data?.me?.expenses) && (
         <DataTable
