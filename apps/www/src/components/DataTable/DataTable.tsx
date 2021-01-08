@@ -10,9 +10,9 @@ import {
   TableRow,
   TablePagination,
 } from "@material-ui/core";
+import { format } from "date-fns";
 
 import { useStyles } from "./style";
-import { formatDate } from "@/lib/utils";
 import { CategoryChip } from "@/components";
 
 interface Props {
@@ -72,7 +72,7 @@ const DataTable: React.FC<Props> = ({
                     />
                   </TableCell>
                   <TableCell className={classes.grey}>
-                    {formatDate(date)}
+                    {format(new Date(date), "MMM dd yyyy, @H:mm")}
                   </TableCell>
                   <TableCell align="center">{`${currencySymbol} ${amount}`}</TableCell>
                   {renderActions && (
