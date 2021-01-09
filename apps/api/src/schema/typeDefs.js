@@ -30,6 +30,7 @@ export default gql`
     name: String!
     description: String
     amount: NonNegativeFloat!
+    currencyCode: String!
     date: DateTime!
     user: User!
     category: Category!
