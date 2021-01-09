@@ -35,10 +35,8 @@ const expenseSchema = new Schema(
   { timestamps: true }
 );
 
-let secret = process.env.ENC_SECRET;
-
 expenseSchema.plugin(encrypt, {
-  secret: secret,
+  secret: process.env.ENCRYPTION_SECRET,
   encryptedFields: ["name", "description", "amount"],
 });
 
