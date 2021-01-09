@@ -55,7 +55,9 @@ const ExpenseForm: React.FC<Props> = ({
   });
   const { isSubmitting } = formState;
   const classes = useStyles();
-  const [date, setDate] = useState<Date | null>(defaultValues?.date ?? null);
+  const [date, setDate] = useState<Date | null>(
+    defaultValues?.date ?? new Date()
+  );
 
   useEffect(() => {
     register({ name: "categoryId" });

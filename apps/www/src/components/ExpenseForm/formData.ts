@@ -9,7 +9,7 @@ function emptyStringToNull(value: unknown, originalValue: string) {
 
 export const schema = yup.object().shape({
   name: yup.string().trim().required("This field is required."),
-  description: yup.string().trim(),
+  description: yup.string().trim().nullable(),
   date: yup.date(),
   categoryId: yup.string().trim().required("This field is required."),
   amount: yup
