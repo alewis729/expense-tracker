@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { isEmpty, map } from "lodash";
+import clsx from "clsx";
 import {
   Select,
   MenuItem,
@@ -88,6 +89,7 @@ const ExpenseForm: React.FC<Props> = ({
     if (type === "select") {
       return (
         <FormControl
+          className={clsx({ [`${classes.currency}`]: name === "currencyCode" })}
           fullWidth
           variant="outlined"
           error={error}
@@ -141,6 +143,7 @@ const ExpenseForm: React.FC<Props> = ({
       <Controller
         control={control}
         as={TextField}
+        className={clsx({ [`${classes.amount}`]: name === "amount" })}
         name={name}
         type={type}
         label={label}
