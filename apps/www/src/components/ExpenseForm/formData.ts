@@ -9,7 +9,7 @@ function emptyStringToNull(value: unknown, originalValue: string) {
 
 export const schema = yup.object().shape({
   name: yup.string().trim().required("This field is required."),
-  description: yup.string().trim().nullable(),
+  description: yup.string().trim(),
   date: yup.date(),
   categoryId: yup.string().trim().required("This field is required."),
   currencyCode: yup.string().trim().required("This field is required."),
@@ -17,8 +17,7 @@ export const schema = yup.object().shape({
     .number()
     .min(0, "This must be a non negative value.")
     .required("This field is required.")
-    .transform(emptyStringToNull)
-    .nullable(),
+    .transform(emptyStringToNull),
 });
 
 export const initialValues = {

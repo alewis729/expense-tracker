@@ -21,7 +21,7 @@ export default {
       name: args.input.name,
       description: !isEmpty(args.input.description)
         ? args.input.description
-        : null,
+        : "",
       currencyCode: args.input.currencyCode,
       amount: args.input.amount,
       date: isDate(args.input.date) ? args.input.date : new Date(),

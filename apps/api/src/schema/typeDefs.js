@@ -28,7 +28,7 @@ export default gql`
   type Expense implements Node {
     id: ID!
     name: String!
-    description: String
+    description: String!
     amount: NonNegativeFloat!
     currencyCode: String!
     date: DateTime!

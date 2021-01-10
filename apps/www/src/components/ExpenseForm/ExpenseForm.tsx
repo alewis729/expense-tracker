@@ -18,7 +18,7 @@ import { currencies } from "@expense-tracker/data";
 
 export interface ExpenseFields {
   name: string;
-  description: string | null;
+  description: string;
   date: Date | null;
   categoryId: string;
   amount: number;
