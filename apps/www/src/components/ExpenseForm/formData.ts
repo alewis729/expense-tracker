@@ -12,6 +12,7 @@ export const schema = yup.object().shape({
   description: yup.string().trim().nullable(),
   date: yup.date(),
   categoryId: yup.string().trim().required("This field is required."),
+  currencyCode: yup.string().trim().required("This field is required."),
   amount: yup
     .number()
     .min(0, "This must be a non negative value.")
@@ -26,6 +27,7 @@ export const initialValues = {
   date: new Date(),
   categoryId: "",
   amount: 0,
+  currencyCode: "",
 };
 
 export const fields = [
@@ -51,6 +53,12 @@ export const fields = [
     name: "amount",
     label: "Amount",
     placeholder: "Amount",
+  },
+  {
+    type: "select",
+    name: "currencyCode",
+    label: "Currency",
+    placeholder: "Currency",
   },
   {
     type: "select",

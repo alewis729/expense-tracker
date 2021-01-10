@@ -14,24 +14,32 @@ import { DateTimePicker } from "@material-ui/pickers";
 
 import { useStyles } from "./style";
 import { schema, fields, initialValues } from "./formData";
+import { currencies } from "@expense-tracker/data";
 
-export interface AddExpenseFields {
+export interface ExpenseFields {
   name: string;
   description: string | null;
   date: Date | null;
   categoryId: string;
   amount: number;
+  currencyCode: string;
 }
 
 interface Props {
-  defaultValues?: AddExpenseFields | null;
+  defaultValues?: ExpenseFields | null;
   categories: { id: string; name: string }[];
-  onSubmit: (data: AddExpenseFields) => void;
+  onSubmit: (data: ExpenseFields) => void;
 }
 
 type Field = {
   type: string;
-  name: "name" | "description" | "amount" | "categoryId";
+  name:
+    | "name"
+    | "description"
+    | "date"
+    | "amount"
+    | "categoryId"
+    | "currencyCode";
   label: string;
   placeholder: string;
 };
@@ -60,6 +68,7 @@ const ExpenseForm: React.FC<Props> = ({
   );
 
   useEffect(() => {
+    register({ name: "currencyCode" });
     register({ name: "categoryId" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -67,7 +76,14 @@ const ExpenseForm: React.FC<Props> = ({
   const renderField = ({ type, name, label, placeholder }: Field) => {
     const error = !isEmpty(errors[name]);
     const helperText = error ? errors?.[name]?.message : null;
-    const options = categories;
+    let options = categories;
+
+    if (name === "currencyCode") {
+      options = map(currencies, ({ code, name, symbol }) => ({
+        id: code,
+        name: `${name} (${symbol})`,
+      }));
+    }
 
     if (type === "select") {
       return (
