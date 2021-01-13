@@ -50,6 +50,7 @@ const ExpenseForm: React.FC<Props> = ({
   categories = [],
   onSubmit,
 }) => {
+  const classes = useStyles();
   const {
     control,
     handleSubmit,
@@ -58,28 +59,32 @@ const ExpenseForm: React.FC<Props> = ({
     trigger,
     formState,
     register,
+    watch,
   } = useForm({
     defaultValues: defaultValues ?? initialValues,
     resolver: yupResolver(schema),
   });
   const { isSubmitting } = formState;
-  const classes = useStyles();
+  const watchedCategoryId = watch("categoryId");
+  const watchedCurrencyCode = watch("currencyCode");
   const [date, setDate] = useState<Date | null>(
     defaultValues?.date ?? new Date()
   );
 
   useEffect(() => {
-    register({ name: "currencyCode" });
     register({ name: "categoryId" });
+    register({ name: "currencyCode" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderField = ({ type, name, label, placeholder }: Field) => {
     const error = !isEmpty(errors[name]);
     const helperText = error ? errors?.[name]?.message : null;
+    let watchedValue = watchedCategoryId;
     let options = categories;
 
     if (name === "currencyCode") {
+      watchedValue = watchedCurrencyCode;
       options = map(currencies, ({ code, name, symbol }) => ({
         id: code,
         name: `${name} (${symbol})`,
@@ -101,6 +106,7 @@ const ExpenseForm: React.FC<Props> = ({
             label={label}
             name={name}
             defaultValue={defaultValues?.[name]}
+            value={watchedValue}
             placeholder={placeholder}
             onChange={e => {
               setValue(name, e.target?.value as string);
