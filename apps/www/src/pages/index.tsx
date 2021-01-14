@@ -15,13 +15,11 @@ import { DefaultLayout } from "@/layouts";
 import { Header, AddCategory, ExpenseFormDialog } from "@/containers";
 import { PaperHeader, DataTable } from "@/components";
 
-import { AddExpenseFields } from "@/components/ExpenseForm/ExpenseForm";
+import { ExpenseFields } from "@/components/ExpenseForm/ExpenseForm";
 
-interface CurrentExpense extends AddExpenseFields {
+interface CurrentExpense extends ExpenseFields {
   id: string;
 }
-
-const currencySymbol = "$";
 
 const Home: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -74,6 +72,7 @@ const Home: React.FC = () => {
       date: expense.date,
       categoryId: expense.category.id,
       amount: expense.amount,
+      currencyCode: expense.currencyCode,
     };
 
     setCurrentExpense(expenseFields);
@@ -105,7 +104,12 @@ const Home: React.FC = () => {
         }
       />
       {!loading && isEmpty(data?.me?.expenses) && (
-        <Typography>No expenses registered.</Typography>
+        <Typography>
+          {`Hey ${
+            data?.me?.name ?? "friend"
+          }, you haven't registered any expenses yet.
+          `}
+        </Typography>
       )}
       {!loading && !isEmpty(data?.me?.expenses) && (
         <DataTable
@@ -128,7 +132,6 @@ const Home: React.FC = () => {
               </IconButton>
             </>
           )}
-          currencySymbol={currencySymbol}
         />
       )}
     </DefaultLayout>

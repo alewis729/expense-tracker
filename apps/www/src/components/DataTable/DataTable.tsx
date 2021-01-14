@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { map, slice } from "lodash";
+import { find, map, slice } from "lodash";
 import {
   Paper,
   Table,
@@ -10,9 +10,10 @@ import {
   TableRow,
   TablePagination,
 } from "@material-ui/core";
+import { format } from "date-fns";
 
 import { useStyles } from "./style";
-import { formatDate } from "@/lib/utils";
+import { currencies } from "@expense-tracker/data";
 import { CategoryChip } from "@/components";
 
 interface Props {
@@ -25,19 +26,18 @@ interface Props {
     };
     date: string;
     amount: number;
+    currencyCode: string;
   }[];
   renderActions?: null | ((id: string) => React.ReactNode);
-  currencySymbol: string;
 }
 
-const DataTable: React.FC<Props> = ({
-  data,
-  renderActions = null,
-  currencySymbol,
-}) => {
+const DataTable: React.FC<Props> = ({ data, renderActions = null }) => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const getCurrencySymbol = (code: string) =>
+    find(currencies, obj => obj.code === code)?.symbol ?? "";
 
   const handleChangeRowsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+e.target.value);
@@ -60,7 +60,7 @@ const DataTable: React.FC<Props> = ({
           <TableBody>
             {map(
               slice(data, page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-              ({ id, name, category, date, amount }) => (
+              ({ id, name, category, date, currencyCode, amount }) => (
                 <TableRow key={id}>
                   <TableCell component="th" scope="row">
                     {name}
@@ -72,11 +72,15 @@ const DataTable: React.FC<Props> = ({
                     />
                   </TableCell>
                   <TableCell className={classes.grey}>
-                    {formatDate(date)}
+                    {format(new Date(date), "MMM dd yyyy, @H:mm")}
                   </TableCell>
-                  <TableCell align="center">{`${currencySymbol} ${amount}`}</TableCell>
+                  <TableCell align="center">
+                    {`${getCurrencySymbol(currencyCode)} ${amount}`}
+                  </TableCell>
                   {renderActions && (
-                    <TableCell align="center">{renderActions(id)}</TableCell>
+                    <TableCell align="center" className={classes.actions}>
+                      {renderActions(id)}
+                    </TableCell>
                   )}
                 </TableRow>
               )

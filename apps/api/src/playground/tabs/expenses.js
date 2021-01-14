@@ -23,6 +23,7 @@ const variables = {
   addExpenseInput: {
     name: "Beers",
     description: "Test",
+    currencyCode: "GBP",
     amount: 10,
     categoryId: "1",
     date: new Date(),

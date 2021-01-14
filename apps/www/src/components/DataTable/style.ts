@@ -7,4 +7,9 @@ export const useStyles = makeStyles((theme: Theme) => ({
   grey: {
     color: theme.palette.grey[500],
   },
+  actions: {
+    "& > *:not(:last-child)": {
+      marginRight: theme.spacing(0.5),
+    },
+  },
 }));
