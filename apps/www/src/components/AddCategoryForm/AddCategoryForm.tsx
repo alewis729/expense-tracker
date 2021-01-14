@@ -64,6 +64,7 @@ const AddCategoryForm: React.FC<Props> = props => {
     const error = !isEmpty(errors[name]);
     const helperText = error ? errors?.[name]?.message : null;
     const options = colors;
+    const watchedValue = watchedColor;
 
     if (type === "select") {
       return (
@@ -80,6 +81,7 @@ const AddCategoryForm: React.FC<Props> = props => {
               label={label}
               name={name}
               defaultValue={defaultValues[name]}
+              value={watchedValue}
               placeholder={placeholder}
               onChange={e => {
                 setValue(name, e.target?.value as string);

@@ -17,6 +17,10 @@ const expenseSchema = new Schema(
       type: Number,
       required: true,
     },
+    currencyCode: {
+      type: String,
+      required: true,
+    },
     category: {
       type: Schema.Types.ObjectId,
       ref: "Category",
@@ -37,7 +41,7 @@ const expenseSchema = new Schema(
 
 expenseSchema.plugin(encrypt, {
   secret: process.env.ENCRYPTION_SECRET,
-  encryptedFields: ["name", "description", "amount"],
+  encryptedFields: ["name", "description", "currencyCode", "amount"],
 });
 
 const Expense = models.Expense || model("Expense", expenseSchema);

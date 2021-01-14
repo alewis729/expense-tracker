@@ -9,9 +9,9 @@ import { useSnackbar } from "notistack";
 import { isNil } from "lodash";
 
 import { Dialog, ExpenseForm } from "@/components";
-import { AddExpenseFields } from "@/components/ExpenseForm/ExpenseForm";
+import { ExpenseFields } from "@/components/ExpenseForm/ExpenseForm";
 
-interface CurrentExpense extends AddExpenseFields {
+interface CurrentExpense extends ExpenseFields {
   id: string;
 }
 interface Props {
@@ -71,7 +71,7 @@ const ExpenseFormDialog: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
-  const handleSubmit = (expenseFields: AddExpenseFields) => {
+  const handleSubmit = (expenseFields: ExpenseFields) => {
     if (isAddForm) {
       addExpense({
         variables: { addExpenseInput: { ...expenseFields } },

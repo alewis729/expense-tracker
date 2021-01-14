@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { isEmpty, map } from "lodash";
+import clsx from "clsx";
 import {
   Select,
   MenuItem,
@@ -14,24 +15,32 @@ import { DateTimePicker } from "@material-ui/pickers";
 
 import { useStyles } from "./style";
 import { schema, fields, initialValues } from "./formData";
+import { currencies } from "@expense-tracker/data";
 
-export interface AddExpenseFields {
+export interface ExpenseFields {
   name: string;
-  description: string | null;
+  description: string;
   date: Date | null;
   categoryId: string;
   amount: number;
+  currencyCode: string;
 }
 
 interface Props {
-  defaultValues?: AddExpenseFields | null;
+  defaultValues?: ExpenseFields | null;
   categories: { id: string; name: string }[];
-  onSubmit: (data: AddExpenseFields) => void;
+  onSubmit: (data: ExpenseFields) => void;
 }
 
 type Field = {
   type: string;
-  name: "name" | "description" | "amount" | "categoryId";
+  name:
+    | "name"
+    | "description"
+    | "date"
+    | "amount"
+    | "categoryId"
+    | "currencyCode";
   label: string;
   placeholder: string;
 };
@@ -41,6 +50,7 @@ const ExpenseForm: React.FC<Props> = ({
   categories = [],
   onSubmit,
 }) => {
+  const classes = useStyles();
   const {
     control,
     handleSubmit,
@@ -49,27 +59,42 @@ const ExpenseForm: React.FC<Props> = ({
     trigger,
     formState,
     register,
+    watch,
   } = useForm({
     defaultValues: defaultValues ?? initialValues,
     resolver: yupResolver(schema),
   });
   const { isSubmitting } = formState;
-  const classes = useStyles();
-  const [date, setDate] = useState<Date | null>(defaultValues?.date ?? null);
+  const watchedCategoryId = watch("categoryId");
+  const watchedCurrencyCode = watch("currencyCode");
+  const [date, setDate] = useState<Date | null>(
+    defaultValues?.date ?? new Date()
+  );
 
   useEffect(() => {
     register({ name: "categoryId" });
+    register({ name: "currencyCode" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderField = ({ type, name, label, placeholder }: Field) => {
     const error = !isEmpty(errors[name]);
     const helperText = error ? errors?.[name]?.message : null;
-    const options = categories;
+    let watchedValue = watchedCategoryId;
+    let options = categories;
+
+    if (name === "currencyCode") {
+      watchedValue = watchedCurrencyCode;
+      options = map(currencies, ({ code, name, symbol }) => ({
+        id: code,
+        name: `${name} (${symbol})`,
+      }));
+    }
 
     if (type === "select") {
       return (
         <FormControl
+          className={clsx({ [`${classes.currency}`]: name === "currencyCode" })}
           fullWidth
           variant="outlined"
           error={error}
@@ -81,6 +106,7 @@ const ExpenseForm: React.FC<Props> = ({
             label={label}
             name={name}
             defaultValue={defaultValues?.[name]}
+            value={watchedValue}
             placeholder={placeholder}
             onChange={e => {
               setValue(name, e.target?.value as string);
@@ -123,6 +149,7 @@ const ExpenseForm: React.FC<Props> = ({
       <Controller
         control={control}
         as={TextField}
+        className={clsx({ [`${classes.amount}`]: name === "amount" })}
         name={name}
         type={type}
         label={label}

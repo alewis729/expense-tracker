@@ -21,6 +21,7 @@ export const expenseFields = gql`
     id
     name
     description
+    currencyCode
     amount
     date
   }
