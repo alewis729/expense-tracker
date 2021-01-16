@@ -58,9 +58,10 @@ const Home: React.FC = () => {
         }}
         refetchExpenses={refetch}
         currentExpense={currentExpense}
+        defaultCurrencyCode={data?.me?.expenses?.[0]?.currencyCode}
       />
     ),
-    [currentExpense]
+    [currentExpense, data?.me?.expenses]
   );
 
   const handleEditExpense = (id: string) => {
