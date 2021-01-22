@@ -9,12 +9,15 @@ import { useSnackbar } from "notistack";
 import { isNil } from "lodash";
 
 import { Dialog, ExpenseForm } from "@/components";
-import { ExpenseFields } from "@/components/ExpenseForm/ExpenseForm";
+import {
+  ExpenseFields,
+  Props as ExpenseFormProps,
+} from "@/components/ExpenseForm/ExpenseForm";
 
 interface CurrentExpense extends ExpenseFields {
   id: string;
 }
-interface Props {
+interface Props extends Pick<ExpenseFormProps, "defaultCurrencyCode"> {
   open: boolean;
   onClose: () => void;
   refetchExpenses?: () => void;
@@ -99,12 +102,12 @@ const ExpenseFormDialog: React.FC<Props> = ({
         form: "add_expense_form",
         pending: loading,
       }}
-      {...props}
     >
       <ExpenseForm
         categories={data.categories}
         onSubmit={handleSubmit}
         defaultValues={currentExpense}
+        {...props}
       />
     </Dialog>
   );

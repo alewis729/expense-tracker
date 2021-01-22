@@ -26,8 +26,9 @@ export interface ExpenseFields {
   currencyCode: string;
 }
 
-interface Props {
+export interface Props {
   defaultValues?: ExpenseFields | null;
+  defaultCurrencyCode?: string | null;
   categories: { id: string; name: string }[];
   onSubmit: (data: ExpenseFields) => void;
 }
@@ -48,6 +49,7 @@ type Field = {
 const ExpenseForm: React.FC<Props> = ({
   defaultValues = null,
   categories = [],
+  defaultCurrencyCode = null,
   onSubmit,
 }) => {
   const classes = useStyles();
@@ -74,6 +76,10 @@ const ExpenseForm: React.FC<Props> = ({
   useEffect(() => {
     register({ name: "categoryId" });
     register({ name: "currencyCode" });
+
+    if (!isEmpty(defaultCurrencyCode) && isEmpty(defaultValues?.currencyCode)) {
+      setValue("currencyCode", defaultCurrencyCode as string);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
