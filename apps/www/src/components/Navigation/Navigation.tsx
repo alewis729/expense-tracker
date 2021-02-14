@@ -17,17 +17,24 @@ import {
 
 import { useStyles } from "./style";
 
+type MenuItems = {
+  route: string;
+  label: string;
+  icon: JSX.Element;
+}[];
+
 interface Props {
   open: boolean;
+  items?: MenuItems;
   onNavigate: (value: string) => void;
   onClose: () => void;
 }
 
-const Navigation: React.FC<Props> = ({ open, onNavigate, onClose }) => {
+const Navigation: React.FC<Props> = ({ open, items, onNavigate, onClose }) => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const items = [
+  const defaultItems = items ?? [
     { route: "/", label: "Home", icon: <IconHome /> },
     { route: "/categories", label: "Categories", icon: <IconCategories /> },
     { route: "/expenses", label: "Expenses", icon: <IconExpenses /> },
@@ -43,7 +50,7 @@ const Navigation: React.FC<Props> = ({ open, onNavigate, onClose }) => {
     >
       <Toolbar />
       <List className={classes.list}>
-        {items.map(({ label, route, icon }) => (
+        {defaultItems.map(({ route, label, icon }) => (
           <ListItem
             button
             id={route.replace("/", "")}
