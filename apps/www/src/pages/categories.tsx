@@ -4,8 +4,8 @@ import { withAuth } from "@/hocs";
 import { DefaultLayout } from "@/layouts";
 import { Header } from "@/containers";
 
-const Home: React.FC = () => {
+const Categories: React.FC = () => {
   return <DefaultLayout header={<Header />}></DefaultLayout>;
 };
 
-export default withAuth(Home);
+export default withAuth(Categories);
