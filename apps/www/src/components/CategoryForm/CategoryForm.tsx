@@ -15,14 +15,14 @@ import {
 import { useStyles } from "./style";
 import { schema, fields, initialValues } from "./formData";
 
-type FormFields = {
+export interface CategoryFields {
   name: string;
   color: string;
-};
+}
 
 interface Props {
-  defaultValues?: FormFields;
-  onSubmit: (data: FormFields) => void;
+  defaultValues?: CategoryFields | null;
+  onSubmit: (data: CategoryFields) => void;
 }
 
 type Field = {
@@ -32,8 +32,7 @@ type Field = {
   placeholder: string;
 };
 
-const AddCategoryForm: React.FC<Props> = props => {
-  const { defaultValues = initialValues, onSubmit } = props;
+const CategoryForm: React.FC<Props> = ({ defaultValues = null, onSubmit }) => {
   const {
     control,
     handleSubmit,
@@ -44,7 +43,7 @@ const AddCategoryForm: React.FC<Props> = props => {
     watch,
     formState,
   } = useForm({
-    defaultValues,
+    defaultValues: defaultValues ?? initialValues,
     resolver: yupResolver(schema),
   });
   const watchedColor = watch("color");
@@ -80,7 +79,7 @@ const AddCategoryForm: React.FC<Props> = props => {
             <Select
               label={label}
               name={name}
-              defaultValue={defaultValues[name]}
+              defaultValue={defaultValues?.[name]}
               value={watchedValue}
               placeholder={placeholder}
               onChange={e => {
@@ -132,4 +131,4 @@ const AddCategoryForm: React.FC<Props> = props => {
   );
 };
 
-export default AddCategoryForm;
+export default CategoryForm;

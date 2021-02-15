@@ -105,8 +105,8 @@ const ExpenseFormDialog: React.FC<Props> = ({
     >
       <ExpenseForm
         categories={data.categories}
-        onSubmit={handleSubmit}
         defaultValues={currentExpense}
+        onSubmit={handleSubmit}
         {...props}
       />
     </Dialog>

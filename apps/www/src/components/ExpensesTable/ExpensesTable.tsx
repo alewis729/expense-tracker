@@ -31,7 +31,7 @@ interface Props {
   renderActions?: null | ((id: string) => React.ReactNode);
 }
 
-const DataTable: React.FC<Props> = ({ data, renderActions = null }) => {
+const ExpensesTable: React.FC<Props> = ({ data, renderActions = null }) => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -101,4 +101,4 @@ const DataTable: React.FC<Props> = ({ data, renderActions = null }) => {
   );
 };
 
-export default DataTable;
+export default ExpensesTable;

@@ -12,8 +12,8 @@ import { useModal } from "react-modal-hook";
 
 import { withAuth } from "@/hocs";
 import { DefaultLayout } from "@/layouts";
-import { Header, AddCategory, ExpenseFormDialog } from "@/containers";
-import { PaperHeader, DataTable } from "@/components";
+import { Header, CategoryFormDialog, ExpenseFormDialog } from "@/containers";
+import { PaperHeader, ExpensesTable } from "@/components";
 
 import { ExpenseFields } from "@/components/ExpenseForm/ExpenseForm";
 
@@ -42,7 +42,7 @@ const Expenses: React.FC = () => {
   );
   const pending = loading || removeLoading;
   const [showCategoryDialog, hideCategoryDialog] = useModal(({ in: open }) => (
-    <AddCategory
+    <CategoryFormDialog
       open={open}
       onClose={hideCategoryDialog}
       refetchCategories={refetch}
@@ -113,7 +113,7 @@ const Expenses: React.FC = () => {
         </Typography>
       )}
       {!loading && !isEmpty(data?.me?.expenses) && (
-        <DataTable
+        <ExpensesTable
           data={data?.me?.expenses}
           renderActions={id => (
             <>
