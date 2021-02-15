@@ -13,12 +13,8 @@ import {
 } from "@material-ui/core";
 
 import { useStyles } from "./style";
+import { CategoryFields } from "@/lib/types";
 import { schema, fields, initialValues } from "./formData";
-
-export interface CategoryFields {
-  name: string;
-  color: string;
-}
 
 interface Props {
   defaultValues?: CategoryFields | null;

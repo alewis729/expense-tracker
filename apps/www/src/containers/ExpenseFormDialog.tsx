@@ -9,10 +9,8 @@ import { useSnackbar } from "notistack";
 import { isNil } from "lodash";
 
 import { Dialog, ExpenseForm } from "@/components";
-import {
-  ExpenseFields,
-  Props as ExpenseFormProps,
-} from "@/components/ExpenseForm/ExpenseForm";
+import { ExpenseFields } from "@/lib/types";
+import { Props as ExpenseFormProps } from "@/components/ExpenseForm/ExpenseForm";
 
 interface CurrentExpense extends ExpenseFields {
   id: string;

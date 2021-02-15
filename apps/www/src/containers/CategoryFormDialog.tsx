@@ -5,7 +5,7 @@ import { isNil } from "lodash";
 import { useSnackbar } from "notistack";
 
 import { Dialog, CategoryForm } from "@/components";
-import { CategoryFields } from "@/components/CategoryForm/CategoryForm";
+import { CategoryFields } from "@/lib/types";
 
 interface CurrentCategory extends CategoryFields {
   id: string;

@@ -14,17 +14,9 @@ import {
 import { DateTimePicker } from "@material-ui/pickers";
 
 import { useStyles } from "./style";
+import { ExpenseFields } from "@/lib/types";
 import { schema, fields, initialValues } from "./formData";
 import { currencies } from "@expense-tracker/data";
-
-export interface ExpenseFields {
-  name: string;
-  description: string;
-  date: Date | null;
-  categoryId: string;
-  amount: number;
-  currencyCode: string;
-}
 
 export interface Props {
   defaultValues?: ExpenseFields | null;

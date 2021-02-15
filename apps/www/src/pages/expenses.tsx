@@ -14,8 +14,7 @@ import { withAuth } from "@/hocs";
 import { DefaultLayout } from "@/layouts";
 import { Header, CategoryFormDialog, ExpenseFormDialog } from "@/containers";
 import { PaperHeader, ExpensesTable } from "@/components";
-
-import { ExpenseFields } from "@/components/ExpenseForm/ExpenseForm";
+import { ExpenseFields } from "@/lib/types";
 
 interface CurrentExpense extends ExpenseFields {
   id: string;

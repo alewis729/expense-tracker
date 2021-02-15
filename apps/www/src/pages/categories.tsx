@@ -11,8 +11,7 @@ import { withAuth } from "@/hocs";
 import { DefaultLayout } from "@/layouts";
 import { Header, CategoryFormDialog } from "@/containers";
 import { PaperHeader, CategoriesTable } from "@/components";
-
-import { CategoryFields } from "@/components/CategoryForm/CategoryForm";
+import { CategoryFields } from "@/lib/types";
 
 interface CurrentCategory extends CategoryFields {
   id: string;
