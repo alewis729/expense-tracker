@@ -6,7 +6,7 @@ import {
   GET_CATEGORIES,
 } from "@expense-tracker/graphql";
 import { useSnackbar } from "notistack";
-import { isNil } from "lodash";
+import { isNil, pickBy } from "lodash";
 
 import { Dialog, ExpenseForm } from "@/components";
 import { ExpenseFields } from "@/lib/types";
@@ -78,10 +78,14 @@ const ExpenseFormDialog: React.FC<Props> = ({
         variables: { addExpenseInput: { ...expenseFields } },
       });
     } else {
+      const necesaryFields = pickBy(
+        expenseFields,
+        (value, key) => currentExpense?.[key] !== value
+      );
       updateExpense({
         variables: {
           id: currentExpense?.id,
-          updateExpenseInput: { ...expenseFields },
+          updateExpenseInput: necesaryFields,
         },
       });
     }

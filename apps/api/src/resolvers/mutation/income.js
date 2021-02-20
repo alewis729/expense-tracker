@@ -1,4 +1,4 @@
-import { isDate, isEmpty, omit } from "lodash";
+import { forEach, isDate, isEmpty, omit } from "lodash";
 import { compareUserIds } from "../../utils";
 
 export default {
@@ -34,7 +34,7 @@ export default {
       throw new Error("User not found.");
     }
 
-    const income = await ctx.models.Income.findOne({
+    let income = await ctx.models.Income.findOne({
       _id: args.id,
     });
 
@@ -60,8 +60,13 @@ export default {
       updatedIncomeFields.category = args.input.categoryId;
     }
 
-    await ctx.models.Income.updateOne({ _id: income.id }, updatedIncomeFields);
+    forEach(updatedIncomeFields, (value, key) => {
+      if (income[key] !== value) {
+        income[key] = value;
+      }
+    });
 
+    await income.save();
     return ctx.models.Income.findOne({ _id: income.id });
   },
   removeIncome: async (_, { id }, ctx) => {

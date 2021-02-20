@@ -1,4 +1,4 @@
-import { isDate, isEmpty, omit } from "lodash";
+import { forEach, isDate, isEmpty, omit } from "lodash";
 import { compareUserIds } from "../../utils";
 
 export default {
@@ -60,11 +60,13 @@ export default {
       updatedExpenseFields.category = args.input.categoryId;
     }
 
-    await ctx.models.Expense.updateOne(
-      { _id: expense.id },
-      updatedExpenseFields
-    );
+    forEach(updatedExpenseFields, (value, key) => {
+      if (expense[key] !== value) {
+        expense[key] = value;
+      }
+    });
 
+    await expense.save();
     return ctx.models.Expense.findOne({ _id: expense.id });
   },
   removeExpense: async (_, { id }, ctx) => {
