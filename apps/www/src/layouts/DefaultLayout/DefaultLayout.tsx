@@ -1,14 +1,21 @@
 import React from "react";
 import { Container, Toolbar, AppBar, LinearProgress } from "@material-ui/core";
+import clsx from "clsx";
 
 import { useStyles } from "./style";
 
 interface Props {
   header: React.ReactNode;
   loading?: boolean;
+  hideWhileLoading?: boolean;
 }
 
-const Default: React.FC<Props> = ({ header, loading, children }) => {
+const Default: React.FC<Props> = ({
+  header,
+  loading,
+  hideWhileLoading = false,
+  children,
+}) => {
   const classes = useStyles();
 
   return (
@@ -23,7 +30,13 @@ const Default: React.FC<Props> = ({ header, loading, children }) => {
         </AppBar>
       </div>
       <Container className={classes.main} component="main" maxWidth="lg">
-        <div className={classes.children}>{children}</div>
+        <div
+          className={clsx(classes.children, {
+            ["hide"]: hideWhileLoading && loading,
+          })}
+        >
+          {children}
+        </div>
       </Container>
     </Container>
   );

@@ -57,7 +57,7 @@ const Categories: React.FC = () => {
   if (error) return <p>Error</p>;
 
   return (
-    <DefaultLayout header={<Header />} loading={pending}>
+    <DefaultLayout header={<Header />} loading={pending} hideWhileLoading>
       <PaperHeader
         title="Categories"
         actionButtons={
