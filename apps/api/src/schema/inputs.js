@@ -40,6 +40,24 @@ export default gql`
     date: DateTime
   }
 
+  input AddIncomeInput {
+    name: String!
+    description: String
+    currencyCode: String!
+    amount: NonNegativeFloat!
+    categoryId: ID!
+    date: DateTime
+  }
+
+  input UpdateIncomeInput {
+    name: String
+    description: String
+    currencyCode: String
+    amount: NonNegativeFloat
+    categoryId: ID
+    date: DateTime
+  }
+
   input AuthInput {
     accessToken: String!
   }

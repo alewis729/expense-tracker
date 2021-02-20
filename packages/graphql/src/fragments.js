@@ -26,3 +26,14 @@ export const expenseFields = gql`
     date
   }
 `;
+
+export const incomeFields = gql`
+  fragment incomeFields on Income {
+    id
+    name
+    description
+    currencyCode
+    amount
+    date
+  }
+`;

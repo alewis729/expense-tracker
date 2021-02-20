@@ -26,4 +26,12 @@ export default {
     return expense;
   },
   expenses: (_, __, ctx) => ctx.models.Expense.find({ user: ctx.user.id }),
+  income: async (_, { id }, ctx) => {
+    const income = await ctx.models.Income.findOne({ _id: id });
+
+    compareUserIds(income.user, ctx.user.id);
+
+    return income;
+  },
+  incomeSources: (_, __, ctx) => ctx.models.Income.find({ user: ctx.user.id }),
 };

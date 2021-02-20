@@ -38,6 +38,19 @@ export default gql`
     updatedAt: DateTime!
   }
 
+  type Income implements Node {
+    id: ID!
+    name: String!
+    description: String!
+    amount: NonNegativeFloat!
+    currencyCode: String!
+    date: DateTime!
+    user: User!
+    category: Category!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+  }
+
   type Query {
     me: User!
     user(id: ID!): User!
@@ -46,6 +59,8 @@ export default gql`
     categories: [Category!]!
     expense(id: ID!): Expense!
     expenses: [Expense!]!
+    income(id: ID!): Income!
+    incomeSources: [Income!]!
   }
 
   type Mutation {
@@ -57,6 +72,9 @@ export default gql`
     addExpense(input: AddExpenseInput!): Expense!
     updateExpense(id: ID!, input: UpdateExpenseInput!): Expense!
     removeExpense(id: ID!): Expense!
+    addIncome(input: AddIncomeInput!): Income!
+    updateIncome(id: ID!, input: UpdateIncomeInput!): Income!
+    removeIncome(id: ID!): Income!
     authGoogle(input: AuthInput!): AuthPayload!
   }
 `;
