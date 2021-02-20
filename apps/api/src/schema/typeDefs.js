@@ -7,6 +7,7 @@ export default gql`
     email: EmailAddress!
     categories: [Category!]!
     expenses: [Expense!]!
+    incomeSources: [Income!]!
     createdAt: DateTime!
     updatedAt: DateTime!
   }
