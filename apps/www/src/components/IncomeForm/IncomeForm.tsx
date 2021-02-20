@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { isEmpty, map } from "lodash";
@@ -16,7 +16,7 @@ import { DateTimePicker } from "@material-ui/pickers";
 import { useStyles } from "./style";
 import { IncomeFields } from "@/lib/types";
 import { schema, fields, initialValues } from "./formData";
-import { currencies } from "@expense-tracker/data";
+import { currencies as currenciesData } from "@expense-tracker/data";
 
 export interface Props {
   defaultValues?: IncomeFields | null;
@@ -64,6 +64,15 @@ const IncomeForm: React.FC<Props> = ({
   const [date, setDate] = useState<Date | null>(
     defaultValues?.date ?? new Date()
   );
+  const currencies = useMemo(
+    () =>
+      map(currenciesData, ({ code, name, symbol }) => ({
+        id: code,
+        name: `${name} (${symbol})`,
+      })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [currenciesData]
+  );
 
   useEffect(() => {
     register({ name: "categoryId" });
@@ -83,10 +92,7 @@ const IncomeForm: React.FC<Props> = ({
 
     if (name === "currencyCode") {
       watchedValue = watchedCurrencyCode;
-      options = map(currencies, ({ code, name, symbol }) => ({
-        id: code,
-        name: `${name} (${symbol})`,
-      }));
+      options = currencies;
     }
 
     if (type === "select") {
