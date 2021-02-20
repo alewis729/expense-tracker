@@ -13,3 +13,13 @@ export interface ExpenseFields {
   amount: number;
   currencyCode: string;
 }
+
+// Income
+export interface IncomeFields {
+  name: string;
+  description: string;
+  date: Date;
+  categoryId: string;
+  amount: number;
+  currencyCode: string;
+}

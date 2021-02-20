@@ -8,6 +8,7 @@ export { default as ExpenseForm } from "./ExpenseForm";
 export { default as ExpensesTable } from "./ExpensesTable";
 export { default as GoogleAuthButton } from "./GoogleAuthButton";
 export { default as Header } from "./Header";
+export { default as IncomeForm } from "./IncomeForm";
 export { default as Link } from "./Link";
 export { default as Navigation } from "./Navigation";
 export { default as PaperHeader } from "./PaperHeader";
