@@ -4,7 +4,7 @@ import { ADD_CATEGORY, UPDATE_CATEGORY } from "@expense-tracker/graphql";
 import { isNil } from "lodash";
 import { useSnackbar } from "notistack";
 
-import { Dialog, CategoryForm } from "@/components";
+import { Dialog, CategoryForm, Button } from "@/components";
 import { CategoryFields } from "@/lib/types";
 
 interface CurrentCategory extends CategoryFields {
@@ -82,12 +82,11 @@ const CategoryFormDialog: React.FC<Props> = ({
       open={open}
       onClose={onClose}
       title={isAddForm ? "Register category" : "Update category"}
-      buttonText={isAddForm ? "Register category" : "Update category"}
-      ButtonProps={{
-        type: "submit",
-        form: "add_category_form",
-        pending: loading,
-      }}
+      actionsNode={
+        <Button type="submit" form="add_category_form" pending={loading}>
+          {isAddForm ? "Register category" : "Update category"}
+        </Button>
+      }
     >
       <CategoryForm
         defaultValues={currentCategory}

@@ -8,7 +8,7 @@ import {
 import { useSnackbar } from "notistack";
 import { isNil, pickBy } from "lodash";
 
-import { Dialog, ExpenseForm } from "@/components";
+import { Dialog, ExpenseForm, Button } from "@/components";
 import { ExpenseFields } from "@/lib/types";
 import { Props as ExpenseFormProps } from "@/components/ExpenseForm/ExpenseForm";
 
@@ -98,12 +98,11 @@ const ExpenseFormDialog: React.FC<Props> = ({
       open={open}
       onClose={onClose}
       title={isAddForm ? "Register expense" : "Update expense"}
-      buttonText={isAddForm ? "Register expense" : "Update expense"}
-      ButtonProps={{
-        type: "submit",
-        form: "add_expense_form",
-        pending: loading,
-      }}
+      actionsNode={
+        <Button type="submit" form="add_expense_form" pending={loading}>
+          {isAddForm ? "Register expense" : "Update expense"}
+        </Button>
+      }
     >
       <ExpenseForm
         categories={data.categories}

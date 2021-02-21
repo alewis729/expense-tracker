@@ -8,7 +8,7 @@ import {
 import { useSnackbar } from "notistack";
 import { isNil, pickBy } from "lodash";
 
-import { Dialog, IncomeForm } from "@/components";
+import { Dialog, IncomeForm, Button } from "@/components";
 import { IncomeFields } from "@/lib/types";
 import { Props as IncomeFormProps } from "@/components/IncomeForm/IncomeForm";
 
@@ -95,12 +95,11 @@ const IncomeFormDialog: React.FC<Props> = ({
       open={open}
       onClose={onClose}
       title={isAddForm ? "Register income" : "Update income"}
-      buttonText={isAddForm ? "Register income" : "Update income"}
-      ButtonProps={{
-        type: "submit",
-        form: "add_income_form",
-        pending: loading,
-      }}
+      actionsNode={
+        <Button type="submit" form="add_income_form" pending={loading}>
+          {isAddForm ? "Register income" : "Update income"}
+        </Button>
+      }
     >
       <IncomeForm
         categories={data.categories}

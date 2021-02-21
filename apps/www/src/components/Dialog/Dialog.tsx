@@ -8,29 +8,24 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 import { CloseRounded as IconClose } from "@material-ui/icons";
-
 import { Theme } from "@material-ui/core/styles";
 import { DialogProps as MuiDialogProps } from "@material-ui/core/Dialog";
 
 import { useStyles } from "./style";
-import { Button } from "@/components";
 
 interface Props extends MuiDialogProps {
   title: string;
   onClose?: () => void;
-  buttonText: string;
-  ButtonProps?: unknown;
+  actionsNode: React.ReactNode;
 }
 
-const Dialog: React.FC<Props> = props => {
-  const {
-    title,
-    onClose = () => {},
-    children,
-    buttonText,
-    ButtonProps,
-    ...other
-  } = props;
+const Dialog: React.FC<Props> = ({
+  title,
+  onClose = () => {},
+  children,
+  actionsNode,
+  ...other
+}) => {
   const classes = useStyles();
   const isSmUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
 
@@ -56,9 +51,7 @@ const Dialog: React.FC<Props> = props => {
         </Typography>
         <div>{children}</div>
       </DialogContent>
-      <DialogActions className={classes.actions}>
-        <Button {...ButtonProps}>{buttonText}</Button>
-      </DialogActions>
+      <DialogActions className={classes.actions}>{actionsNode}</DialogActions>
     </MuiDialog>
   );
 };
