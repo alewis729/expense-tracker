@@ -75,6 +75,7 @@ export default gql`
     updateExpense(id: ID!, input: UpdateExpenseInput!): Expense!
     removeExpense(id: ID!): Expense!
     addIncome(input: AddIncomeInput!): Income!
+    addIncomes(input: AddIncomesInput!): [Income!]!
     updateIncome(id: ID!, input: UpdateIncomeInput!): Income!
     removeIncome(id: ID!): Income!
     authGoogle(input: AuthInput!): AuthPayload!

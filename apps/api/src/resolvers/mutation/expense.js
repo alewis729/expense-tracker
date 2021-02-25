@@ -1,7 +1,7 @@
 import { forEach, isDate, isEmpty, omit } from "lodash";
 import { compareUserIds } from "../../utils";
 import mongoose from "mongoose";
-import Expense from "../../models/expenses";
+import { Expense } from "../../models";
 
 export default {
   addExpense: async (_, args, ctx) => {

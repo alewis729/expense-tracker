@@ -25,22 +25,18 @@ interface Category extends CategoryFields {
 }
 
 interface Props {
-  type?: "expenses" | "income";
   className?: string;
   categories?: Array<Category>;
   exampleFileUrl?: string;
 }
 
 const XlsxTutorial: React.FC<Props> = ({
-  type = "expenses",
   className,
   categories,
   exampleFileUrl = defaultExampleFileUrl,
 }) => {
   const classes = useStyles();
-  const imgSrc = ["income"].includes(type)
-    ? "/static/xlsx-income-example.png"
-    : "/static/xlsx-expenses-example.png";
+  const imgSrc = "/static/xlsx-expenses-example.png";
 
   return (
     <div className={clsx(classes.root, className)}>
@@ -66,11 +62,11 @@ const XlsxTutorial: React.FC<Props> = ({
       </Box>
       <Typography>
         <b>Number</b>, <b>name</b>, <b>amount</b> and <b>currency</b>,
-        <b>categoryId</b> are mandatory to register an expense. A{" "}
+        <b>categoryId</b> are mandatory to register an expense/income. A{" "}
         <b>description</b> is optional, if the <b>date</b> cell is empty the
-        expense will be registered with today's date. The date cell must have
-        the format shown in the example{" "}
-        <i>(23 Nov 2020 15:20:00 or without the time)</i>.
+        expense/income will be registered with today's date. The date cell must
+        have the format shown in the example (23 Nov 2020 15:20:00{" "}
+        <i>with or without the time)</i>.
       </Typography>
       {!isEmpty(categories) && (
         <Box mt={3}>

@@ -23,6 +23,7 @@ export {
 } from "./mutations/expenseMutations";
 export {
   ADD_INCOME,
+  ADD_INCOMES,
   UPDATE_INCOME,
   REMOVE_INCOME,
 } from "./mutations/incomeMutations";

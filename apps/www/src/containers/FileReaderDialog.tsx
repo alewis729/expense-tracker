@@ -1,6 +1,10 @@
 import React, { useRef } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { ADD_EXPENSES, GET_CATEGORIES } from "@expense-tracker/graphql";
+import {
+  GET_CATEGORIES,
+  ADD_EXPENSES,
+  ADD_INCOMES,
+} from "@expense-tracker/graphql";
 import { useSnackbar } from "notistack";
 
 import { Dialog, Button, XlsxTutorial } from "@/components";
@@ -11,12 +15,14 @@ import {
 } from "@/lib/utils";
 
 interface Props {
+  type?: "expenses" | "incomes";
   open: boolean;
   onClose: () => void;
   refetch?: () => void;
 }
 
 const FileReaderDialog: React.FC<Props> = ({
+  type = "expenses",
   open,
   onClose,
   refetch = () => {},
@@ -24,14 +30,26 @@ const FileReaderDialog: React.FC<Props> = ({
   const { enqueueSnackbar } = useSnackbar();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { data: categoriesData } = useQuery(GET_CATEGORIES);
-  const [addExpenses, { loading }] = useMutation(ADD_EXPENSES, {
+  const [addExpenses, { loading: loadingExpenses }] = useMutation(
+    ADD_EXPENSES,
+    {
+      onCompleted: () => {
+        enqueueSnackbar("Expenses added successfully.", { variant: "success" });
+        refetch();
+        onClose();
+      },
+      onError: error => enqueueSnackbar(error.message, { variant: "error" }),
+    }
+  );
+  const [addIncomes, { loading: loadingIncomes }] = useMutation(ADD_INCOMES, {
     onCompleted: () => {
-      enqueueSnackbar("Expenses added successfully.", { variant: "success" });
+      enqueueSnackbar("Incomes added successfully.", { variant: "success" });
       refetch();
       onClose();
     },
     onError: error => enqueueSnackbar(error.message, { variant: "error" }),
   });
+  const loading = loadingExpenses || loadingIncomes;
 
   const handleFileUpload = (
     e: React.SyntheticEvent<HTMLInputElement>
@@ -41,9 +59,14 @@ const FileReaderDialog: React.FC<Props> = ({
     const file = e?.currentTarget?.files?.[0];
 
     if (allowedFileTypes.includes(file?.type ?? "")) {
-      readFile(file, data => {
-        const expenses = transformExpenses(data);
-        addExpenses({ variables: { addExpensesInput: { expenses } } });
+      readFile(file, fileData => {
+        const data = transformExpenses(fileData);
+
+        if (type === "expenses") {
+          addExpenses({ variables: { addExpensesInput: { expenses: data } } });
+        } else if (type === "incomes") {
+          addIncomes({ variables: { addIncomesInput: { incomes: data } } });
+        }
       });
     }
   };

@@ -21,6 +21,7 @@ declare module '@expense-tracker/graphql' {
   export const UPDATE_EXPENSE: DocumentNode;
   export const REMOVE_EXPENSE: DocumentNode;
   export const ADD_INCOME: DocumentNode;
+  export const ADD_INCOMES: DocumentNode;
   export const UPDATE_INCOME: DocumentNode;
   export const REMOVE_INCOME: DocumentNode;
 }

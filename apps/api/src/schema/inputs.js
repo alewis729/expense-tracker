@@ -53,6 +53,10 @@ export default gql`
     date: DateTime
   }
 
+  input AddIncomesInput {
+    incomes: [AddIncomeInput!]!
+  }
+
   input UpdateIncomeInput {
     name: String
     description: String

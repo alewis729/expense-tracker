@@ -12,7 +12,7 @@ import { useModal } from "react-modal-hook";
 
 import { withAuth } from "@/hocs";
 import { DefaultLayout } from "@/layouts";
-import { Header, IncomeFormDialog } from "@/containers";
+import { Header, IncomeFormDialog, FileReaderDialog } from "@/containers";
 import { PaperHeader, ExpensesTable } from "@/components";
 import { ExpenseFields } from "@/lib/types";
 
@@ -57,6 +57,17 @@ const Income: React.FC = () => {
     ),
     [currentIncome, data?.me?.incomes]
   );
+  const [showFileReaderDialog, hideFileReaderDialog] = useModal(
+    ({ in: open }) => (
+      <FileReaderDialog
+        type="incomes"
+        open={open}
+        onClose={hideFileReaderDialog}
+        refetch={refetch}
+      />
+    ),
+    [currentIncome, data?.me?.expenses]
+  );
 
   const handleEditIncome = (id: string) => {
     const income = find(data?.me?.incomes, obj => obj.id === id);
@@ -89,12 +100,17 @@ const Income: React.FC = () => {
       <PaperHeader
         title="Income"
         actionButtons={
-          <Button
-            disabled={isEmpty(data?.me?.categories)}
-            onClick={showIncomeDialog}
-          >
-            Add Income
-          </Button>
+          <>
+            <Button
+              disabled={isEmpty(data?.me?.categories)}
+              onClick={showIncomeDialog}
+            >
+              Add Income
+            </Button>
+            <Button onClick={showFileReaderDialog} color="default">
+              Import from xlsx
+            </Button>
+          </>
         }
       />
       {!loading && isEmpty(data?.me?.incomes) && (

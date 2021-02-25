@@ -18,6 +18,22 @@ export const ADD_INCOME = gql`
   ${categoryFields}
 `;
 
+export const ADD_INCOMES = gql`
+  mutation ADD_INCOMES(
+    $addIncomesInput: AddIncomesInput!
+    $withCategory: Boolean = false
+  ) {
+    addIncomes(input: $addIncomesInput) {
+      ...incomeFields
+      category @include(if: $withCategory) {
+        ...categoryFields
+      }
+    }
+  }
+  ${incomeFields}
+  ${categoryFields}
+`;
+
 export const UPDATE_INCOME = gql`
   mutation UPDATE_INCOME(
     $id: ID!
