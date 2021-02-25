@@ -7,7 +7,7 @@ export default gql`
     email: EmailAddress!
     categories: [Category!]!
     expenses: [Expense!]!
-    incomeSources: [Income!]!
+    incomes: [Income!]!
     createdAt: DateTime!
     updatedAt: DateTime!
   }
@@ -61,7 +61,7 @@ export default gql`
     expense(id: ID!): Expense!
     expenses: [Expense!]!
     income(id: ID!): Income!
-    incomeSources: [Income!]!
+    incomes: [Income!]!
   }
 
   type Mutation {

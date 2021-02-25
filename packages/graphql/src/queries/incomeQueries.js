@@ -28,7 +28,7 @@ export const GET_INCOME_SOURCES = gql`
     $withUser: Boolean = false
     $withCategory: Boolean = false
   ) {
-    incomeSources {
+    incomes {
       ...incomeFields
       user @include(if: $withUser) {
         ...userFields

@@ -33,5 +33,5 @@ export default {
 
     return income;
   },
-  incomeSources: (_, __, ctx) => ctx.models.Income.find({ user: ctx.user.id }),
+  incomes: (_, __, ctx) => ctx.models.Income.find({ user: ctx.user.id }),
 };

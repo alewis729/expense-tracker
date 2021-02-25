@@ -30,7 +30,7 @@ export const GET_ME = gql`
           ...categoryFields
         }
       }
-      incomeSources @include(if: $withIncome) {
+      incomes @include(if: $withIncome) {
         ...incomeFields
         category {
           ...categoryFields
@@ -62,7 +62,7 @@ export const GET_USER = gql`
           ...categoryFields
         }
       }
-      incomeSources @include(if: $withIncome) {
+      incomes @include(if: $withIncome) {
         ...incomeFields
         category {
           ...categoryFields
@@ -90,7 +90,7 @@ export const GET_USERS = gql`
       expenses @include(if: $withExpenses) {
         ...expenseFields
       }
-      incomeSources @include(if: $withIncome) {
+      incomes @include(if: $withIncome) {
         ...incomeFields
         category {
           ...categoryFields

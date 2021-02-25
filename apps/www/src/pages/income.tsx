@@ -52,14 +52,14 @@ const Income: React.FC = () => {
         }}
         refetchIncome={refetch}
         currentIncome={currentIncome}
-        defaultCurrencyCode={data?.me?.incomeSources?.[0]?.currencyCode}
+        defaultCurrencyCode={data?.me?.incomes?.[0]?.currencyCode}
       />
     ),
-    [currentIncome, data?.me?.incomeSources]
+    [currentIncome, data?.me?.incomes]
   );
 
   const handleEditIncome = (id: string) => {
-    const income = find(data?.me?.incomeSources, obj => obj.id === id);
+    const income = find(data?.me?.incomes, obj => obj.id === id);
     const incomeFields = {
       id: income.id,
       name: income.name,
@@ -97,7 +97,7 @@ const Income: React.FC = () => {
           </Button>
         }
       />
-      {!loading && isEmpty(data?.me?.incomeSources) && (
+      {!loading && isEmpty(data?.me?.incomes) && (
         <Typography>
           {`Hey ${
             data?.me?.name ?? "friend"
@@ -105,9 +105,9 @@ const Income: React.FC = () => {
           `}
         </Typography>
       )}
-      {!loading && !isEmpty(data?.me?.incomeSources) && (
+      {!loading && !isEmpty(data?.me?.incomes) && (
         <ExpensesTable
-          data={data?.me?.incomeSources}
+          data={data?.me?.incomes}
           renderActions={id => (
             <>
               <IconButton
