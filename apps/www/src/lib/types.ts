@@ -23,3 +23,7 @@ export interface IncomeFields {
   amount: number;
   currencyCode: string;
 }
+
+export interface XLSXRow extends ExpenseFields {
+  number: string;
+}

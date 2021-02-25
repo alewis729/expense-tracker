@@ -77,7 +77,7 @@ const IncomeFormDialog: React.FC<Props> = ({
     } else {
       const necesaryFields = pickBy(
         incomeFields,
-        (value, key) => currentIncome?.[key] !== value
+        (value, key) => currentIncome?.[key as keyof CurrentIncome] !== value
       );
       updateIncome({
         variables: {

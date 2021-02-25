@@ -80,7 +80,7 @@ const ExpenseFormDialog: React.FC<Props> = ({
     } else {
       const necesaryFields = pickBy(
         expenseFields,
-        (value, key) => currentExpense?.[key] !== value
+        (value, key) => currentExpense?.[key as keyof CurrentExpense] !== value
       );
       updateExpense({
         variables: {

@@ -12,7 +12,7 @@ import { useModal } from "react-modal-hook";
 
 import { withAuth } from "@/hocs";
 import { DefaultLayout } from "@/layouts";
-import { Header, ExpenseFormDialog } from "@/containers";
+import { Header, ExpenseFormDialog, FileReaderDialog } from "@/containers";
 import { PaperHeader, ExpensesTable } from "@/components";
 import { ExpenseFields } from "@/lib/types";
 
@@ -55,6 +55,16 @@ const Expenses: React.FC = () => {
     ),
     [currentExpense, data?.me?.expenses]
   );
+  const [showFileReaderDialog, hideFileReaderDialog] = useModal(
+    ({ in: open }) => (
+      <FileReaderDialog
+        open={open}
+        onClose={hideFileReaderDialog}
+        refetch={refetch}
+      />
+    ),
+    [currentExpense, data?.me?.expenses]
+  );
 
   const handleEditExpense = (id: string) => {
     const expense = find(data?.me?.expenses, obj => obj.id === id);
@@ -83,12 +93,17 @@ const Expenses: React.FC = () => {
       <PaperHeader
         title="Expenses"
         actionButtons={
-          <Button
-            disabled={isEmpty(data?.me?.categories)}
-            onClick={showExpenseDialog}
-          >
-            Add Expense
-          </Button>
+          <>
+            <Button
+              disabled={isEmpty(data?.me?.categories)}
+              onClick={showExpenseDialog}
+            >
+              Add Expense
+            </Button>
+            <Button onClick={showFileReaderDialog} color="default">
+              Import from xlsx
+            </Button>
+          </>
         }
       />
       {!loading && isEmpty(data?.me?.expenses) && (
