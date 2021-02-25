@@ -171,7 +171,9 @@ const IncomeForm: React.FC<Props> = ({
     <form
       id="add_income_form"
       className={classes.root}
-      onSubmit={handleSubmit(data => onSubmit({ ...data, date }))}
+      onSubmit={handleSubmit(data =>
+        onSubmit({ ...data, date: date ?? new Date() })
+      )}
     >
       {map(fields, (field, id) => (
         <Fragment key={id}>{renderField(field as Field)}</Fragment>
