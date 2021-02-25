@@ -25,8 +25,10 @@ const Income: React.FC = () => {
   const [currentIncome, setCurrentIncome] = useState<CurrentExpense | null>(
     null
   );
+  const [firstApiCall, setFirstApiCall] = useState(true);
   const { data, loading, error, refetch } = useQuery(GET_ME, {
     variables: { withIncome: true, withCategories: true },
+    onCompleted: () => setFirstApiCall(false),
     onError: error => enqueueSnackbar(error.message, { variant: "error" }),
   });
   const [removeIncome, { loading: removeLoading }] = useMutation(
@@ -79,7 +81,11 @@ const Income: React.FC = () => {
   if (error) return <p>Error</p>;
 
   return (
-    <DefaultLayout header={<Header />} loading={pending} hideWhileLoading>
+    <DefaultLayout
+      header={<Header />}
+      loading={pending}
+      hideWhileLoading={firstApiCall}
+    >
       <PaperHeader
         title="Income"
         actionButtons={

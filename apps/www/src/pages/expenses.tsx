@@ -25,8 +25,10 @@ const Expenses: React.FC = () => {
   const [currentExpense, setCurrentExpense] = useState<CurrentExpense | null>(
     null
   );
+  const [firstApiCall, setFirstApiCall] = useState(true);
   const { data, loading, error, refetch } = useQuery(GET_ME, {
     variables: { withExpenses: true, withCategories: true },
+    onCompleted: () => setFirstApiCall(false),
     onError: error => enqueueSnackbar(error.message, { variant: "error" }),
   });
   const [removeExpense, { loading: removeLoading }] = useMutation(
@@ -89,7 +91,11 @@ const Expenses: React.FC = () => {
   if (error) return <p>Error</p>;
 
   return (
-    <DefaultLayout header={<Header />} loading={pending} hideWhileLoading>
+    <DefaultLayout
+      header={<Header />}
+      loading={pending}
+      hideWhileLoading={firstApiCall}
+    >
       <PaperHeader
         title="Expenses"
         actionButtons={
