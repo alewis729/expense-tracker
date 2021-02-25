@@ -1,5 +1,7 @@
 import { forEach, isDate, isEmpty, omit } from "lodash";
 import { compareUserIds } from "../../utils";
+import mongoose from "mongoose";
+import Expense from "../../models/expenses";
 
 export default {
   addExpense: async (_, args, ctx) => {
@@ -27,6 +29,58 @@ export default {
       date: isDate(args.input.date) ? args.input.date : new Date(),
       category: args.input.categoryId,
       user: ctx.user.id,
+    });
+  },
+  addExpenses: async (_, args, ctx) => {
+    if (!ctx.user) {
+      throw new Error("User not found.");
+    }
+
+    const expenseIds = await Promise.all(
+      args.input.expenses.map(async obj => {
+        const categoryId = !isEmpty(obj.categoryId)
+          ? obj.categoryId.split("-")[0]
+          : null;
+        const isValidId = mongoose.Types.ObjectId.isValid(categoryId);
+
+        if (!isValidId) {
+          throw new Error(`Category id '${categoryId}' isn't a valid id.`);
+        }
+
+        const category = await ctx.models.Category.findOne({
+          _id: categoryId,
+        });
+
+        if (!category) {
+          throw new Error(`Category not found for: '${obj.name}'`);
+        }
+
+        compareUserIds(category.user, ctx.user.id);
+
+        const expense = new Expense({
+          name: obj.name,
+          description: !isEmpty(obj.description) ? obj.description : "",
+          currencyCode: obj.currencyCode,
+          amount: obj.amount,
+          date: isDate(obj.date) ? obj.date : new Date(),
+          category: categoryId,
+          user: ctx.user.id,
+        });
+
+        await expense.save(err => {
+          if (err) {
+            throw new Error(
+              "Something went wrong while saving expenses to the database."
+            );
+          }
+        });
+
+        return expense._id;
+      })
+    );
+
+    return await ctx.models.Expense.find({
+      _id: { $in: expenseIds },
     });
   },
   updateExpense: async (_, args, ctx) => {

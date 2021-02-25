@@ -31,6 +31,10 @@ export default gql`
     date: DateTime
   }
 
+  input AddExpensesInput {
+    expenses: [AddExpenseInput!]!
+  }
+
   input UpdateExpenseInput {
     name: String
     description: String

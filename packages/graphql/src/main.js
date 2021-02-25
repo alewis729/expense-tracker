@@ -17,6 +17,7 @@ export {
 } from "./mutations/categoryMutations";
 export {
   ADD_EXPENSE,
+  ADD_EXPENSES,
   UPDATE_EXPENSE,
   REMOVE_EXPENSE,
 } from "./mutations/expenseMutations";

@@ -71,6 +71,7 @@ export default gql`
     updateCategory(id: ID!, input: UpdateCategoryInput!): Category!
     removeCategory(id: ID!): Category!
     addExpense(input: AddExpenseInput!): Expense!
+    addExpenses(input: AddExpensesInput!): [Expense!]!
     updateExpense(id: ID!, input: UpdateExpenseInput!): Expense!
     removeExpense(id: ID!): Expense!
     addIncome(input: AddIncomeInput!): Income!
