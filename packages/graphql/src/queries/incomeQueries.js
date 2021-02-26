@@ -23,8 +23,8 @@ export const GET_INCOME = gql`
   ${categoryFields}
 `;
 
-export const GET_INCOME_SOURCES = gql`
-  query GET_INCOME_SOURCES(
+export const GET_INCOMES = gql`
+  query GET_INCOMES(
     $withUser: Boolean = false
     $withCategory: Boolean = false
   ) {

@@ -2,7 +2,7 @@ import { print } from "graphql";
 import { gql } from "apollo-server";
 import {
   GET_INCOME,
-  GET_INCOME_SOURCES,
+  GET_INCOMES,
   ADD_INCOME,
   UPDATE_INCOME,
   REMOVE_INCOME,
@@ -10,7 +10,7 @@ import {
 
 const query = gql`
   ${GET_INCOME}
-  ${GET_INCOME_SOURCES}
+  ${GET_INCOMES}
   ${ADD_INCOME}
   ${UPDATE_INCOME}
   ${REMOVE_INCOME}
