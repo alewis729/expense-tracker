@@ -12,6 +12,10 @@ export default gql`
     password: String!
   }
 
+  input AuthInput {
+    accessToken: String!
+  }
+
   input AddCategoryInput {
     name: String!
     color: String!
@@ -64,9 +68,5 @@ export default gql`
     amount: NonNegativeFloat
     categoryId: ID
     date: DateTime
-  }
-
-  input AuthInput {
-    accessToken: String!
   }
 `;
