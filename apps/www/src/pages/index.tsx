@@ -12,8 +12,7 @@ import { Chart1 } from "@/containers/Charts";
 const Home: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { data, loading, error } = useQuery(GET_CHART_DATA, {
-    variables: { expensesPerYear: true },
-    onCompleted: data => console.log(data),
+    variables: { expensesPerYear: true, incomePerYear: true },
     onError: error => {
       console.error(error);
       enqueueSnackbar(error.message, { variant: "error" });
@@ -27,6 +26,7 @@ const Home: React.FC = () => {
       <Box mb={8} id="chart-1">
         <Chart1
           expensesPerYear={data?.chartData?.expensesPerYear}
+          incomesPerYear={data?.chartData?.incomesPerYear}
           timeline={data?.chartData?.timeline}
         />
       </Box>

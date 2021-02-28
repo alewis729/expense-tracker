@@ -67,7 +67,7 @@ export default gql`
   type ExpensesPerYear {
     year: Int!
     months: [Int!]!
-    expenses: [ExpensesPerYearAmount]!
+    payments: [ExpensesPerYearAmount]!
   }
 
   type ChartDataTimeline {
@@ -81,6 +81,7 @@ export default gql`
     hasExpenses: Boolean!
     hasIncome: Boolean!
     expensesPerYear: [ExpensesPerYear]
+    incomesPerYear: [ExpensesPerYear]
   }
 
   # GQL

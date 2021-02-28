@@ -18,8 +18,8 @@ interface Timeline {
   months: number[];
 }
 
-interface ExpensePerYear extends Timeline {
-  expenses: {
+interface PaymentPerYear extends Timeline {
+  payments: {
     currencyCode: string;
     categories: {
       label: string;
@@ -30,7 +30,8 @@ interface ExpensePerYear extends Timeline {
 
 interface Props {
   title?: string;
-  expensesPerYear: ExpensePerYear[];
+  expensesPerYear: PaymentPerYear[];
+  incomesPerYear: PaymentPerYear[];
   timeline?: Timeline[];
 }
 
@@ -39,6 +40,7 @@ const chartOptions = { scales: { yAxes: [{ ticks: { beginAtZero: true } }] } };
 const Chart1: React.FC<Props> = ({
   title = "Overall expenses vs income",
   expensesPerYear,
+  incomesPerYear,
   timeline,
 }) => {
   const theme = useTheme();
@@ -60,30 +62,39 @@ const Chart1: React.FC<Props> = ({
   );
   const currencies = useMemo(
     () => {
-      const currentYearObj = find(expensesPerYear, obj => obj.year === year);
+      const expensePayments =
+        find(expensesPerYear, obj => obj.year === year)?.payments ?? [];
+      const incomePayments =
+        find(incomesPerYear, obj => obj.year === year)?.payments ?? [];
 
-      return map(currentYearObj?.expenses, ({ currencyCode }) => {
-        const currency =
-          find(currenciesData, ({ code }) => code === currencyCode) ??
-          currenciesData[0];
+      return map(
+        [...expensePayments, ...incomePayments],
+        ({ currencyCode }) => {
+          const currency =
+            find(currenciesData, ({ code }) => code === currencyCode) ??
+            currenciesData[0];
 
-        return {
-          value: currency?.code,
-          label: `${currency?.name} (${currency?.symbol})`,
-        };
-      });
+          return {
+            value: currency?.code,
+            label: `${currency?.name} (${currency?.symbol})`,
+          };
+        }
+      );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [expensesPerYear, year]
+    [year, expensesPerYear, incomesPerYear]
   );
   const [currency, setCurrency] = useState<Currency | null>(null);
   const chartData = useMemo(() => {
     const monthAbrevs = map(months, ({ value: index }) =>
       getMonthName({ index, abrev: true })
     );
-    const currentYearObj = find(expensesPerYear, obj => obj.year === year);
     const expense = find(
-      currentYearObj?.expenses,
+      find(expensesPerYear, obj => obj.year === year)?.payments,
+      ({ currencyCode }) => currencyCode === currency?.value
+    );
+    const income = find(
+      find(incomesPerYear, obj => obj.year === year)?.payments,
       ({ currencyCode }) => currencyCode === currency?.value
     );
 
@@ -94,12 +105,18 @@ const Chart1: React.FC<Props> = ({
           label: `Expenses (${currency?.value ?? "USD"})`,
           data: expense?.categories?.[0]?.amounts, // All categories
           fill: false,
-          backgroundColor: theme.palette.primary.main,
+          backgroundColor: theme.palette.error.main,
+        },
+        {
+          label: `Income (${currency?.value ?? "USD"})`,
+          data: income?.categories?.[0]?.amounts, // All categories
+          fill: false,
+          backgroundColor: theme.palette.success.main,
         },
       ],
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [year, months, currency, expensesPerYear]);
+  }, [year, months, currency, expensesPerYear, incomesPerYear]);
 
   useEffect(() => {
     if (!isEmpty(years)) {
