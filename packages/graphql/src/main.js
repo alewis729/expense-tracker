@@ -1,6 +1,7 @@
 export { userFields, categoryFields, expenseFields } from "./fragments";
 
 export { GET_CATEGORY, GET_CATEGORIES } from "./queries/categoryQueries";
+export { GET_CHART_DATA } from "./queries/chartQueries";
 export { GET_EXPENSE, GET_EXPENSES } from "./queries/expenseQueries";
 export { GET_INCOME, GET_INCOMES } from "./queries/incomeQueries";
 export {

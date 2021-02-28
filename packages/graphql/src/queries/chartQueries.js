@@ -1,32 +1,21 @@
 import gql from "graphql-tag";
 
-import { userFields, categoryFields, expenseFields } from "../fragments";
+import { chartDataFields, expensesPerYearFields } from "../fragments";
 
-export const IS_LOGGED_IN = gql`
-  query IsUserLoggedIn {
-    isLoggedIn @client
-  }
-`;
+// expensesPerMonth: Boolean
+// expensesPerYear: Boolean
+// incomePerMonth: Boolean
+// incomePerYear: Boolean
 
-export const GET_ME = gql`
-  query GET_ME(
-    $withCategories: Boolean = false
-    $withExpenses: Boolean = false
-  ) {
-    me {
-      ...userFields
-      categories @include(if: $withCategories) {
-        ...categoryFields
-      }
-      expenses @include(if: $withExpenses) {
-        ...expenseFields
-        category {
-          ...categoryFields
-        }
+export const GET_CHART_DATA = gql`
+  query GET_CHART_DATA($expensesPerYear: Boolean = false) {
+    chartData {
+      ...chartDataFields
+      expensesPerYear @include(if: $expensesPerYear) {
+        ...expensesPerYearFields
       }
     }
   }
-  ${userFields}
-  ${categoryFields}
-  ${expenseFields}
+  ${chartDataFields}
+  ${expensesPerYearFields}
 `;

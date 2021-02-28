@@ -37,3 +37,29 @@ export const incomeFields = gql`
     date
   }
 `;
+
+export const chartDataFields = gql`
+  fragment chartDataFields on ChartData {
+    timeline {
+      year
+      months
+    }
+    defaultCurrency
+    hasExpenses
+    hasIncome
+  }
+`;
+
+export const expensesPerYearFields = gql`
+  fragment expensesPerYearFields on ExpensesPerYear {
+    year
+    months
+    expenses {
+      currencyCode
+      categories {
+        label
+        amounts
+      }
+    }
+  }
+`;
