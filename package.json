@@ -8,6 +8,7 @@
   "scripts": {
     "dev:api": "yarn workspace @expense-tracker/api dev",
     "dev:www": "yarn workspace @expense-tracker/www dev",
+    "dev": "concurrently \"yarn run dev:www\" \"yarn run dev:api\"",
     "build": "lerna run build",
     "lint": "lerna run lint",
     "format": "lerna run format"
@@ -22,6 +23,7 @@
     }
   },
   "devDependencies": {
+    "concurrently": "6.0.0",
     "husky": "4.2.5",
     "lerna": "3.22.1"
   }
