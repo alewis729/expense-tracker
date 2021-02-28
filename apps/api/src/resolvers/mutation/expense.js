@@ -1,5 +1,5 @@
 import { forEach, isDate, isEmpty, omit } from "lodash";
-import { compareUserIds } from "../../utils";
+import { compareUserIds, validateCurrency } from "../../utils";
 import mongoose from "mongoose";
 import { Expense } from "../../models";
 
@@ -18,6 +18,7 @@ export default {
     }
 
     compareUserIds(category.user, ctx.user.id);
+    validateCurrency(args.input.currencyCode);
 
     return ctx.models.Expense.create({
       name: args.input.name,
@@ -56,6 +57,7 @@ export default {
         }
 
         compareUserIds(category.user, ctx.user.id);
+        validateCurrency(obj.currencyCode);
 
         const expense = new Expense({
           name: obj.name,
@@ -112,6 +114,10 @@ export default {
       compareUserIds(category.user, ctx.user.id);
 
       updatedExpenseFields.category = args.input.categoryId;
+    }
+
+    if (!isEmpty(args.input.currencyCode)) {
+      validateCurrency(args.input.currencyCode);
     }
 
     forEach(updatedExpenseFields, (value, key) => {
