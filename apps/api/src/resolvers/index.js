@@ -4,6 +4,7 @@ import User from "./user";
 import Category from "./category";
 import Expense from "./expense";
 import Income from "./income";
+import ChartData from "./chartData";
 import Mutation from "./mutation";
 import Query from "./query";
 
@@ -18,6 +19,7 @@ export default {
   Category,
   Expense,
   Income,
+  ChartData,
   Mutation,
   Query,
 };

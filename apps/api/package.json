@@ -25,6 +25,7 @@
     "apollo-server": "2.16.1",
     "bcryptjs": "2.4.3",
     "dataloader": "2.0.0",
+    "date-fns": "2.16.1",
     "dotenv": "8.2.0",
     "esm": "3.2.25",
     "faker": "4.1.0",

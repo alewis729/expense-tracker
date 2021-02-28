@@ -1,6 +1,7 @@
 import { gql } from "apollo-server";
 
 export default gql`
+  # User & Authentication
   type User implements Node {
     id: ID!
     name: String!
@@ -52,6 +53,37 @@ export default gql`
     updatedAt: DateTime!
   }
 
+  # Chart data types
+  type ChartCategoryAmount {
+    label: String!
+    amounts: [NonNegativeFloat]!
+  }
+
+  type ExpensesPerYearAmount {
+    currencyCode: String!
+    categories: [ChartCategoryAmount]
+  }
+
+  type ExpensesPerYear {
+    year: Int!
+    months: [Int!]!
+    expenses: [ExpensesPerYearAmount]!
+  }
+
+  type ChartDataTimeline {
+    year: Int!
+    months: [Int!]!
+  }
+
+  type ChartData {
+    timeline: [ChartDataTimeline]
+    defaultCurrency: String!
+    hasExpenses: Boolean!
+    hasIncome: Boolean!
+    expensesPerYear: [ExpensesPerYear]
+  }
+
+  # GQL
   type Query {
     me: User!
     user(id: ID!): User!
@@ -62,6 +94,7 @@ export default gql`
     expenses: [Expense!]!
     income(id: ID!): Income!
     incomes: [Income!]!
+    chartData: ChartData!
   }
 
   type Mutation {
