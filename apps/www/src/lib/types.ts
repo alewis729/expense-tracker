@@ -38,11 +38,12 @@ export interface Timeline {
   months: number[];
 }
 
-export interface PaymentPerYear extends Timeline {
+export interface ChartPayment extends Timeline {
   payments: {
     currencyCode: string;
     categories: {
-      label: string;
+      id: string;
+      name: string;
       amounts: number[];
     }[];
   }[];

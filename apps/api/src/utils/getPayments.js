@@ -1,6 +1,7 @@
 import { map, reduce, find, findIndex, isEmpty, round } from "lodash";
+import { v4 as uuidv4 } from "uuid";
 
-const getPaymentsPerYear = ({ payments = {}, timeline }) =>
+const getPayments = ({ payments = {}, timeline }) =>
   reduce(
     payments,
     (arr, payment) => {
@@ -9,13 +10,14 @@ const getPaymentsPerYear = ({ payments = {}, timeline }) =>
       const timelineYear = find(timeline, obj => obj.year === year);
       const months = !isEmpty(timelineYear) ? timelineYear.months : [];
       const amounts = map(months, i => (i === month ? payment.amount : 0));
+      const categoryId = payment.category.id;
       const categoryLabel = payment.category.name;
       const existingYear = find(arr, obj => obj.year === year);
       const newPayment = {
         currencyCode: payment.currencyCode,
         categories: [
-          { label: "All categories", amounts },
-          { label: categoryLabel, amounts },
+          { id: uuidv4(), name: "All categories", amounts },
+          { id: categoryId, name: categoryLabel, amounts },
         ],
       };
 
@@ -28,7 +30,7 @@ const getPaymentsPerYear = ({ payments = {}, timeline }) =>
         if (!isEmpty(existingPayment)) {
           const existingCategory = find(
             existingPayment.categories,
-            obj => obj.label === categoryLabel
+            obj => obj.name === categoryLabel
           );
           const currentMonthIndex = findIndex(months, i => i === month);
 
@@ -43,7 +45,7 @@ const getPaymentsPerYear = ({ payments = {}, timeline }) =>
 
           if (!isEmpty(existingCategory)) {
             existingPayment.categories = map(existingPayment.categories, obj =>
-              obj.label === existingCategory.label
+              obj.name === existingCategory.name
                 ? {
                     ...obj,
                     amounts: map(obj.amounts, (amount, i) =>
@@ -70,7 +72,11 @@ const getPaymentsPerYear = ({ payments = {}, timeline }) =>
           }
 
           // add new category
-          existingPayment.categories.push({ label: categoryLabel, amounts });
+          existingPayment.categories.push({
+            id: categoryId,
+            name: categoryLabel,
+            amounts,
+          });
 
           return map(arr, obj =>
             obj.year === year
@@ -104,4 +110,4 @@ const getPaymentsPerYear = ({ payments = {}, timeline }) =>
     []
   );
 
-export default getPaymentsPerYear;
+export default getPayments;

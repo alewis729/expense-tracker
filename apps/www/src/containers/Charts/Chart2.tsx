@@ -1,26 +1,23 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { isEmpty, isNil, map, find } from "lodash";
-import { v4 as uuidv4 } from "uuid";
-import { Line } from "@reactchartjs/react-chart.js";
+import { find, isEmpty, isNil, map } from "lodash";
+import { Doughnut } from "@reactchartjs/react-chart.js";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { Select } from "@/components";
 import { currencies as currenciesData } from "@expense-tracker/data";
 
 import { getMonthName } from "@/lib/utils";
-import { SelectOption, Timeline, PaymentPerYear } from "@/lib/types";
+import { SelectOption, Timeline, ChartPayment } from "@/lib/types";
 
 interface Props {
   title?: string;
-  incomesPerYear: PaymentPerYear[];
+  payments: ChartPayment[];
   timeline?: Timeline[];
 }
 
-const chartOptions = { scales: { yAxes: [{ ticks: { beginAtZero: true } }] } };
-
-const Chart4: React.FC<Props> = ({
-  title = "Overall income",
-  incomesPerYear,
+const Chart: React.FC<Props> = ({
+  title = "Expenses per month",
+  payments,
   timeline,
 }) => {
   const theme = useTheme();
@@ -40,12 +37,13 @@ const Chart4: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [timeline, year]
   );
+  const [month, setMonth] = useState<SelectOption | null>(months?.[0]);
   const currencies = useMemo(
     () => {
-      const payments =
-        find(incomesPerYear, obj => obj.year === year)?.payments ?? [];
+      const currencies =
+        find(payments, obj => obj.year === year)?.payments ?? [];
 
-      return map(payments, ({ currencyCode }) => {
+      return map(currencies, ({ currencyCode }) => {
         const currency =
           find(currenciesData, ({ code }) => code === currencyCode) ??
           currenciesData[0];
@@ -57,49 +55,49 @@ const Chart4: React.FC<Props> = ({
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [year, incomesPerYear]
+    [year, payments]
   );
   const [currency, setCurrency] = useState<SelectOption | null>(null);
-  const categories = useMemo(() => {
-    const currentPayment = find(incomesPerYear, obj => obj.year === year);
-    const currentIncome = find(
-      currentPayment?.payments,
-      ({ currencyCode }) => currencyCode === currency?.value
-    );
-
-    return map(currentIncome?.categories, ({ label }) => ({
-      value: uuidv4(),
-      label,
-    }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [year, currency, incomesPerYear]);
-  const [category, setCategory] = useState<SelectOption | null>(null);
   const chartData = useMemo(() => {
-    const monthAbrevs = map(months, ({ value: index }) =>
-      getMonthName({ index, abrev: true })
-    );
     const payment = find(
-      find(incomesPerYear, obj => obj.year === year)?.payments,
+      find(payments, obj => obj.year === year)?.payments,
       ({ currencyCode }) => currencyCode === currency?.value
+    );
+    const categories = payment?.categories ?? [];
+    const monthIndex = (month?.value ?? months?.[0]?.value) as number;
+
+    const obj = payment?.categories.reduce(
+      (obj, category) => {
+        if (
+          ["All categories"].includes(category?.name) ||
+          category?.amounts?.[monthIndex] <= 0
+        ) {
+          return obj;
+        }
+
+        const newObj = obj;
+        newObj.labels.push(category?.name);
+        newObj.data.push(category?.amounts?.[monthIndex]);
+
+        return newObj;
+      },
+      { labels: [], data: [] } as { labels: string[]; data: number[] }
     );
 
     return {
-      labels: monthAbrevs,
+      labels: obj?.labels ?? [],
       datasets: [
         {
-          label: `Income (${currency?.value ?? "USD"})`,
-          data: find(
-            payment?.categories,
-            ({ label }) => label === category?.label
-          )?.amounts,
-          fill: false,
-          backgroundColor: theme.palette.success.dark,
-          borderColor: theme.palette.success.light,
+          label: `Expenses (${currency?.value ?? "USD"})`,
+          data: obj?.data ?? [],
+          backgroundColor: map(categories, () => theme.palette.primary.dark),
+          borderColor: map(categories, () => theme.palette.primary.light),
+          borderWidth: 2,
         },
       ],
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [year, months, currency, category, incomesPerYear]);
+  }, [year, month, months, currency, payments]);
 
   useEffect(() => {
     if (!isEmpty(years)) {
@@ -109,18 +107,18 @@ const Chart4: React.FC<Props> = ({
   }, [years]);
 
   useEffect(() => {
+    if (!isEmpty(months)) {
+      setMonth(months[0]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [months]);
+
+  useEffect(() => {
     if (!isEmpty(currencies)) {
       setCurrency(currencies[0]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currencies]);
-
-  useEffect(() => {
-    if (!isEmpty(categories)) {
-      setCategory(categories[0]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categories]);
 
   return (
     <div>
@@ -131,7 +129,7 @@ const Chart4: React.FC<Props> = ({
       )}
       <Box mb={3}>
         <Grid container spacing={2} justify="center">
-          <Grid item xs={3} lg={2}>
+          <Grid item xs={4}>
             <Select
               label="Year"
               options={years}
@@ -139,29 +137,29 @@ const Chart4: React.FC<Props> = ({
               onChange={({ value }) => setYear(value as number)}
             />
           </Grid>
-          <Grid item xs={3} lg={2}>
+          <Grid item xs={4}>
+            <Select
+              label="Month"
+              options={months}
+              value={month?.value ?? ""}
+              disabled={isNil(year)}
+              onChange={option => setMonth(option as SelectOption)}
+            />
+          </Grid>
+          <Grid item xs={4}>
             <Select
               label="Currency"
               options={currencies}
               value={currency?.value ?? ""}
-              disabled={isNil(year)}
+              disabled={isNil(month)}
               onChange={option => setCurrency(option as SelectOption)}
-            />
-          </Grid>
-          <Grid item xs={3} lg={2}>
-            <Select
-              label="Category"
-              options={categories}
-              value={category?.value ?? ""}
-              disabled={isNil(currency)}
-              onChange={option => setCategory(option as SelectOption)}
             />
           </Grid>
         </Grid>
       </Box>
-      <Line type="line" data={chartData} options={chartOptions} />
+      <Doughnut type="doughnut" data={chartData} />
     </div>
   );
 };
 
-export default Chart4;
+export default Chart;

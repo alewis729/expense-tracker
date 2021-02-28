@@ -1,5 +1,5 @@
 import { map } from "lodash";
-import { getTimeline, getPaymentsPerYear } from "../utils";
+import { getTimeline, getPayments } from "../utils";
 
 const getData = async ctx => {
   const expenses = await ctx.models.Expense.find({ user: ctx.user.id })
@@ -17,16 +17,16 @@ const getData = async ctx => {
 };
 
 export default {
-  expensesPerYear: async (_, __, ctx) => {
+  expenses: async (_, __, ctx) => {
     const { expenses, dates } = await getData(ctx);
     const timeline = getTimeline(dates);
 
-    return getPaymentsPerYear({ payments: expenses, timeline });
+    return getPayments({ payments: expenses, timeline });
   },
-  incomesPerYear: async (_, __, ctx) => {
+  incomes: async (_, __, ctx) => {
     const { incomes, dates } = await getData(ctx);
     const timeline = getTimeline(dates);
 
-    return getPaymentsPerYear({ payments: incomes, timeline });
+    return getPayments({ payments: incomes, timeline });
   },
 };

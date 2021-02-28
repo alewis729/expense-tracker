@@ -54,34 +54,35 @@ export default gql`
   }
 
   # Chart data types
-  type ChartCategoryAmount {
-    label: String!
+  type ChartCategory {
+    id: ID
+    name: String!
     amounts: [NonNegativeFloat]!
   }
 
-  type ExpensesPerYearAmount {
+  type Payment {
     currencyCode: String!
-    categories: [ChartCategoryAmount]
+    categories: [ChartCategory]
   }
 
-  type ExpensesPerYear {
+  type ChartDataItem {
     year: Int!
     months: [Int!]!
-    payments: [ExpensesPerYearAmount]!
+    payments: [Payment]!
   }
 
-  type ChartDataTimeline {
+  type Timeline {
     year: Int!
     months: [Int!]!
   }
 
   type ChartData {
-    timeline: [ChartDataTimeline]
+    timeline: [Timeline]
     defaultCurrency: String!
     hasExpenses: Boolean!
     hasIncome: Boolean!
-    expensesPerYear: [ExpensesPerYear]
-    incomesPerYear: [ExpensesPerYear]
+    expenses: [ChartDataItem]
+    incomes: [ChartDataItem]
   }
 
   # GQL

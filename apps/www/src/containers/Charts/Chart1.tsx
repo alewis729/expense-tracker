@@ -7,21 +7,21 @@ import { Select } from "@/components";
 import { currencies as currenciesData } from "@expense-tracker/data";
 
 import { getMonthName } from "@/lib/utils";
-import { SelectOption, Timeline, PaymentPerYear } from "@/lib/types";
+import { SelectOption, Timeline, ChartPayment } from "@/lib/types";
 
 interface Props {
   title?: string;
-  expensesPerYear: PaymentPerYear[];
-  incomesPerYear: PaymentPerYear[];
+  expenses: ChartPayment[];
+  incomes: ChartPayment[];
   timeline?: Timeline[];
 }
 
 const chartOptions = { scales: { yAxes: [{ ticks: { beginAtZero: true } }] } };
 
-const Chart1: React.FC<Props> = ({
+const Chart: React.FC<Props> = ({
   title = "Overall expenses vs income",
-  expensesPerYear,
-  incomesPerYear,
+  expenses,
+  incomes,
   timeline,
 }) => {
   const theme = useTheme();
@@ -44,9 +44,9 @@ const Chart1: React.FC<Props> = ({
   const currencies = useMemo(
     () => {
       const expensePayments =
-        find(expensesPerYear, obj => obj.year === year)?.payments ?? [];
+        find(expenses, obj => obj.year === year)?.payments ?? [];
       const incomePayments =
-        find(incomesPerYear, obj => obj.year === year)?.payments ?? [];
+        find(incomes, obj => obj.year === year)?.payments ?? [];
 
       return map(
         [...expensePayments, ...incomePayments],
@@ -63,7 +63,7 @@ const Chart1: React.FC<Props> = ({
       );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [year, expensesPerYear, incomesPerYear]
+    [year, expenses, incomes]
   );
   const [currency, setCurrency] = useState<SelectOption | null>(null);
   const chartData = useMemo(() => {
@@ -71,11 +71,11 @@ const Chart1: React.FC<Props> = ({
       getMonthName({ index, abrev: true })
     );
     const expense = find(
-      find(expensesPerYear, obj => obj.year === year)?.payments,
+      find(expenses, obj => obj.year === year)?.payments,
       ({ currencyCode }) => currencyCode === currency?.value
     );
     const income = find(
-      find(incomesPerYear, obj => obj.year === year)?.payments,
+      find(incomes, obj => obj.year === year)?.payments,
       ({ currencyCode }) => currencyCode === currency?.value
     );
 
@@ -97,7 +97,7 @@ const Chart1: React.FC<Props> = ({
       ],
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [year, months, currency, expensesPerYear, incomesPerYear]);
+  }, [year, months, currency, expenses, incomes]);
 
   useEffect(() => {
     if (!isEmpty(years)) {
@@ -146,4 +146,4 @@ const Chart1: React.FC<Props> = ({
   );
 };
 
-export default Chart1;
+export default Chart;

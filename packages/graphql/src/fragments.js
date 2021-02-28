@@ -50,14 +50,15 @@ export const chartDataFields = gql`
   }
 `;
 
-export const paymentsPerYearFields = gql`
-  fragment paymentsPerYearFields on ExpensesPerYear {
+export const chartDataItemFields = gql`
+  fragment chartDataItemFields on ChartDataItem {
     year
     months
     payments {
       currencyCode
       categories {
-        label
+        id
+        name
         amounts
       }
     }

@@ -37,7 +37,8 @@
     "mongoose-encryption": "2.0.3",
     "mongoose-unique-validator": "2.0.3",
     "passport": "0.4.1",
-    "passport-google-token": "0.1.2"
+    "passport-google-token": "0.1.2",
+    "uuid": "8.3.2"
   },
   "devDependencies": {
     "eslint": "7.6.0",

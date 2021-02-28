@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { isEmpty, isNil, map, find } from "lodash";
-import { v4 as uuidv4 } from "uuid";
 import { Line } from "@reactchartjs/react-chart.js";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
@@ -8,19 +7,23 @@ import { Select } from "@/components";
 import { currencies as currenciesData } from "@expense-tracker/data";
 
 import { getMonthName } from "@/lib/utils";
-import { SelectOption, Timeline, PaymentPerYear } from "@/lib/types";
+import { SelectOption, Timeline, ChartPayment } from "@/lib/types";
+
+interface CategoryOption extends SelectOption {
+  id: string;
+}
 
 interface Props {
   title?: string;
-  expensesPerYear: PaymentPerYear[];
+  payments: ChartPayment[];
   timeline?: Timeline[];
 }
 
 const chartOptions = { scales: { yAxes: [{ ticks: { beginAtZero: true } }] } };
 
-const Chart4: React.FC<Props> = ({
+const Chart: React.FC<Props> = ({
   title = "Overall expenses",
-  expensesPerYear,
+  payments,
   timeline,
 }) => {
   const theme = useTheme();
@@ -42,10 +45,10 @@ const Chart4: React.FC<Props> = ({
   );
   const currencies = useMemo(
     () => {
-      const payments =
-        find(expensesPerYear, obj => obj.year === year)?.payments ?? [];
+      const currencies =
+        find(payments, obj => obj.year === year)?.payments ?? [];
 
-      return map(payments, ({ currencyCode }) => {
+      return map(currencies, ({ currencyCode }) => {
         const currency =
           find(currenciesData, ({ code }) => code === currencyCode) ??
           currenciesData[0];
@@ -57,29 +60,30 @@ const Chart4: React.FC<Props> = ({
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [year, expensesPerYear]
+    [year, payments]
   );
   const [currency, setCurrency] = useState<SelectOption | null>(null);
   const categories = useMemo(() => {
-    const currentPayment = find(expensesPerYear, obj => obj.year === year);
+    const currentPayment = find(payments, obj => obj.year === year);
     const currentExpense = find(
       currentPayment?.payments,
       ({ currencyCode }) => currencyCode === currency?.value
     );
 
-    return map(currentExpense?.categories, ({ label }) => ({
-      value: uuidv4(),
-      label,
+    return map(currentExpense?.categories, ({ id, name }) => ({
+      id,
+      value: id,
+      label: name,
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [year, currency, expensesPerYear]);
-  const [category, setCategory] = useState<SelectOption | null>(null);
+  }, [year, currency, payments]);
+  const [category, setCategory] = useState<CategoryOption | null>(null);
   const chartData = useMemo(() => {
     const monthAbrevs = map(months, ({ value: index }) =>
       getMonthName({ index, abrev: true })
     );
     const payment = find(
-      find(expensesPerYear, obj => obj.year === year)?.payments,
+      find(payments, obj => obj.year === year)?.payments,
       ({ currencyCode }) => currencyCode === currency?.value
     );
 
@@ -88,10 +92,8 @@ const Chart4: React.FC<Props> = ({
       datasets: [
         {
           label: `Expenses (${currency?.value ?? "USD"})`,
-          data: find(
-            payment?.categories,
-            ({ label }) => label === category?.label
-          )?.amounts,
+          data: find(payment?.categories, ({ id }) => id === category?.id)
+            ?.amounts,
           fill: false,
           backgroundColor: theme.palette.error.dark,
           borderColor: theme.palette.error.light,
@@ -99,7 +101,7 @@ const Chart4: React.FC<Props> = ({
       ],
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [year, months, currency, category, expensesPerYear]);
+  }, [year, months, currency, category, payments]);
 
   useEffect(() => {
     if (!isEmpty(years)) {
@@ -154,7 +156,7 @@ const Chart4: React.FC<Props> = ({
               options={categories}
               value={category?.value ?? ""}
               disabled={isNil(currency)}
-              onChange={option => setCategory(option as SelectOption)}
+              onChange={option => setCategory(option as CategoryOption)}
             />
           </Grid>
         </Grid>
@@ -164,4 +166,4 @@ const Chart4: React.FC<Props> = ({
   );
 };
 
-export default Chart4;
+export default Chart;

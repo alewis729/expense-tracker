@@ -1,25 +1,22 @@
 import gql from "graphql-tag";
 
-import { chartDataFields, paymentsPerYearFields } from "../fragments";
-
-// expensesPerMonth: Boolean
-// incomePerMonth: Boolean
+import { chartDataFields, chartDataItemFields } from "../fragments";
 
 export const GET_CHART_DATA = gql`
   query GET_CHART_DATA(
-    $expensesPerYear: Boolean = false
-    $incomesPerYear: Boolean = false
+    $withExpenses: Boolean = false
+    $withIncomes: Boolean = false
   ) {
     chartData {
       ...chartDataFields
-      expensesPerYear @include(if: $expensesPerYear) {
-        ...paymentsPerYearFields
+      expenses @include(if: $withExpenses) {
+        ...chartDataItemFields
       }
-      incomesPerYear @include(if: $incomesPerYear) {
-        ...paymentsPerYearFields
+      incomes @include(if: $withIncomes) {
+        ...chartDataItemFields
       }
     }
   }
   ${chartDataFields}
-  ${paymentsPerYearFields}
+  ${chartDataItemFields}
 `;
