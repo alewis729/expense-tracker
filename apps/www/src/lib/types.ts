@@ -32,3 +32,18 @@ export interface SelectOption {
   value: string | number;
   label: string | number;
 }
+
+export interface Timeline {
+  year: number;
+  months: number[];
+}
+
+export interface PaymentPerYear extends Timeline {
+  payments: {
+    currencyCode: string;
+    categories: {
+      label: string;
+      amounts: number[];
+    }[];
+  }[];
+}

@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { isEmpty, isNil, map, find } from "lodash";
-import { Bar } from "@reactchartjs/react-chart.js";
+import { v4 as uuidv4 } from "uuid";
+import { Line } from "@reactchartjs/react-chart.js";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { Select } from "@/components";
@@ -11,16 +12,14 @@ import { SelectOption, Timeline, PaymentPerYear } from "@/lib/types";
 
 interface Props {
   title?: string;
-  expensesPerYear: PaymentPerYear[];
   incomesPerYear: PaymentPerYear[];
   timeline?: Timeline[];
 }
 
 const chartOptions = { scales: { yAxes: [{ ticks: { beginAtZero: true } }] } };
 
-const Chart1: React.FC<Props> = ({
-  title = "Overall expenses vs income",
-  expensesPerYear,
+const Chart4: React.FC<Props> = ({
+  title = "Overall income",
   incomesPerYear,
   timeline,
 }) => {
@@ -43,38 +42,43 @@ const Chart1: React.FC<Props> = ({
   );
   const currencies = useMemo(
     () => {
-      const expensePayments =
-        find(expensesPerYear, obj => obj.year === year)?.payments ?? [];
-      const incomePayments =
+      const payments =
         find(incomesPerYear, obj => obj.year === year)?.payments ?? [];
 
-      return map(
-        [...expensePayments, ...incomePayments],
-        ({ currencyCode }) => {
-          const currency =
-            find(currenciesData, ({ code }) => code === currencyCode) ??
-            currenciesData[0];
+      return map(payments, ({ currencyCode }) => {
+        const currency =
+          find(currenciesData, ({ code }) => code === currencyCode) ??
+          currenciesData[0];
 
-          return {
-            value: currency?.code,
-            label: `${currency?.name} (${currency?.symbol})`,
-          };
-        }
-      );
+        return {
+          value: currency?.code,
+          label: `${currency?.name} (${currency?.symbol})`,
+        };
+      });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [year, expensesPerYear, incomesPerYear]
+    [year, incomesPerYear]
   );
   const [currency, setCurrency] = useState<SelectOption | null>(null);
+  const categories = useMemo(() => {
+    const currentPayment = find(incomesPerYear, obj => obj.year === year);
+    const currentIncome = find(
+      currentPayment?.payments,
+      ({ currencyCode }) => currencyCode === currency?.value
+    );
+
+    return map(currentIncome?.categories, ({ label }) => ({
+      value: uuidv4(),
+      label,
+    }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [year, currency, incomesPerYear]);
+  const [category, setCategory] = useState<SelectOption | null>(null);
   const chartData = useMemo(() => {
     const monthAbrevs = map(months, ({ value: index }) =>
       getMonthName({ index, abrev: true })
     );
-    const expense = find(
-      find(expensesPerYear, obj => obj.year === year)?.payments,
-      ({ currencyCode }) => currencyCode === currency?.value
-    );
-    const income = find(
+    const payment = find(
       find(incomesPerYear, obj => obj.year === year)?.payments,
       ({ currencyCode }) => currencyCode === currency?.value
     );
@@ -83,21 +87,19 @@ const Chart1: React.FC<Props> = ({
       labels: monthAbrevs,
       datasets: [
         {
-          label: `Expenses (${currency?.value ?? "USD"})`,
-          data: expense?.categories?.[0]?.amounts, // All categories
-          fill: false,
-          backgroundColor: theme.palette.error.main,
-        },
-        {
           label: `Income (${currency?.value ?? "USD"})`,
-          data: income?.categories?.[0]?.amounts, // All categories
+          data: find(
+            payment?.categories,
+            ({ label }) => label === category?.label
+          )?.amounts,
           fill: false,
-          backgroundColor: theme.palette.success.main,
+          backgroundColor: theme.palette.success.dark,
+          borderColor: theme.palette.success.light,
         },
       ],
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [year, months, currency, expensesPerYear, incomesPerYear]);
+  }, [year, months, currency, category, incomesPerYear]);
 
   useEffect(() => {
     if (!isEmpty(years)) {
@@ -112,6 +114,13 @@ const Chart1: React.FC<Props> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currencies]);
+
+  useEffect(() => {
+    if (!isEmpty(categories)) {
+      setCategory(categories[0]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categories]);
 
   return (
     <div>
@@ -139,11 +148,20 @@ const Chart1: React.FC<Props> = ({
               onChange={option => setCurrency(option as SelectOption)}
             />
           </Grid>
+          <Grid item xs={3} lg={2}>
+            <Select
+              label="Category"
+              options={categories}
+              value={category?.value ?? ""}
+              disabled={isNil(currency)}
+              onChange={option => setCategory(option as SelectOption)}
+            />
+          </Grid>
         </Grid>
       </Box>
-      <Bar type="bar" data={chartData} options={chartOptions} />
+      <Line type="line" data={chartData} options={chartOptions} />
     </div>
   );
 };
 
-export default Chart1;
+export default Chart4;

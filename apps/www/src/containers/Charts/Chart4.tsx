@@ -8,22 +8,7 @@ import { Select } from "@/components";
 import { currencies as currenciesData } from "@expense-tracker/data";
 
 import { getMonthName } from "@/lib/utils";
-import { SelectOption } from "@/lib/types";
-
-interface Timeline {
-  year: number;
-  months: number[];
-}
-
-interface PaymentPerYear extends Timeline {
-  payments: {
-    currencyCode: string;
-    categories: {
-      label: string;
-      amounts: number[];
-    }[];
-  }[];
-}
+import { SelectOption, Timeline, PaymentPerYear } from "@/lib/types";
 
 interface Props {
   title?: string;
@@ -57,10 +42,10 @@ const Chart4: React.FC<Props> = ({
   );
   const currencies = useMemo(
     () => {
-      const expensePayments =
+      const payments =
         find(expensesPerYear, obj => obj.year === year)?.payments ?? [];
 
-      return map(expensePayments, ({ currencyCode }) => {
+      return map(payments, ({ currencyCode }) => {
         const currency =
           find(currenciesData, ({ code }) => code === currencyCode) ??
           currenciesData[0];
@@ -93,7 +78,7 @@ const Chart4: React.FC<Props> = ({
     const monthAbrevs = map(months, ({ value: index }) =>
       getMonthName({ index, abrev: true })
     );
-    const expense = find(
+    const payment = find(
       find(expensesPerYear, obj => obj.year === year)?.payments,
       ({ currencyCode }) => currencyCode === currency?.value
     );
@@ -104,7 +89,7 @@ const Chart4: React.FC<Props> = ({
         {
           label: `Expenses (${currency?.value ?? "USD"})`,
           data: find(
-            expense?.categories,
+            payment?.categories,
             ({ label }) => label === category?.label
           )?.amounts,
           fill: false,

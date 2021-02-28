@@ -7,7 +7,7 @@ import { Box } from "@material-ui/core";
 import { withAuth } from "@/hocs";
 import { DefaultLayout } from "@/layouts";
 import { Header } from "@/containers";
-import { Chart1, Chart4 } from "@/containers/Charts";
+import { Chart1, Chart4, Chart5 } from "@/containers/Charts";
 
 const Home: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -33,6 +33,12 @@ const Home: React.FC = () => {
       <Box mb={8}>
         <Chart4
           expensesPerYear={data?.chartData?.expensesPerYear}
+          timeline={data?.chartData?.timeline}
+        />
+      </Box>
+      <Box mb={8}>
+        <Chart5
+          incomesPerYear={data?.chartData?.incomesPerYear}
           timeline={data?.chartData?.timeline}
         />
       </Box>
