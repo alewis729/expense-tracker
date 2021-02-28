@@ -27,3 +27,8 @@ export interface IncomeFields {
 export interface XLSXRow extends ExpenseFields {
   number: string;
 }
+
+export interface SelectOption {
+  value: string | number;
+  label: string | number;
+}

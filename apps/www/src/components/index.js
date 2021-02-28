@@ -13,6 +13,7 @@ export { default as Link } from "./Link";
 export { default as Navigation } from "./Navigation";
 export { default as PaperHeader } from "./PaperHeader";
 export { default as PasswordField } from "./PasswordField";
+export { default as Select } from "./Select";
 export { default as SigninForm } from "./SigninForm";
 export { default as SignupForm } from "./SignupForm";
 export { default as XlsxTutorial } from "./XlsxTutorial";
