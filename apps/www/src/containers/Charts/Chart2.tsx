@@ -1,26 +1,33 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { find, isEmpty, isNil, map } from "lodash";
-import { Doughnut } from "@reactchartjs/react-chart.js";
+import { Pie } from "@reactchartjs/react-chart.js";
 import { Box, Grid, Typography } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
 import { Select } from "@/components";
 import { currencies as currenciesData } from "@expense-tracker/data";
+import { colors } from "@expense-tracker/data";
 
 import { getMonthName } from "@/lib/utils";
 import { SelectOption, Timeline, ChartPayment } from "@/lib/types";
 
+interface CategoryChartInfo {
+  labels: string[];
+  data: number[];
+  backgroundColor: string[];
+}
 interface Props {
   title?: string;
   payments: ChartPayment[];
   timeline?: Timeline[];
 }
 
+const getHex = (id: string | null): string =>
+  find(colors, color => color.id === id)?.hex ?? colors[0].hex;
+
 const Chart: React.FC<Props> = ({
   title = "Expenses per month",
   payments,
   timeline,
 }) => {
-  const theme = useTheme();
   const years = useMemo(
     () => map(timeline, obj => ({ value: obj?.year, label: obj?.year })),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -63,10 +70,9 @@ const Chart: React.FC<Props> = ({
       find(payments, obj => obj.year === year)?.payments,
       ({ currencyCode }) => currencyCode === currency?.value
     );
-    const categories = payment?.categories ?? [];
     const monthIndex = (month?.value ?? months?.[0]?.value) as number;
 
-    const obj = payment?.categories.reduce(
+    const info = payment?.categories?.reduce(
       (obj, category) => {
         if (
           ["All categories"].includes(category?.name) ||
@@ -78,20 +84,21 @@ const Chart: React.FC<Props> = ({
         const newObj = obj;
         newObj.labels.push(category?.name);
         newObj.data.push(category?.amounts?.[monthIndex]);
+        newObj.backgroundColor.push(getHex(category?.color));
 
         return newObj;
       },
-      { labels: [], data: [] } as { labels: string[]; data: number[] }
+      { labels: [], data: [], backgroundColor: [] } as CategoryChartInfo
     );
 
     return {
-      labels: obj?.labels ?? [],
+      labels: info?.labels ?? [],
       datasets: [
         {
           label: `Expenses (${currency?.value ?? "USD"})`,
-          data: obj?.data ?? [],
-          backgroundColor: map(categories, () => theme.palette.primary.dark),
-          borderColor: map(categories, () => theme.palette.primary.light),
+          data: info?.data ?? [],
+          backgroundColor: info?.backgroundColor ?? [],
+          borderColor: map(payment?.categories, () => "#fff") ?? [],
           borderWidth: 2,
         },
       ],
@@ -157,7 +164,7 @@ const Chart: React.FC<Props> = ({
           </Grid>
         </Grid>
       </Box>
-      <Doughnut type="doughnut" data={chartData} />
+      <Pie type="pie" data={chartData} />
     </div>
   );
 };

@@ -12,12 +12,13 @@ const getPayments = ({ payments = {}, timeline }) =>
       const amounts = map(months, i => (i === month ? payment.amount : 0));
       const categoryId = payment.category.id;
       const categoryLabel = payment.category.name;
+      const color = payment.category.color;
       const existingYear = find(arr, obj => obj.year === year);
       const newPayment = {
         currencyCode: payment.currencyCode,
         categories: [
-          { id: uuidv4(), name: "All categories", amounts },
-          { id: categoryId, name: categoryLabel, amounts },
+          { id: uuidv4(), name: "All categories", color: null, amounts },
+          { id: categoryId, name: categoryLabel, color, amounts },
         ],
       };
 
@@ -75,6 +76,7 @@ const getPayments = ({ payments = {}, timeline }) =>
           existingPayment.categories.push({
             id: categoryId,
             name: categoryLabel,
+            color,
             amounts,
           });
 

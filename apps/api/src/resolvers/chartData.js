@@ -4,10 +4,10 @@ import { getTimeline, getPayments } from "../utils";
 const getData = async ctx => {
   const expenses = await ctx.models.Expense.find({ user: ctx.user.id })
     .sort({ date: 1 })
-    .populate("category", ["name"]);
+    .populate("category", ["name", "color"]);
   const incomes = await ctx.models.Income.find({ user: ctx.user.id })
     .sort({ date: 1 })
-    .populate("category", ["name"]);
+    .populate("category", ["name", "color"]);
   const dates = [
     ...map(expenses, ({ date }) => date),
     ...map(incomes, ({ date }) => date),

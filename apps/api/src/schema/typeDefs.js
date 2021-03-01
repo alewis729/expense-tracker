@@ -57,6 +57,7 @@ export default gql`
   type ChartCategory {
     id: ID
     name: String!
+    color: String
     amounts: [NonNegativeFloat]!
   }
 

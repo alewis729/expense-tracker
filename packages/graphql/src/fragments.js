@@ -59,6 +59,7 @@ export const chartDataItemFields = gql`
       categories {
         id
         name
+        color
         amounts
       }
     }

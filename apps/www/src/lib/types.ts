@@ -44,6 +44,7 @@ export interface ChartPayment extends Timeline {
     categories: {
       id: string;
       name: string;
+      color: string | null;
       amounts: number[];
     }[];
   }[];
