@@ -42,7 +42,7 @@ const getMonthName = ({
   abrev = false,
 }: Props): string => {
   const i = (isNil(date) ? index : date.getMonth()) as number;
-  return abrev ? monthNames[i] : monthAbrevs[i];
+  return !abrev ? monthNames[i] : monthAbrevs[i];
 };
 
 export default getMonthName;
