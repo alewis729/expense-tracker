@@ -10,7 +10,7 @@ import { useModal } from "react-modal-hook";
 import { withAuth } from "@/hocs";
 import { DefaultLayout } from "@/layouts";
 import { Header, CategoryFormDialog } from "@/containers";
-import { PaperHeader, CategoriesTable } from "@/components";
+import { PaperHeader, CategoriesTable, ErrorMessage } from "@/components";
 import { CategoryFields } from "@/lib/types";
 
 interface CurrentCategory extends CategoryFields {
@@ -54,10 +54,13 @@ const Categories: React.FC = () => {
     showCategoryDialog();
   };
 
-  if (error) return <p>Error</p>;
-
   return (
-    <DefaultLayout header={<Header />} loading={pending} hideWhileLoading>
+    <DefaultLayout
+      header={<Header />}
+      loading={pending}
+      hideWhileLoading
+      errorNode={error ? <ErrorMessage /> : null}
+    >
       <PaperHeader
         title="Categories"
         actionButtons={

@@ -4,6 +4,7 @@ export { default as CategoryChip } from "./CategoryChip";
 export { default as CategoryForm } from "./CategoryForm";
 export { default as Center } from "./Center";
 export { default as Dialog } from "./Dialog";
+export { default as ErrorMessage } from "./ErrorMessage";
 export { default as ExpenseForm } from "./ExpenseForm";
 export { default as ExpensesTable } from "./ExpensesTable";
 export { default as GoogleAuthButton } from "./GoogleAuthButton";

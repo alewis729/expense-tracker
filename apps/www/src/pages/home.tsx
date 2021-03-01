@@ -7,6 +7,7 @@ import { Box, Grid } from "@material-ui/core";
 import { withAuth } from "@/hocs";
 import { DefaultLayout } from "@/layouts";
 import { Header } from "@/containers";
+import { ErrorMessage } from "@/components";
 import { Chart1, Chart2, Chart3 } from "@/containers/Charts";
 
 const Home: React.FC = () => {
@@ -18,10 +19,13 @@ const Home: React.FC = () => {
     },
   });
 
-  if (error) return <p>Something went wrong... Try refreshing the page</p>;
-
   return (
-    <DefaultLayout header={<Header />} loading={loading} hideWhileLoading>
+    <DefaultLayout
+      header={<Header />}
+      loading={loading}
+      hideWhileLoading
+      errorNode={error ? <ErrorMessage /> : null}
+    >
       <Box mb={8}>
         <Chart1
           expenses={data?.chartData?.expenses}

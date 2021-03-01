@@ -13,7 +13,7 @@ import { useModal } from "react-modal-hook";
 import { withAuth } from "@/hocs";
 import { DefaultLayout } from "@/layouts";
 import { Header, IncomeFormDialog, FileReaderDialog } from "@/containers";
-import { PaperHeader, ExpensesTable } from "@/components";
+import { PaperHeader, ExpensesTable, ErrorMessage } from "@/components";
 import { ExpenseFields } from "@/lib/types";
 
 interface CurrentExpense extends ExpenseFields {
@@ -96,6 +96,7 @@ const Income: React.FC = () => {
       header={<Header />}
       loading={pending}
       hideWhileLoading={firstApiCall}
+      errorNode={error ? <ErrorMessage /> : null}
     >
       <PaperHeader
         title="Income"

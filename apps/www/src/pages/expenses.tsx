@@ -13,7 +13,7 @@ import { useModal } from "react-modal-hook";
 import { withAuth } from "@/hocs";
 import { DefaultLayout } from "@/layouts";
 import { Header, ExpenseFormDialog, FileReaderDialog } from "@/containers";
-import { PaperHeader, ExpensesTable } from "@/components";
+import { PaperHeader, ExpensesTable, ErrorMessage } from "@/components";
 import { ExpenseFields } from "@/lib/types";
 
 interface CurrentExpense extends ExpenseFields {
@@ -88,13 +88,12 @@ const Expenses: React.FC = () => {
     removeExpense({ variables: { id } });
   };
 
-  if (error) return <p>Error</p>;
-
   return (
     <DefaultLayout
       header={<Header />}
       loading={pending}
       hideWhileLoading={firstApiCall}
+      errorNode={error ? <ErrorMessage /> : null}
     >
       <PaperHeader
         title="Expenses"
