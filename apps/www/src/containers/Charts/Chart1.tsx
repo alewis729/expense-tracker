@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { isEmpty, isNil, map, find } from "lodash";
+import { isEmpty, isNil, map, find, uniqBy } from "lodash";
 import { Bar } from "@reactchartjs/react-chart.js";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
@@ -47,20 +47,21 @@ const Chart: React.FC<Props> = ({
         find(expenses, obj => obj.year === year)?.payments ?? [];
       const incomePayments =
         find(incomes, obj => obj.year === year)?.payments ?? [];
-
-      return map(
+      const payments = uniqBy(
         [...expensePayments, ...incomePayments],
-        ({ currencyCode }) => {
-          const currency =
-            find(currenciesData, ({ code }) => code === currencyCode) ??
-            currenciesData[0];
-
-          return {
-            value: currency?.code,
-            label: `${currency?.name} (${currency?.symbol})`,
-          };
-        }
+        "currencyCode"
       );
+
+      return map(payments, ({ currencyCode }) => {
+        const currency =
+          find(currenciesData, ({ code }) => code === currencyCode) ??
+          currenciesData[0];
+
+        return {
+          value: currency?.code,
+          label: `${currency?.name} (${currency?.symbol})`,
+        };
+      });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [year, expenses, incomes]
