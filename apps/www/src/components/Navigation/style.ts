@@ -11,11 +11,5 @@ export const useStyles = makeStyles((theme: Theme) => ({
     "& .MuiSvgIcon-root": {
       fill: theme.palette.primary.main,
     },
-    "&#expenses .MuiSvgIcon-root": {
-      fill: theme.palette.error.main,
-    },
-    "&#income .MuiSvgIcon-root": {
-      fill: theme.palette.success.main,
-    },
   },
 }));
