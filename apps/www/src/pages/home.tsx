@@ -58,6 +58,7 @@ const Home: React.FC = () => {
       </Box>
       <Box mb={8}>
         <Chart3
+          title="Overall income"
           payments={data?.chartData?.incomes}
           timeline={data?.chartData?.timeline}
         />
