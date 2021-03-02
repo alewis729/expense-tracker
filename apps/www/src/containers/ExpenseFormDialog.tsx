@@ -6,13 +6,11 @@ import {
   GET_CATEGORIES,
 } from "@expense-tracker/graphql";
 import { useSnackbar } from "notistack";
-import { isNil } from "lodash";
+import { isNil, pickBy } from "lodash";
 
-import { Dialog, ExpenseForm } from "@/components";
-import {
-  ExpenseFields,
-  Props as ExpenseFormProps,
-} from "@/components/ExpenseForm/ExpenseForm";
+import { Dialog, ExpenseForm, Button } from "@/components";
+import { ExpenseFields } from "@/lib/types";
+import { Props as ExpenseFormProps } from "@/components/ExpenseForm/ExpenseForm";
 
 interface CurrentExpense extends ExpenseFields {
   id: string;
@@ -80,10 +78,14 @@ const ExpenseFormDialog: React.FC<Props> = ({
         variables: { addExpenseInput: { ...expenseFields } },
       });
     } else {
+      const necesaryFields = pickBy(
+        expenseFields,
+        (value, key) => currentExpense?.[key as keyof CurrentExpense] !== value
+      );
       updateExpense({
         variables: {
           id: currentExpense?.id,
-          updateExpenseInput: { ...expenseFields },
+          updateExpenseInput: necesaryFields,
         },
       });
     }
@@ -96,17 +98,16 @@ const ExpenseFormDialog: React.FC<Props> = ({
       open={open}
       onClose={onClose}
       title={isAddForm ? "Register expense" : "Update expense"}
-      buttonText={isAddForm ? "Register expense" : "Update expense"}
-      ButtonProps={{
-        type: "submit",
-        form: "add_expense_form",
-        pending: loading,
-      }}
+      actionsNode={
+        <Button type="submit" form="add_expense_form" pending={loading}>
+          {isAddForm ? "Register expense" : "Update expense"}
+        </Button>
+      }
     >
       <ExpenseForm
         categories={data.categories}
-        onSubmit={handleSubmit}
         defaultValues={currentExpense}
+        onSubmit={handleSubmit}
         {...props}
       />
     </Dialog>

@@ -7,7 +7,9 @@ declare module '@expense-tracker/graphql' {
   export const GET_CATEGORIES: DocumentNode;
   export const GET_EXPENSE: DocumentNode;
   export const GET_EXPENSES: DocumentNode;
-
+  export const GET_INCOME: DocumentNode;
+  export const GET_INCOMES: DocumentNode;
+  export const GET_CHART_DATA: DocumentNode;
   export const LOGIN: DocumentNode;
   export const REGISTER: DocumentNode;
   export const AUTH_GOOGLE: DocumentNode;
@@ -15,6 +17,11 @@ declare module '@expense-tracker/graphql' {
   export const UPDATE_CATEGORY: DocumentNode;
   export const REMOVE_CATEGORY: DocumentNode;
   export const ADD_EXPENSE: DocumentNode;
+  export const ADD_EXPENSES: DocumentNode;
   export const UPDATE_EXPENSE: DocumentNode;
   export const REMOVE_EXPENSE: DocumentNode;
+  export const ADD_INCOME: DocumentNode;
+  export const ADD_INCOMES: DocumentNode;
+  export const UPDATE_INCOME: DocumentNode;
+  export const REMOVE_INCOME: DocumentNode;
 }

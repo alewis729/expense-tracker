@@ -12,6 +12,10 @@ export default gql`
     password: String!
   }
 
+  input AuthInput {
+    accessToken: String!
+  }
+
   input AddCategoryInput {
     name: String!
     color: String!
@@ -31,6 +35,10 @@ export default gql`
     date: DateTime
   }
 
+  input AddExpensesInput {
+    expenses: [AddExpenseInput!]!
+  }
+
   input UpdateExpenseInput {
     name: String
     description: String
@@ -40,7 +48,25 @@ export default gql`
     date: DateTime
   }
 
-  input AuthInput {
-    accessToken: String!
+  input AddIncomeInput {
+    name: String!
+    description: String
+    currencyCode: String!
+    amount: NonNegativeFloat!
+    categoryId: ID!
+    date: DateTime
+  }
+
+  input AddIncomesInput {
+    incomes: [AddIncomeInput!]!
+  }
+
+  input UpdateIncomeInput {
+    name: String
+    description: String
+    currencyCode: String
+    amount: NonNegativeFloat
+    categoryId: ID
+    date: DateTime
   }
 `;

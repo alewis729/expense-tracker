@@ -1,5 +1,7 @@
-import { isDate, isEmpty, omit } from "lodash";
-import { compareUserIds } from "../../utils";
+import { forEach, isDate, isEmpty, omit } from "lodash";
+import { compareUserIds, validateCurrency } from "../../utils";
+import mongoose from "mongoose";
+import { Expense } from "../../models";
 
 export default {
   addExpense: async (_, args, ctx) => {
@@ -16,6 +18,7 @@ export default {
     }
 
     compareUserIds(category.user, ctx.user.id);
+    validateCurrency(args.input.currencyCode);
 
     return ctx.models.Expense.create({
       name: args.input.name,
@@ -27,6 +30,59 @@ export default {
       date: isDate(args.input.date) ? args.input.date : new Date(),
       category: args.input.categoryId,
       user: ctx.user.id,
+    });
+  },
+  addExpenses: async (_, args, ctx) => {
+    if (!ctx.user) {
+      throw new Error("User not found.");
+    }
+
+    const expenseIds = await Promise.all(
+      args.input.expenses.map(async obj => {
+        const categoryId = !isEmpty(obj.categoryId)
+          ? obj.categoryId.split("-")[0]
+          : null;
+        const isValidId = mongoose.Types.ObjectId.isValid(categoryId);
+
+        if (!isValidId) {
+          throw new Error(`Category id '${categoryId}' isn't a valid id.`);
+        }
+
+        const category = await ctx.models.Category.findOne({
+          _id: categoryId,
+        });
+
+        if (!category) {
+          throw new Error(`Category not found for: '${obj.name}'`);
+        }
+
+        compareUserIds(category.user, ctx.user.id);
+        validateCurrency(obj.currencyCode);
+
+        const expense = new Expense({
+          name: obj.name,
+          description: !isEmpty(obj.description) ? obj.description : "",
+          currencyCode: obj.currencyCode,
+          amount: obj.amount,
+          date: isDate(obj.date) ? obj.date : new Date(),
+          category: categoryId,
+          user: ctx.user.id,
+        });
+
+        await expense.save(err => {
+          if (err) {
+            throw new Error(
+              "Something went wrong while saving expenses to the database."
+            );
+          }
+        });
+
+        return expense._id;
+      })
+    );
+
+    return await ctx.models.Expense.find({
+      _id: { $in: expenseIds },
     });
   },
   updateExpense: async (_, args, ctx) => {
@@ -60,11 +116,17 @@ export default {
       updatedExpenseFields.category = args.input.categoryId;
     }
 
-    await ctx.models.Expense.updateOne(
-      { _id: expense.id },
-      updatedExpenseFields
-    );
+    if (!isEmpty(args.input.currencyCode)) {
+      validateCurrency(args.input.currencyCode);
+    }
 
+    forEach(updatedExpenseFields, (value, key) => {
+      if (expense[key] !== value) {
+        expense[key] = value;
+      }
+    });
+
+    await expense.save();
     return ctx.models.Expense.findOne({ _id: expense.id });
   },
   removeExpense: async (_, { id }, ctx) => {

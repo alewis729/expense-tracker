@@ -23,6 +23,7 @@ const variables = {
   email: "alfred@google.com",
   withCategories: false,
   withExpenses: false,
+  withIncome: false,
   googleAuthInput: {
     accessToken: "1",
   },
