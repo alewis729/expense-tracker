@@ -42,3 +42,19 @@ export const GET_EXPENSES = gql`
   ${userFields}
   ${categoryFields}
 `;
+
+export const FILTER_EXPENSES = gql`
+  query FILTER_EXPENSES(
+    $filterInput: FilterInput!
+    $withCategory: Boolean = false
+  ) {
+    filterExpenses(input: $filterInput) {
+      ...expenseFields
+      category @include(if: $withCategory) {
+        ...categoryFields
+      }
+    }
+  }
+  ${expenseFields}
+  ${categoryFields}
+`;
