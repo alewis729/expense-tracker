@@ -1,5 +1,5 @@
 import { isEmpty, map } from "lodash";
-import { compareUserIds, getTimeline } from "../utils";
+import { compareUserIds, getTimeline, filterPayments } from "../utils";
 
 export default {
   me: (_, __, ctx) => {
@@ -27,6 +27,15 @@ export default {
     return expense;
   },
   expenses: (_, __, ctx) => ctx.models.Expense.find({ user: ctx.user.id }),
+  filterExpenses: async (_, args, ctx) => {
+    const expenses = await ctx.models.Expense.find({
+      user: ctx.user.id,
+    })
+      .sort({ date: -1 })
+      .populate("category", ["name"]);
+
+    return filterPayments(expenses, args.input);
+  },
   income: async (_, { id }, ctx) => {
     const income = await ctx.models.Income.findOne({ _id: id });
 
@@ -35,7 +44,7 @@ export default {
     return income;
   },
   incomes: (_, __, ctx) => ctx.models.Income.find({ user: ctx.user.id }),
-  chartData: async (_, args, ctx) => {
+  chartData: async (_, __, ctx) => {
     const user = ctx.user.id;
     const expenses = await ctx.models.Expense.find({ user }).sort({ date: -1 });
     const incomes = await ctx.models.Income.find({ user }).sort({ date: -1 });
