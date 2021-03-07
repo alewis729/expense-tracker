@@ -63,7 +63,7 @@ const Categories: React.FC = () => {
     >
       <PaperHeader
         title="Categories"
-        actionButtons={
+        actionsNode={
           <Button onClick={showCategoryDialog} color="default">
             Add Category
           </Button>

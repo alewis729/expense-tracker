@@ -49,3 +49,11 @@ export interface ChartPayment extends Timeline {
     }[];
   }[];
 }
+
+export interface FilterQuery {
+  name?: string;
+  currencyCode?: string;
+  categoryId?: string;
+  amountMin?: number;
+  amountMax?: number;
+}

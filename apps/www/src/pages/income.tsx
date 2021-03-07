@@ -100,7 +100,7 @@ const Income: React.FC = () => {
     >
       <PaperHeader
         title="Income"
-        actionButtons={
+        actionsNode={
           <>
             <Button
               disabled={isEmpty(data?.me?.categories)}
