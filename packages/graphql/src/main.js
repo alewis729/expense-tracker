@@ -7,7 +7,11 @@ export {
   GET_EXPENSES,
   FILTER_EXPENSES,
 } from "./queries/expenseQueries";
-export { GET_INCOME, GET_INCOMES } from "./queries/incomeQueries";
+export {
+  GET_INCOME,
+  GET_INCOMES,
+  FILTER_INCOMES,
+} from "./queries/incomeQueries";
 export {
   IS_LOGGED_IN,
   GET_ME,

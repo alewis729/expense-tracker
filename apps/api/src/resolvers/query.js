@@ -44,6 +44,15 @@ export default {
     return income;
   },
   incomes: (_, __, ctx) => ctx.models.Income.find({ user: ctx.user.id }),
+  filterIncomes: async (_, args, ctx) => {
+    const incomes = await ctx.models.Income.find({
+      user: ctx.user.id,
+    })
+      .sort({ date: -1 })
+      .populate("category", ["name"]);
+
+    return filterPayments(incomes, args.input);
+  },
   chartData: async (_, __, ctx) => {
     const user = ctx.user.id;
     const expenses = await ctx.models.Expense.find({ user }).sort({ date: -1 });

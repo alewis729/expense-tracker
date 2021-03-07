@@ -42,3 +42,19 @@ export const GET_INCOMES = gql`
   ${userFields}
   ${categoryFields}
 `;
+
+export const FILTER_INCOMES = gql`
+  query FILTER_INCOMES(
+    $filterInput: FilterInput!
+    $withCategory: Boolean = false
+  ) {
+    filterIncomes(input: $filterInput) {
+      ...incomeFields
+      category @include(if: $withCategory) {
+        ...categoryFields
+      }
+    }
+  }
+  ${incomeFields}
+  ${categoryFields}
+`;
