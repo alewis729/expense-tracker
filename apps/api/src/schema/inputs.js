@@ -48,6 +48,14 @@ export default gql`
     date: DateTime
   }
 
+  input FilterInput {
+    name: String
+    currencyCode: String
+    categoryId: ID
+    amountMin: NonNegativeFloat
+    amountMax: NonNegativeFloat
+  }
+
   input AddIncomeInput {
     name: String!
     description: String

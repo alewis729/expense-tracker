@@ -15,14 +15,7 @@ export interface ExpenseFields {
 }
 
 // Income
-export interface IncomeFields {
-  name: string;
-  description: string;
-  date: Date;
-  categoryId: string;
-  amount: number;
-  currencyCode: string;
-}
+export type IncomeFields = ExpenseFields;
 
 export interface XLSXRow extends ExpenseFields {
   number: string;
@@ -48,4 +41,12 @@ export interface ChartPayment extends Timeline {
       amounts: number[];
     }[];
   }[];
+}
+
+export interface FilterQuery {
+  name?: string;
+  currencyCode?: string;
+  categoryId?: string;
+  amountMin?: number;
+  amountMax?: number;
 }

@@ -10,13 +10,12 @@ export const useStyles = makeStyles((theme: Theme) => ({
       marginRight: theme.spacing(3),
     },
   },
-  search: {
-    flexGrow: 1,
-  },
   actions: {
     display: "flex",
     alignItems: "center",
     flexShrink: 0,
+    flexGrow: 1,
+    justifyContent: "flex-end",
     "& > *:not(:last-child)": {
       marginRight: theme.spacing(1),
     },

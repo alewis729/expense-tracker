@@ -7,8 +7,10 @@ declare module '@expense-tracker/graphql' {
   export const GET_CATEGORIES: DocumentNode;
   export const GET_EXPENSE: DocumentNode;
   export const GET_EXPENSES: DocumentNode;
+  export const FILTER_EXPENSES: DocumentNode;
   export const GET_INCOME: DocumentNode;
   export const GET_INCOMES: DocumentNode;
+  export const FILTER_INCOMES: DocumentNode;
   export const GET_CHART_DATA: DocumentNode;
   export const LOGIN: DocumentNode;
   export const REGISTER: DocumentNode;

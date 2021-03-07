@@ -95,8 +95,10 @@ export default gql`
     categories: [Category!]!
     expense(id: ID!): Expense!
     expenses: [Expense!]!
+    filterExpenses(input: FilterInput): [Expense]!
     income(id: ID!): Income!
     incomes: [Income!]!
+    filterIncomes(input: FilterInput): [Income]!
     chartData: ChartData!
   }
 
