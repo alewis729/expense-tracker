@@ -22,7 +22,7 @@ const filterPayments = (payments = [], query = {}) => {
       return amount >= query.amountMin;
     }
 
-    return false;
+    return true;
   };
 
   return filter(
