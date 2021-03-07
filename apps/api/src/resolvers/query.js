@@ -10,7 +10,7 @@ export default {
     return ctx.user;
   },
   user: (_, { id }, ctx) => ctx.models.User.findOne({ _id: id }),
-  users: (_, __, ctx) => ctx.models.User.find({}),
+  users: (_, __, ctx) => ctx.models.User.find({}).sort({ date: -1 }),
   category: async (_, { id }, ctx) => {
     const category = await ctx.models.Category.findOne({ _id: id });
 
@@ -18,7 +18,8 @@ export default {
 
     return category;
   },
-  categories: (_, __, ctx) => ctx.models.Category.find({ user: ctx.user.id }),
+  categories: (_, __, ctx) =>
+    ctx.models.Category.find({ user: ctx.user.id }).sort({ date: -1 }),
   expense: async (_, { id }, ctx) => {
     const expense = await ctx.models.Expense.findOne({ _id: id });
 
@@ -26,7 +27,8 @@ export default {
 
     return expense;
   },
-  expenses: (_, __, ctx) => ctx.models.Expense.find({ user: ctx.user.id }),
+  expenses: (_, __, ctx) =>
+    ctx.models.Expense.find({ user: ctx.user.id }).sort({ date: -1 }),
   filterExpenses: async (_, args, ctx) => {
     const expenses = await ctx.models.Expense.find({
       user: ctx.user.id,
@@ -43,7 +45,8 @@ export default {
 
     return income;
   },
-  incomes: (_, __, ctx) => ctx.models.Income.find({ user: ctx.user.id }),
+  incomes: (_, __, ctx) =>
+    ctx.models.Income.find({ user: ctx.user.id }).sort({ date: -1 }),
   filterIncomes: async (_, args, ctx) => {
     const incomes = await ctx.models.Income.find({
       user: ctx.user.id,

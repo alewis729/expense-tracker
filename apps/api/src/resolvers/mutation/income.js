@@ -83,7 +83,7 @@ export default {
 
     return await ctx.models.Income.find({
       _id: { $in: incomeIds },
-    });
+    }).sort({ date: -1 });
   },
   updateIncome: async (_, args, ctx) => {
     if (!ctx.user) {
