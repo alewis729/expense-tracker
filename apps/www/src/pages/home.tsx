@@ -18,13 +18,24 @@ const Home: React.FC = () => {
       enqueueSnackbar(error.message, { variant: "error" });
     },
   });
+  const hasData = data?.chartData?.hasExpenses || data?.chartData?.hasIncome;
 
   return (
     <DefaultLayout
       header={<Header />}
       loading={loading}
       hideWhileLoading
-      errorNode={error ? <ErrorMessage /> : null}
+      errorNode={
+        error || !hasData ? (
+          <ErrorMessage
+            message={
+              !hasData
+                ? "No expenses or income found, register some to view relevant chart data."
+                : "Something went wrong... Try refreshing the page."
+            }
+          />
+        ) : null
+      }
     >
       <Box mb={8}>
         <Chart1

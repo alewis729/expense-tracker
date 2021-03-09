@@ -8,6 +8,10 @@ import { min, max, eachMonthOfInterval } from "date-fns";
  * @param {Date[]} dates Dates
  */
 const getTimeline = (dates = []) => {
+  if (isEmpty(dates)) {
+    return [];
+  }
+
   const start = min(dates);
   const end = max(dates);
   const months = eachMonthOfInterval({ start, end });
