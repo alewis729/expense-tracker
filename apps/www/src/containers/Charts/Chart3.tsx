@@ -29,7 +29,6 @@ const Chart: React.FC<Props> = ({
   const theme = useTheme();
   const years = useMemo(
     () => map(timeline, obj => ({ value: obj?.year, label: obj?.year })),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [timeline]
   );
   const lastYearValue = years?.[(years?.length ?? 1) - 1]?.value;
@@ -40,28 +39,22 @@ const Chart: React.FC<Props> = ({
         value: index,
         label: getMonthName({ index }),
       })),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [timeline, year]
   );
-  const currencies = useMemo(
-    () => {
-      const currencies =
-        find(payments, obj => obj.year === year)?.payments ?? [];
+  const currencies = useMemo(() => {
+    const currencies = find(payments, obj => obj.year === year)?.payments ?? [];
 
-      return map(currencies, ({ currencyCode }) => {
-        const currency =
-          find(currenciesData, ({ code }) => code === currencyCode) ??
-          currenciesData[0];
+    return map(currencies, ({ currencyCode }) => {
+      const currency =
+        find(currenciesData, ({ code }) => code === currencyCode) ??
+        currenciesData[0];
 
-        return {
-          value: currency?.code,
-          label: `${currency?.name} (${currency?.symbol})`,
-        };
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [year, payments]
-  );
+      return {
+        value: currency?.code,
+        label: `${currency?.name} (${currency?.symbol})`,
+      };
+    });
+  }, [year, payments]);
   const [currency, setCurrency] = useState<SelectOption | null>(null);
   const categories = useMemo(() => {
     const currentPayment = find(payments, obj => obj.year === year);
@@ -75,7 +68,6 @@ const Chart: React.FC<Props> = ({
       value: id,
       label: name,
     }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [year, currency, payments]);
   const [category, setCategory] = useState<CategoryOption | null>(null);
   const chartData = useMemo(() => {
@@ -114,14 +106,12 @@ const Chart: React.FC<Props> = ({
     if (!isEmpty(currencies)) {
       setCurrency(currencies[0]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currencies]);
 
   useEffect(() => {
     if (!isEmpty(categories)) {
       setCategory(categories[0]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categories]);
 
   return (

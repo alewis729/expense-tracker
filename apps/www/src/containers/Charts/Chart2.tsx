@@ -30,7 +30,6 @@ const Chart: React.FC<Props> = ({
 }) => {
   const years = useMemo(
     () => map(timeline, obj => ({ value: obj?.year, label: obj?.year })),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [timeline]
   );
   const lastYearValue = years?.[(years?.length ?? 1) - 1]?.value;
@@ -41,29 +40,23 @@ const Chart: React.FC<Props> = ({
         value: index,
         label: getMonthName({ index }),
       })),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [timeline, year]
   );
   const [month, setMonth] = useState<SelectOption | null>(months?.[0]);
-  const currencies = useMemo(
-    () => {
-      const currencies =
-        find(payments, obj => obj.year === year)?.payments ?? [];
+  const currencies = useMemo(() => {
+    const currencies = find(payments, obj => obj.year === year)?.payments ?? [];
 
-      return map(currencies, ({ currencyCode }) => {
-        const currency =
-          find(currenciesData, ({ code }) => code === currencyCode) ??
-          currenciesData[0];
+    return map(currencies, ({ currencyCode }) => {
+      const currency =
+        find(currenciesData, ({ code }) => code === currencyCode) ??
+        currenciesData[0];
 
-        return {
-          value: currency?.code,
-          label: `${currency?.name} (${currency?.symbol})`,
-        };
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [year, payments]
-  );
+      return {
+        value: currency?.code,
+        label: `${currency?.name} (${currency?.symbol})`,
+      };
+    });
+  }, [year, payments]);
   const [currency, setCurrency] = useState<SelectOption | null>(null);
   const chartData = useMemo(() => {
     const payment = find(
@@ -103,7 +96,6 @@ const Chart: React.FC<Props> = ({
         },
       ],
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [year, month, months, currency, payments]);
 
   useEffect(() => {
@@ -117,14 +109,12 @@ const Chart: React.FC<Props> = ({
     if (!isEmpty(months)) {
       setMonth(months[0]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [months]);
 
   useEffect(() => {
     if (!isEmpty(currencies)) {
       setCurrency(currencies[0]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currencies]);
 
   return (
