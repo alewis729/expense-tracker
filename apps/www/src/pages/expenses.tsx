@@ -62,7 +62,7 @@ const Expenses: React.FC = () => {
     REMOVE_EXPENSE,
     {
       onCompleted: () => {
-        refetch?.();
+        execFilterQuery();
         enqueueSnackbar("Expense removed successfuly.", { variant: "success" });
       },
       onError: error => enqueueSnackbar(error.message, { variant: "error" }),
@@ -79,7 +79,7 @@ const Expenses: React.FC = () => {
           hideExpenseDialog();
           setCurrentExpense(null);
         }}
-        refetchExpenses={refetch}
+        refetchExpenses={execFilterQuery}
         currentExpense={currentExpense}
         defaultCurrencyCode={expenses?.[0]?.currencyCode}
       />
@@ -91,7 +91,7 @@ const Expenses: React.FC = () => {
       <FileReaderDialog
         open={open}
         onClose={hideFileReaderDialog}
-        refetch={refetch}
+        refetch={execFilterQuery}
       />
     ),
     [currentExpense, expenses]
@@ -108,13 +108,17 @@ const Expenses: React.FC = () => {
     [data?.me?.categories, expenses]
   );
 
+  const execFilterQuery = () => {
+    if (!called) {
+      startFiltering();
+    } else {
+      refetch?.({ filterInput, withCategory: true });
+    }
+  };
+
   useEffect(() => {
     if (!firstApiCall) {
-      if (!called) {
-        startFiltering();
-      } else {
-        refetch?.({ filterInput, withCategory: true });
-      }
+      execFilterQuery();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterInput]);

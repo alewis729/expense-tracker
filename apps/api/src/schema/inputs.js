@@ -54,6 +54,8 @@ export default gql`
     categoryId: ID
     amountMin: NonNegativeFloat
     amountMax: NonNegativeFloat
+    dateFrom: DateTime
+    dateTo: DateTime
   }
 
   input AddIncomeInput {

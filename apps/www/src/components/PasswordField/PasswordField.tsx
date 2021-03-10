@@ -10,9 +10,8 @@ interface Props {
   buttonDisabled?: boolean;
 }
 
-// eslint-disable-next-line react/display-name
 const PasswordField = React.forwardRef<HTMLInputElement, Props>(
-  (props, ref) => {
+  function Password(props, ref) {
     const { visible = false, buttonDisabled = false, ...other } = props;
     const [visibleInner, setVisibleInner] = useState(false);
 

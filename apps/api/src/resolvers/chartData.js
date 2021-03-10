@@ -1,4 +1,4 @@
-import { map } from "lodash";
+import { isEmpty, map } from "lodash";
 import { getTimeline, getPayments } from "../utils";
 
 const getData = async ctx => {
@@ -12,21 +12,24 @@ const getData = async ctx => {
     ...map(expenses, ({ date }) => date),
     ...map(incomes, ({ date }) => date),
   ];
+  const timeline = getTimeline(dates);
 
-  return { expenses, incomes, dates };
+  return { expenses, incomes, timeline };
 };
 
 export default {
   expenses: async (_, __, ctx) => {
-    const { expenses, dates } = await getData(ctx);
-    const timeline = getTimeline(dates);
+    const { expenses, timeline } = await getData(ctx);
 
-    return getPayments({ payments: expenses, timeline });
+    return isEmpty(timeline)
+      ? []
+      : getPayments({ payments: expenses, timeline });
   },
   incomes: async (_, __, ctx) => {
-    const { incomes, dates } = await getData(ctx);
-    const timeline = getTimeline(dates);
+    const { incomes, timeline } = await getData(ctx);
 
-    return getPayments({ payments: incomes, timeline });
+    return isEmpty(timeline)
+      ? []
+      : getPayments({ payments: incomes, timeline });
   },
 };

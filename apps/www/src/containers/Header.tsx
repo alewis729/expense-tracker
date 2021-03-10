@@ -28,6 +28,8 @@ const Header: React.FC = () => {
 
   const handleSignOut = () => {
     client.cache.evict({ fieldName: "me" });
+    client.cache.evict({ fieldName: "chartData" });
+    client.cache.evict({ fieldName: "categories" });
     client.cache.gc();
     localStorage.clear();
     isLoggedInVar(false);

@@ -51,7 +51,7 @@ const FileReaderDialog: React.FC<Props> = ({
   });
   const loading = loadingExpenses || loadingIncomes;
 
-  const handleFileUpload = (
+  const handleImportFromFile = (
     e: React.SyntheticEvent<HTMLInputElement>
   ): void => {
     e.stopPropagation();
@@ -59,14 +59,20 @@ const FileReaderDialog: React.FC<Props> = ({
     const file = e?.currentTarget?.files?.[0];
 
     if (allowedFileTypes.includes(file?.type ?? "")) {
-      readFile(file, fileData => {
-        const data = transformExpenses(fileData);
+      readFile({
+        file,
+        allSheets: true,
+        callback: fileData => {
+          const data = transformExpenses(fileData);
 
-        if (type === "expenses") {
-          addExpenses({ variables: { addExpensesInput: { expenses: data } } });
-        } else if (type === "incomes") {
-          addIncomes({ variables: { addIncomesInput: { incomes: data } } });
-        }
+          if (type === "expenses") {
+            addExpenses({
+              variables: { addExpensesInput: { expenses: data } },
+            });
+          } else if (type === "incomes") {
+            addIncomes({ variables: { addIncomesInput: { incomes: data } } });
+          }
+        },
       });
     }
   };
@@ -75,9 +81,9 @@ const FileReaderDialog: React.FC<Props> = ({
     <input
       type="file"
       ref={fileInputRef}
-      onChange={handleFileUpload}
+      onChange={handleImportFromFile}
       onClick={e => {
-        (e.target as HTMLInputElement).value = "";
+        (e.target as HTMLInputElement).value = ""; // that's to force a read of the same file
       }}
       style={{ display: "none" }}
     />
@@ -95,7 +101,7 @@ const FileReaderDialog: React.FC<Props> = ({
           }}
           pending={loading}
         >
-          Import file
+          Upload file
         </Button>
       }
     >

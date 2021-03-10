@@ -62,7 +62,7 @@ const Income: React.FC = () => {
     REMOVE_INCOME,
     {
       onCompleted: () => {
-        refetch?.();
+        execFilterQuery();
         enqueueSnackbar("Income removed successfuly.", { variant: "success" });
       },
       onError: error => enqueueSnackbar(error.message, { variant: "error" }),
@@ -79,7 +79,7 @@ const Income: React.FC = () => {
           hideIncomeDialog();
           setCurrentIncome(null);
         }}
-        refetchIncome={refetch}
+        refetchIncome={execFilterQuery}
         currentIncome={currentIncome}
         defaultCurrencyCode={incomes?.[0]?.currencyCode}
       />
@@ -92,7 +92,7 @@ const Income: React.FC = () => {
         type="incomes"
         open={open}
         onClose={hideFileReaderDialog}
-        refetch={refetch}
+        refetch={execFilterQuery}
       />
     ),
     [currentIncome, incomes]
@@ -109,13 +109,17 @@ const Income: React.FC = () => {
     [data?.me?.categories, incomes]
   );
 
+  const execFilterQuery = () => {
+    if (!called) {
+      startFiltering();
+    } else {
+      refetch?.({ filterInput, withCategory: true });
+    }
+  };
+
   useEffect(() => {
     if (!firstApiCall) {
-      if (!called) {
-        startFiltering();
-      } else {
-        refetch?.({ filterInput, withCategory: true });
-      }
+      execFilterQuery();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterInput]);

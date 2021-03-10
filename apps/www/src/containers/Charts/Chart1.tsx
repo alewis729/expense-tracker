@@ -27,7 +27,6 @@ const Chart: React.FC<Props> = ({
   const theme = useTheme();
   const years = useMemo(
     () => map(timeline, obj => ({ value: obj?.year, label: obj?.year })),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [timeline]
   );
   const lastYearValue = years?.[(years?.length ?? 1) - 1]?.value;
@@ -38,34 +37,29 @@ const Chart: React.FC<Props> = ({
         value: index,
         label: getMonthName({ index }),
       })),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [timeline, year]
   );
-  const currencies = useMemo(
-    () => {
-      const expensePayments =
-        find(expenses, obj => obj.year === year)?.payments ?? [];
-      const incomePayments =
-        find(incomes, obj => obj.year === year)?.payments ?? [];
-      const payments = uniqBy(
-        [...expensePayments, ...incomePayments],
-        "currencyCode"
-      );
+  const currencies = useMemo(() => {
+    const expensePayments =
+      find(expenses, obj => obj.year === year)?.payments ?? [];
+    const incomePayments =
+      find(incomes, obj => obj.year === year)?.payments ?? [];
+    const payments = uniqBy(
+      [...expensePayments, ...incomePayments],
+      "currencyCode"
+    );
 
-      return map(payments, ({ currencyCode }) => {
-        const currency =
-          find(currenciesData, ({ code }) => code === currencyCode) ??
-          currenciesData[0];
+    return map(payments, ({ currencyCode }) => {
+      const currency =
+        find(currenciesData, ({ code }) => code === currencyCode) ??
+        currenciesData[0];
 
-        return {
-          value: currency?.code,
-          label: `${currency?.name} (${currency?.symbol})`,
-        };
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [year, expenses, incomes]
-  );
+      return {
+        value: currency?.code,
+        label: `${currency?.name} (${currency?.symbol})`,
+      };
+    });
+  }, [year, expenses, incomes]);
   const [currency, setCurrency] = useState<SelectOption | null>(null);
   const chartData = useMemo(() => {
     const monthAbrevs = map(months, ({ value: index }) =>
@@ -111,7 +105,6 @@ const Chart: React.FC<Props> = ({
     if (!isEmpty(currencies)) {
       setCurrency(currencies[0]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currencies]);
 
   return (

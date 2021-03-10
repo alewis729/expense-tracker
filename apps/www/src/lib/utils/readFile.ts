@@ -1,10 +1,14 @@
 import * as XLSX from "xlsx";
-import { isNil } from "lodash";
+import { isNil, map, reduce } from "lodash";
 import { XLSXRow } from "@/lib/types";
 
-type T = (file?: File, callback?: (data: Array<XLSXRow>) => void) => void;
+interface Props {
+  file?: File;
+  allSheets?: boolean;
+  callback?: (data: Array<XLSXRow>) => void;
+}
 
-const readFile: T = (file, callback) => {
+const readFile = ({ file, allSheets = false, callback }: Props): void => {
   if (isNil(file)) return;
 
   const reader = new FileReader();
@@ -15,6 +19,22 @@ const readFile: T = (file, callback) => {
     const sheetName = book.SheetNames[0];
     const sheet = book.Sheets[sheetName];
     const data = XLSX.utils.sheet_to_json(sheet) as Array<XLSXRow>;
+
+    if (allSheets) {
+      const sheetNames = book.SheetNames;
+      const sheets = map(sheetNames, name => book.Sheets[name]);
+      const allData = reduce(
+        sheets,
+        (data, sheet) => {
+          const sheetData = XLSX.utils.sheet_to_json(sheet) as Array<XLSXRow>;
+          return [...data, ...sheetData];
+        },
+        []
+      );
+
+      callback?.(allData);
+      return;
+    }
 
     callback?.(data);
   };
