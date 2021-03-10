@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { isEmpty, isNil, map } from "lodash";
-import { Box, TextField } from "@material-ui/core";
+import { Box, TextField, Grid } from "@material-ui/core";
+import { KeyboardDatePicker as DatePicker } from "@material-ui/pickers";
 import { currencies as currenciesData } from "@expense-tracker/data";
 
 import { Select, Dialog, Button } from "@/components";
@@ -22,7 +23,11 @@ const initialValues = {
   category: null,
   amountMin: 0,
   amountMax: null,
+  dateFrom: null,
+  dateTo: null,
 };
+
+const absoluteMinDate = new Date("1900-01-01");
 
 const FiltersDialog: React.FC<Props> = ({
   open,
@@ -57,6 +62,8 @@ const FiltersDialog: React.FC<Props> = ({
     ],
     [propCategories]
   );
+  const [dateFrom, setDateFrom] = useState<Date | null>(initialValues.dateFrom);
+  const [dateTo, setDateTo] = useState<Date | null>(initialValues.dateTo);
 
   const handleSubmit = () => {
     const query: FilterQuery = {};
@@ -70,9 +77,16 @@ const FiltersDialog: React.FC<Props> = ({
     }
     if (!isNil(amountMin) && amountMin > 0) query.amountMin = amountMin;
     if (!isNil(amountMax) && amountMax > 0) query.amountMax = amountMax;
+    if (!isNil(dateFrom)) query.dateFrom = new Date(dateFrom);
+    if (!isNil(dateTo)) query.dateTo = dateTo;
 
     onSubmit(query);
     onClose();
+
+    if (!isNil(dateFrom) && !isNil(dateTo) && dateFrom > dateTo) {
+      setDateFrom(initialValues.dateFrom);
+      setDateTo(initialValues.dateTo);
+    }
   };
 
   const handleClearFilters = () => {
@@ -81,6 +95,8 @@ const FiltersDialog: React.FC<Props> = ({
     setCategory(initialValues.category);
     setAmountMin(initialValues.amountMin);
     setAmountMax(initialValues.amountMax);
+    setDateFrom(initialValues.dateFrom);
+    setDateTo(initialValues.dateTo);
   };
 
   return (
@@ -141,6 +157,37 @@ const FiltersDialog: React.FC<Props> = ({
           fullWidth
           onChange={e => setAmountMax(Number(e.target?.value))}
         />
+      </Box>
+      <Box mb={3}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <DatePicker
+              autoOk
+              variant="inline"
+              format="MMM dd yyyy"
+              inputVariant="outlined"
+              style={{ width: "100%" }}
+              label="From"
+              value={dateFrom}
+              maxDate={dateTo ?? new Date()}
+              onChange={setDateFrom}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <DatePicker
+              autoOk
+              variant="inline"
+              format="MMM dd yyyy"
+              inputVariant="outlined"
+              style={{ width: "100%" }}
+              label="Up to"
+              value={dateTo}
+              minDate={dateFrom ?? absoluteMinDate}
+              maxDate={new Date()}
+              onChange={setDateTo}
+            />
+          </Grid>
+        </Grid>
       </Box>
     </Dialog>
   );

@@ -1,4 +1,5 @@
-import { filter, isEmpty } from "lodash";
+import { filter, isEmpty, isNil } from "lodash";
+import { add } from "date-fns";
 
 const filterPayments = (payments = [], query = {}) => {
   if (isEmpty(query)) {
@@ -25,13 +26,34 @@ const filterPayments = (payments = [], query = {}) => {
     return true;
   };
 
+  const isBetweenDates = date => {
+    const dateTo = isNil(query.dateTo)
+      ? null
+      : add(query.dateTo, {
+          hours: 23,
+          minutes: 59,
+          seconds: 59,
+        });
+
+    if (!isNil(query.dateFrom) && !isNil(dateTo)) {
+      return query.dateFrom <= date && date <= dateTo;
+    } else if (!isNil(query.dateFrom)) {
+      return query.dateFrom <= date;
+    } else if (!isNil(dateTo)) {
+      return date <= dateTo;
+    }
+
+    return true;
+  };
+
   return filter(
     payments,
     obj =>
       new RegExp(regexName, "i").test(obj.name) &&
       new RegExp(regexCurrencyCode).test(obj.currencyCode) &&
       isOfCategory(obj.category.id) &&
-      isBetweenRange(obj.amount)
+      isBetweenRange(obj.amount) &&
+      isBetweenDates(obj.date)
   );
 };
 

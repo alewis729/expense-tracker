@@ -49,4 +49,6 @@ export interface FilterQuery {
   categoryId?: string;
   amountMin?: number;
   amountMax?: number;
+  dateFrom?: Date;
+  dateTo?: Date;
 }
