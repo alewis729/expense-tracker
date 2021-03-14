@@ -28,7 +28,6 @@
     "date-fns": "2.16.1",
     "dotenv": "8.2.0",
     "esm": "3.2.25",
-    "faker": "4.1.0",
     "graphql": "15.3.0",
     "graphql-scalars": "1.2.6",
     "jsonwebtoken": "8.5.1",
