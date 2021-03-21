@@ -11,7 +11,8 @@
     "dev": "concurrently \"yarn run dev:www\" \"yarn run dev:api\"",
     "build": "lerna run build",
     "lint": "lerna run lint",
-    "format": "lerna run format"
+    "format": "lerna run format",
+    "test:www": "yarn workspace @expense-tracker/www test"
   },
   "workspaces": [
     "apps/*",
