@@ -20,7 +20,7 @@ const Button: React.FC<Props> = ({
   return (
     <MuiButton {...props} disabled={pending || disabled}>
       <div className={classes.content}>
-        <div className={classes.progress}>
+        <div className={classes.progress} data-testid="progress">
           {pending && <CircularProgress size={progressSize} color="inherit" />}
         </div>
         <div>{children}</div>
