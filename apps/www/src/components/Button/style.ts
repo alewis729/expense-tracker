@@ -5,18 +5,18 @@ export const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    transform: ({ progressWidth }: { progressWidth: number }) =>
-      `translateX(${(-theme.spacing(1) - progressWidth) / 2}px)`,
+    transform: ({ progressSize }: { progressSize: number }) =>
+      `translateX(${(-theme.spacing(1) - progressSize) / 2}px)`,
   },
   progress: ({
-    progressWidth,
+    progressSize,
     pending,
   }: {
-    progressWidth: number;
+    progressSize: number;
     pending: boolean;
   }) => ({
-    width: progressWidth,
-    height: progressWidth,
+    width: progressSize,
+    height: progressSize,
     opacity: pending ? 1 : 0,
     marginRight: theme.spacing(1),
   }),
