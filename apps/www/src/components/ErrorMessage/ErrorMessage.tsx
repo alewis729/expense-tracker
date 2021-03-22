@@ -7,6 +7,6 @@ interface Props {
 
 const ErrorMessage: React.FC<Props> = ({
   message = "Something went wrong... Try refreshing the page.",
-}) => <Typography>{message}</Typography>;
+}) => <Typography data-testid="error-message">{message}</Typography>;
 
 export default ErrorMessage;
