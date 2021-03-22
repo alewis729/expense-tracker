@@ -3,13 +3,13 @@ import { render } from "@testing-library/react";
 import Button from "./Button";
 
 describe("Button", () => {
-  it("should render with children properly", () => {
+  it("should render with children", () => {
     const children = "Click me";
     const { getByRole } = render(<Button>{children}</Button>);
     expect(getByRole("button")).toHaveTextContent(children);
   });
 
-  it("should be disabled if disabled from props", () => {
+  it("should be disabled if forced from props", () => {
     const { getByRole } = render(<Button disabled>Click me</Button>);
     expect(getByRole("button")).toBeDisabled();
   });
