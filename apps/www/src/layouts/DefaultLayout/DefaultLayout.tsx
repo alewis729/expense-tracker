@@ -1,14 +1,24 @@
 import React from "react";
+import { isNil } from "lodash";
 import { Container, Toolbar, AppBar, LinearProgress } from "@material-ui/core";
+import clsx from "clsx";
 
 import { useStyles } from "./style";
 
 interface Props {
   header: React.ReactNode;
   loading?: boolean;
+  errorNode?: React.ReactNode | null;
+  hideWhileLoading?: boolean;
 }
 
-const Default: React.FC<Props> = ({ header, loading, children }) => {
+const Default: React.FC<Props> = ({
+  header,
+  loading,
+  errorNode,
+  hideWhileLoading = false,
+  children,
+}) => {
   const classes = useStyles();
 
   return (
@@ -22,8 +32,14 @@ const Default: React.FC<Props> = ({ header, loading, children }) => {
           {loading && <LinearProgress />}
         </AppBar>
       </div>
-      <Container className={classes.main} component="main" maxWidth="lg">
-        <div className={classes.children}>{children}</div>
+      <Container className={classes.main} component="main" maxWidth="xl">
+        <div
+          className={clsx(classes.children, {
+            ["hide"]: hideWhileLoading && loading,
+          })}
+        >
+          {isNil(errorNode) ? children : errorNode}
+        </div>
       </Container>
     </Container>
   );

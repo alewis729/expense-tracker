@@ -4,16 +4,17 @@ import jwt from "jsonwebtoken";
 
 import typeDefs from "./schema";
 import resolvers from "./resolvers";
-import mocks from "./mocks";
 import playground from "./playground";
 import connect from "./lib/mongoose";
 import {
   User,
   Category,
   Expense,
+  Income,
   userLoader,
   categoryLoader,
   expenseLoader,
+  incomeLoader,
 } from "./models";
 
 (async () => {
@@ -44,13 +45,12 @@ const server = new ApolloServer({
 
     return {
       user,
-      models: { User, Category, Expense },
-      loaders: { userLoader, categoryLoader, expenseLoader },
+      models: { User, Category, Expense, Income },
+      loaders: { userLoader, categoryLoader, expenseLoader, incomeLoader },
       req,
       res,
     };
   },
-  mocks: process.env.MOCKS === "true" ? mocks : false,
   playground: !isProduction && playground,
 });
 

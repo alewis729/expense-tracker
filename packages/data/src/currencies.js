@@ -13,7 +13,7 @@ const currencies = [
   },
   {
     code: "PEN",
-    name: "Sol",
+    name: "Peruvian Sol",
     symbol: "S/.",
     hex: null,
   },

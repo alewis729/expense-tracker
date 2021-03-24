@@ -1,6 +1,6 @@
 # Expense tracker
 
-This is an expense tracker app. It allows to log expenses and filter them.
+An expense tracker app. Register expenses & income, import them from an `xlsx` file, filter & analyze relevant charts.
 
 ### To execute a dev environment locally
 
@@ -22,13 +22,7 @@ cp ./apps/www/.env.example ./apps/www/.env
 - For the api:
 
 ```bash
-yarn run dev:api
-```
-
-- For www:
-
-```bash
-yarn run dev:www
+yarn run dev
 ```
 
 ### To install a new library

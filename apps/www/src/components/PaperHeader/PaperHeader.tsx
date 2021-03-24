@@ -1,4 +1,5 @@
 import React from "react";
+import { isEmpty } from "lodash";
 import { Box, Paper, Typography } from "@material-ui/core";
 import { BoxProps } from "@material-ui/core/Box";
 
@@ -6,24 +7,19 @@ import { useStyles } from "./style";
 
 interface Props extends BoxProps {
   title: string;
-  searchInput?: React.ReactNode;
-  actionButtons?: React.ReactNode;
+  actionsNode?: React.ReactNode;
 }
 
-const PageHeader: React.FC<Props> = ({
-  title,
-  searchInput,
-  actionButtons,
-  ...props
-}) => {
+const PageHeader: React.FC<Props> = ({ title, actionsNode, ...props }) => {
   const classes = useStyles();
 
   return (
     <Box mb={3} {...props}>
       <Paper className={classes.paper}>
         <Typography variant="h5">{title}</Typography>
-        <div className={classes.search}>{searchInput && searchInput}</div>
-        <div className={classes.actions}>{actionButtons && actionButtons}</div>
+        {!isEmpty(actionsNode) && (
+          <div className={classes.actions}>{actionsNode}</div>
+        )}
       </Paper>
     </Box>
   );

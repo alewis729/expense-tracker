@@ -1,6 +1,11 @@
 import gql from "graphql-tag";
 
-import { userFields, categoryFields, expenseFields } from "../fragments";
+import {
+  userFields,
+  categoryFields,
+  expenseFields,
+  incomeFields,
+} from "../fragments";
 
 export const IS_LOGGED_IN = gql`
   query IsUserLoggedIn {
@@ -12,6 +17,7 @@ export const GET_ME = gql`
   query GET_ME(
     $withCategories: Boolean = false
     $withExpenses: Boolean = false
+    $withIncome: Boolean = false
   ) {
     me {
       ...userFields
@@ -24,11 +30,18 @@ export const GET_ME = gql`
           ...categoryFields
         }
       }
+      incomes @include(if: $withIncome) {
+        ...incomeFields
+        category {
+          ...categoryFields
+        }
+      }
     }
   }
   ${userFields}
   ${categoryFields}
   ${expenseFields}
+  ${incomeFields}
 `;
 
 export const GET_USER = gql`
@@ -36,6 +49,7 @@ export const GET_USER = gql`
     $id: ID!
     $withCategories: Boolean = false
     $withExpenses: Boolean = false
+    $withIncome: Boolean = false
   ) {
     user(id: $id) {
       ...userFields
@@ -48,17 +62,25 @@ export const GET_USER = gql`
           ...categoryFields
         }
       }
+      incomes @include(if: $withIncome) {
+        ...incomeFields
+        category {
+          ...categoryFields
+        }
+      }
     }
   }
   ${userFields}
   ${categoryFields}
   ${expenseFields}
+  ${incomeFields}
 `;
 
 export const GET_USERS = gql`
   query GET_USERS(
     $withCategories: Boolean = false
     $withExpenses: Boolean = false
+    $withIncome: Boolean = false
   ) {
     users {
       ...userFields
@@ -68,9 +90,16 @@ export const GET_USERS = gql`
       expenses @include(if: $withExpenses) {
         ...expenseFields
       }
+      incomes @include(if: $withIncome) {
+        ...incomeFields
+        category {
+          ...categoryFields
+        }
+      }
     }
   }
   ${userFields}
   ${categoryFields}
   ${expenseFields}
+  ${incomeFields}
 `;

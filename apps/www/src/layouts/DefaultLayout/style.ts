@@ -19,5 +19,13 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   children: {
     padding: theme.spacing(6),
+    visibility: "visible",
+    opacity: 1,
+    transition: theme.transitions.create("opacity"),
+    "&.hide": {
+      visibility: "hidden",
+      opacity: 0,
+      pointerEvents: "none !important",
+    },
   },
 }));

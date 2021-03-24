@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { isEmpty, map } from "lodash";
@@ -14,17 +14,9 @@ import {
 import { DateTimePicker } from "@material-ui/pickers";
 
 import { useStyles } from "./style";
+import { ExpenseFields } from "@/lib/types";
 import { schema, fields, initialValues } from "./formData";
-import { currencies } from "@expense-tracker/data";
-
-export interface ExpenseFields {
-  name: string;
-  description: string;
-  date: Date | null;
-  categoryId: string;
-  amount: number;
-  currencyCode: string;
-}
+import { currencies as currenciesData } from "@expense-tracker/data";
 
 export interface Props {
   defaultValues?: ExpenseFields | null;
@@ -72,6 +64,15 @@ const ExpenseForm: React.FC<Props> = ({
   const [date, setDate] = useState<Date | null>(
     defaultValues?.date ?? new Date()
   );
+  const currencies = useMemo(
+    () =>
+      map(currenciesData, ({ code, name, symbol }) => ({
+        id: code,
+        name: `${name} (${symbol})`,
+      })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [currenciesData]
+  );
 
   useEffect(() => {
     register({ name: "categoryId" });
@@ -91,10 +92,7 @@ const ExpenseForm: React.FC<Props> = ({
 
     if (name === "currencyCode") {
       watchedValue = watchedCurrencyCode;
-      options = map(currencies, ({ code, name, symbol }) => ({
-        id: code,
-        name: `${name} (${symbol})`,
-      }));
+      options = currencies;
     }
 
     if (type === "select") {
@@ -173,7 +171,9 @@ const ExpenseForm: React.FC<Props> = ({
     <form
       id="add_expense_form"
       className={classes.root}
-      onSubmit={handleSubmit(data => onSubmit({ ...data, date }))}
+      onSubmit={handleSubmit(data =>
+        onSubmit({ ...data, date: date ?? new Date() })
+      )}
     >
       {map(fields, (field, id) => (
         <Fragment key={id}>{renderField(field as Field)}</Fragment>

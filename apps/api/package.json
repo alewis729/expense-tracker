@@ -25,9 +25,9 @@
     "apollo-server": "2.16.1",
     "bcryptjs": "2.4.3",
     "dataloader": "2.0.0",
+    "date-fns": "2.16.1",
     "dotenv": "8.2.0",
     "esm": "3.2.25",
-    "faker": "4.1.0",
     "graphql": "15.3.0",
     "graphql-scalars": "1.2.6",
     "jsonwebtoken": "8.5.1",
@@ -36,7 +36,8 @@
     "mongoose-encryption": "2.0.3",
     "mongoose-unique-validator": "2.0.3",
     "passport": "0.4.1",
-    "passport-google-token": "0.1.2"
+    "passport-google-token": "0.1.2",
+    "uuid": "8.3.2"
   },
   "devDependencies": {
     "eslint": "7.6.0",
