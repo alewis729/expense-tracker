@@ -14,14 +14,14 @@ const Button: React.FC<Props> = ({
   children,
   ...props
 }) => {
-  const progressWidth = 20;
-  const classes = useStyles({ progressWidth, pending });
+  const progressSize = 20;
+  const classes = useStyles({ progressSize, pending });
 
   return (
     <MuiButton {...props} disabled={pending || disabled}>
       <div className={classes.content}>
-        <div className={classes.progress}>
-          {pending && <CircularProgress size={progressWidth} color="inherit" />}
+        <div className={classes.progress} data-testid="progress">
+          {pending && <CircularProgress size={progressSize} color="inherit" />}
         </div>
         <div>{children}</div>
       </div>

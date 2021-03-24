@@ -2,16 +2,17 @@ import { colors } from "@expense-tracker/data";
 import { find, isNil } from "lodash";
 
 type Identifier = string | null | undefined;
-
-type Color = {
+type Func<I> = (
+  identifier: I
+) => {
   id: string;
   name: string;
   hex: string;
 };
 
-const getColor = (identifier: Identifier): Color => {
-  const defaultId = "lightGrey";
+const defaultId = "lightGrey";
 
+const getColor: Func<Identifier> = identifier => {
   if (isNil(identifier)) find(colors, ({ id }) => id === defaultId);
 
   return (

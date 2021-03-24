@@ -5,6 +5,7 @@ interface Props {
   index?: number | null;
   abrev?: boolean | null;
 }
+type Func<P> = (props: P) => string;
 
 const monthNames = [
   "January",
@@ -36,11 +37,11 @@ const monthAbrevs = [
   "Dec",
 ];
 
-const getMonthName = ({
+const getMonthName: Func<Props> = ({
   date = null,
   index = null,
   abrev = false,
-}: Props): string => {
+}) => {
   const i = (isNil(date) ? index : date.getMonth()) as number;
   return !abrev ? monthNames[i] : monthAbrevs[i];
 };

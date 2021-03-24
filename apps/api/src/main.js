@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 
 import typeDefs from "./schema";
 import resolvers from "./resolvers";
-import mocks from "./mocks";
 import playground from "./playground";
 import connect from "./lib/mongoose";
 import {
@@ -52,7 +51,6 @@ const server = new ApolloServer({
       res,
     };
   },
-  mocks: process.env.MOCKS === "true" ? mocks : false,
   playground: !isProduction && playground,
 });
 

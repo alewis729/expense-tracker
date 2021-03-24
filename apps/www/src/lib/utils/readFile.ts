@@ -7,8 +7,9 @@ interface Props {
   allSheets?: boolean;
   callback?: (data: Array<XLSXRow>) => void;
 }
+type Func<P> = (props: P) => void;
 
-const readFile = ({ file, allSheets = false, callback }: Props): void => {
+const readFile: Func<Props> = ({ file, allSheets = false, callback }) => {
   if (isNil(file)) return;
 
   const reader = new FileReader();
