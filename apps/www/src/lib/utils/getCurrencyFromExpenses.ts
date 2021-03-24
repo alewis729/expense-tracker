@@ -5,6 +5,7 @@ type Currency = {
   code: string | null;
   instances: number;
 };
+type Func<E> = (expenses: E) => string | null;
 
 /**
  * Utility function that finds and returns the `currencyCode` with
@@ -12,7 +13,7 @@ type Currency = {
  * contain a `currencyCode`.
  * @param expenses Array of expense objects.
  */
-const getCurrencyFromExpenses = (expenses: Expenses): string | null => {
+const getCurrencyFromExpenses: Func<Expenses> = expenses => {
   if (isEmpty(expenses)) {
     return null;
   }
