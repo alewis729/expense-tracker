@@ -9,6 +9,7 @@
     "dev:api": "yarn workspace @expense-tracker/api dev",
     "dev:www": "yarn workspace @expense-tracker/www dev",
     "dev": "concurrently \"yarn run dev:www\" \"yarn run dev:api\"",
+    "test": "yarn workspace @expense-tracker/www test",
     "build": "lerna run build",
     "lint": "lerna run lint",
     "format": "lerna run format",
