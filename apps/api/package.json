@@ -2,12 +2,12 @@
   "name": "@expense-tracker/api",
   "version": "1.0.0",
   "main": "src/index.js",
-  "module": "src/main.js",
+  "module": "src/index.js",
   "license": "MIT",
   "scripts": {
     "precommit": "lint-staged",
-    "dev": "nodemon -r esm ./src/main.js",
-    "start": "node -r esm ./src/main.js",
+    "dev": "nodemon -r esm ./src/index.js",
+    "start": "node -r esm ./src/index.js",
     "format": "prettier \"**/*.{js,jsx,ts,tsx,json}\" --write",
     "lint": "eslint . \"**/*.{js,jsx,ts,tsx}\""
   },
