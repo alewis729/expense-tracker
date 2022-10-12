@@ -22,7 +22,7 @@
   "dependencies": {
     "@expense-tracker/eslint-config-node": "1.0.0",
     "@expense-tracker/graphql": "1.0.0",
-    "apollo-server": "2.25.3",
+    "apollo-server": "2.25.4",
     "bcryptjs": "2.4.3",
     "dataloader": "2.0.0",
     "date-fns": "2.16.1",
